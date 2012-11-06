@@ -1,0 +1,68 @@
+package network.udp.client;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+
+import server.logic.IUserRelated;
+
+import client.ClientMain;
+import client.ClientStatus;
+import client.command.response.ResponseList;
+
+import command.CommandParser;
+
+
+public class UDPConnection extends Thread implements IUserRelated{
+	//private DatagramSocket socket=null;
+	private DatagramPacket packet=null;
+	private CommandParser parser;
+	private UDPSocket home;
+
+	public UDPConnection(DatagramSocket socket, DatagramPacket packet){
+		//this.socket=socket;
+		this.packet= packet;
+		parser= new CommandParser(true,this);
+		parser.setCommandList(new ResponseList());
+	}
+
+	public UDPConnection(UDPSocket udpSocket, DatagramSocket socket,
+			DatagramPacket packet2) {
+		
+		home=udpSocket;
+		this.packet= packet2;
+		parser= new CommandParser(true,this);
+		parser.setCommandList(new ResponseList());
+	}
+
+	@Override
+	public void run() {
+		String message=new String(packet.getData(),0,packet.getLength());
+		
+		String answer= parser.parse(message);
+		if(answer.contains("!kill")){
+			//home.close();
+		}
+			
+		System.out.println(ClientStatus.getInstance().getUser() + "> "+answer);
+		//System.out.println("back: "+message);
+		return;
+	}
+
+	public synchronized void close(){
+		//socket.close();
+	}
+
+	@Override
+	public String getUser() {
+		return ClientStatus.getInstance().getUser();
+	}
+
+	@Override
+	public void setUser(String user) {
+		ClientStatus.getInstance().setUser(user);
+		
+	}
+
+
+
+}
