@@ -1,7 +1,7 @@
 *.class
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 
@@ -22,4 +22,7 @@ local.properties
 .settings/
 .loadpath
 
+#
 git-credential-osxkeychain
+
+#
