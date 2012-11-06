@@ -25,4 +25,5 @@ local.properties
 #
 git-credential-osxkeychain
 
-#
+#folder
+/bin
