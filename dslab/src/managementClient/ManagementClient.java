@@ -1,6 +1,12 @@
 package managementClient;
 
-
+/**
+ * ManagementClient MAIN
+ * 
+ * 
+ * @author f
+ *
+ */
 public class ManagementClient {
 
 	/**
@@ -10,7 +16,10 @@ public class ManagementClient {
 		ManagementClientSetup setup= new ManagementClientSetup(args);
 		System.out.println("Setup ready:");
 		System.out.println(setup.toString());
-		ManagementClientInputThread input = new ManagementClientInputThread();
+		
+		ManagementClientStatus.getInstance().init(setup); //initialize remote stuff
+		
+		ManagementClientInputThread input = new ManagementClientInputThread(); //start blocking input thread
 		input.run();
 		
 		

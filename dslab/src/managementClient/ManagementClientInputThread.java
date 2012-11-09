@@ -1,5 +1,6 @@
 package managementClient;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,6 +11,12 @@ import managementClient.commands.ManagementClientRespondCommandList;
 import server.logic.IUserRelated;
 
 import command.CommandParser;
+
+/**
+ * Thread handling User input 
+ * 
+ * @author f
+ */
 
 public class ManagementClientInputThread extends Thread implements IUserRelated{
 	private BufferedReader in;
@@ -32,10 +39,13 @@ public class ManagementClientInputThread extends Thread implements IUserRelated{
 		
 			while((input= in.readLine())!=null){
 				
-				if(input.contains("!exit")) break;
+				if(input.contains("!exit")){
+					//TODO Logout first!!!!
+					break;
+				}
 				
 				if(input.length()>1) //TODO 
-					System.out.println("server> "+input+"\n"+respondParser.parse(parser.parse(input)));
+					System.out.println("MANAGEMENT> "+input+"\n"+respondParser.parse(parser.parse(input)));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

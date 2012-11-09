@@ -7,6 +7,14 @@ import client.command.response.Print;
 import command.ICommand;
 import command.ICommandList;
 
+/**
+ * ManagementClient's respond command-list (needed by the Respond CommandParser within ManagementClientInputThread)
+ * 
+ * might be unecessary ;)
+ * 
+ * @author f
+ *
+ */
 public class ManagementClientRespondCommandList implements ICommandList{
 private HashMap<String, ICommand> commands;
 	

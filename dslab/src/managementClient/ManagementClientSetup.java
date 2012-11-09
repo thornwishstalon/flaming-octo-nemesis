@@ -1,5 +1,11 @@
 package managementClient;
 
+/**
+ * holding managamentClient related setup informations
+ * 
+ * @author f
+ *
+ */
 public class ManagementClientSetup {
 	private String analyticsBindingName, billingBindingName;
 	
@@ -9,25 +15,36 @@ public class ManagementClientSetup {
 		billingBindingName=args[1];
 	}
 
+	/*
+	 * GETTER
+	 */
 
 	public String getAnalyticsBindingName() {
 		return analyticsBindingName;
 	}
-
-
-	public void setAnalyticsBindingName(String analyticsBindingName) {
-		this.analyticsBindingName = analyticsBindingName;
-	}
-
-
+	
 	public String getBillingBindingName() {
 		return billingBindingName;
 	}
 
 
+	/*
+	 * SETTER
+	 */
+	public void setAnalyticsBindingName(String analyticsBindingName) {
+		this.analyticsBindingName = analyticsBindingName;
+	}
+
+
+
 	public void setBillingBindingName(String billingBindingName) {
 		this.billingBindingName = billingBindingName;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	
 	public String toString(){
 		return "AnalyticServer: " + analyticsBindingName+"\nBillingServer: "+ billingBindingName;

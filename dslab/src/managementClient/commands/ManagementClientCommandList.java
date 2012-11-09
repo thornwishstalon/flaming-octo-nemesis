@@ -5,6 +5,12 @@ import java.util.HashMap;
 import command.ICommand;
 import command.ICommandList;
 
+/**
+ * ManagementClient's command-list (needed by the COmmandParser within ManagementClientInputThread)
+ * 
+ * @author f
+ *
+ */
 public class ManagementClientCommandList implements ICommandList {
 private HashMap<String, ICommand> commands;
 
