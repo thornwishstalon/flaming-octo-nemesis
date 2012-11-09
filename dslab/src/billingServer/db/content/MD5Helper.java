@@ -1,3 +1,7 @@
+/*
+ * 
+ */
+
 package billingServer.db.content;
 
 import java.math.BigInteger;

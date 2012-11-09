@@ -1,5 +1,5 @@
 package billingServer.remote;
 
-public class BillingServerSecureImpl {
+public class BillingServerSecureImpl implements BillingServerSecure {
 
 }
