@@ -14,4 +14,8 @@ public class BillingServerSetup {
 	public void setBindingName(String bindingName) {
 		this.bindingName = bindingName;
 	}
+	
+	public String toString(){
+		return "BillingServer SETUP:\nBinding-name: "+bindingName;
+	}
 }

@@ -1,7 +1,7 @@
 package billingServer;
 
 import billingServer.db.BillingServerUserDATABASE;
-import billingServer.db.values.MD5Helper;
+//import billingServer.db.values.MD5Helper;
 
 public class BillingServer {
 
@@ -10,6 +10,7 @@ public class BillingServer {
 	 */
 	public static void main(String[] args) {
 		BillingServerSetup setup= new BillingServerSetup(args);
+		System.out.println(setup.toString());
 		
 		BillingServerUserDATABASE users= new BillingServerUserDATABASE();
 		

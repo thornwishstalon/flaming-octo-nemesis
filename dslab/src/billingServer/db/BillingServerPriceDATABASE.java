@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-import billingServer.db.values.ManagementUser;
+import billingServer.db.content.ManagementUser;
 
 public class BillingServerPriceDATABASE {
 	

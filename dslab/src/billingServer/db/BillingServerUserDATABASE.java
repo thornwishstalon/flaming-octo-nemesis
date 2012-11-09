@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.ConcurrentHashMap;
 
-import billingServer.db.values.ManagementUser;
+import billingServer.db.content.ManagementUser;
 
 public class BillingServerUserDATABASE {
 
@@ -42,7 +42,7 @@ public class BillingServerUserDATABASE {
 		String output="";
 		
 		for(String key: users.keySet()){
-			output = output + users.get(key).toString();
+			output = output + "User: " + users.get(key).toString();
 		}
 		return output;
 	}

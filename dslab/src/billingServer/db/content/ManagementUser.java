@@ -1,4 +1,4 @@
-package billingServer.db.values;
+package billingServer.db.content;
 
 import java.util.StringTokenizer;
 

@@ -26,4 +26,5 @@ local.properties
 git-credential-osxkeychain
 
 #folder
-/bin
+dslab/bin/
+dslab/build/
