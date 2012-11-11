@@ -3,11 +3,14 @@ package server.logic;
 import java.net.InetAddress;
 import java.util.HashMap;
 
+import network.tcp.server.TCPServerConnection;
+
 public class UserDATABASE {
 	public final static int NO_USER_WITH_THAT_NAME=0;
 	public final static int SUCCESSFULLY_LOGGED_IN=1;
 	public final static int ALREADY_LOGGED_IN=2;
 	public final static int SUCCESSFULLY_LOGGED_OUT=3;
+	public final static int SUCCESSFULLY_LOGGED_IN_HAS_NOTIFICATIONS=4;
 	
 	//public static int AUCTION_EXPIRED=3;
 	
@@ -25,7 +28,7 @@ public class UserDATABASE {
 		return instance;
 	}
 	
-	public synchronized int loginUser(String username, InetAddress inetAddress, int port){
+	public synchronized int loginUser(String username, InetAddress inetAddress, int port, TCPServerConnection connection){
 		User user=users.get(username);
 		if((user == null)){
 			user= new User(username);
@@ -33,6 +36,8 @@ public class UserDATABASE {
 			user.setID(++idCounter);
 			user.setAddress(inetAddress);
 			user.setPort(port);
+			user.startTimer();
+			user.setConnection(connection);
 			users.put(username, user);
 			
 			/*
@@ -51,13 +56,22 @@ public class UserDATABASE {
 			
 		}else if((user != null)&&(user.isLoggedIn())){
 			return ALREADY_LOGGED_IN;
-		}else{
+		}else if(user.hasNotifications()){
 			user.setLoggedIn(true);
 			user.setAddress(inetAddress);
 			user.setPort(port);
-			if(user.hasNotifications()){
-				user.startNotification(500);
-			}
+			user.setConnection(connection);
+			user.startTimer();
+			
+			return SUCCESSFULLY_LOGGED_IN_HAS_NOTIFICATIONS;
+		}
+		else{
+			user.setLoggedIn(true);
+			user.setAddress(inetAddress);
+			user.setPort(port);
+			user.setConnection(connection);
+			user.startTimer();
+			
 			return SUCCESSFULLY_LOGGED_IN;
 		}
 	}
@@ -72,9 +86,11 @@ public class UserDATABASE {
 			return NO_USER_WITH_THAT_NAME;
 			
 		}else{
+			user.stopTimer();
 			user.setLoggedIn(false);
 			user.setAddress(null);
 			user.setPort(0);
+			
 			return SUCCESSFULLY_LOGGED_OUT;
 		}
 	}
@@ -88,6 +104,18 @@ public class UserDATABASE {
 		}
 		
 		return result;
+	}
+	
+	public synchronized String getNotifactions(String username){
+		String answer="";
+		
+		for(UserNotification note : users.get(username).getNotifications()){
+			answer += "!print "+note.getMessage()+"/n";
+		}
+		
+		
+		return answer; 
+		
 	}
 	
 	

@@ -6,7 +6,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import network.tcp.client.TCPConnection;
+import network.tcp.client.TCPInputConnection;
+import network.tcp.client.TCPOutputConnection;
 import network.udp.client.UDPSocket;
 
 public class ClientMain {
@@ -22,7 +23,8 @@ public class ClientMain {
 	*/
 	private static Socket socket = null;
 	private static UDPSocket udp=null;
-	private static TCPConnection out=null;
+	private static TCPOutputConnection out=null;
+	private static TCPInputConnection in=null;
 	
 	public static void main(String[] args) {
 		System.out.println("Welcome");
@@ -38,16 +40,24 @@ public class ClientMain {
 			//in= new TCPInputConnection(socket);
 			//in.start();
 			
-			
+			/* UDP in this round obsolete
+			 * 
+			 * 
 			//start UDP
 			udp = new UDPSocket(setup);
 			udp.start();
 			System.out.println("UDP ready");
+			*/
 			
 			//start blocking input
+			
+			out= new TCPOutputConnection(socket,setup);
+			out.start();
+			
+			in= new TCPInputConnection(socket);
 			System.out.println("TCP ready");
-			out= new TCPConnection(socket,setup);
-			out.run();
+			in.run();
+			
 			
 			//while(!ClientStatus.getInstance().isKill()){
 				

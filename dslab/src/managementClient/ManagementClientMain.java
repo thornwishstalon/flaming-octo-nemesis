@@ -7,7 +7,7 @@ package managementClient;
  * @author f
  *
  */
-public class ManagementClient {
+public class ManagementClientMain {
 
 	/**
 	 * @param args

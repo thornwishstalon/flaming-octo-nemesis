@@ -3,23 +3,52 @@ package server.logic;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import network.udp.server.UDPNotificationThread;
+
+import network.tcp.server.TCPServerConnection;
+
 
 public class User {
 	private int ID;
 	private String name;
 	private boolean loggedIn=false;
+	private TCPServerConnection connection=null;
 	
 	private InetAddress address;
 	private int port;
 	
 	private ArrayList<UserNotification> notifications;
-	
+	private Timer timer=null;
 	
 	public User(String name){
 		notifications= new ArrayList<UserNotification>();
 		this.name=name;
+		
+		timer= new Timer();
+
+		
+		
+	}
+	
+	private class MessageBrokerTask extends TimerTask{
+		//private int checkInterval = 1000; //ms
+		
+		public MessageBrokerTask() {
+			
+		}
+		@Override
+		public void run() {
+			//System.out.println("task says hi");
+			if(hasNotifications()){
+				connection.print(notifications);
+				clearNotifications();
+			}
+			
+		}
+		
 	}
 	
 	public String getName() {
@@ -45,8 +74,6 @@ public class User {
 	
 	public void addNotification(UserNotification note){
 		notifications.add(note);
-		if(loggedIn)
-			startNotification();
 	}
 	
 	public ArrayList<UserNotification> getNotifications(){
@@ -102,6 +129,27 @@ public class User {
 		else return "ID: "+ID+" "+name+"\n\tonline: "+loggedIn+", has notifiactions: "+hasNotifications();
 		
 	}
+	
+	
+	public TCPServerConnection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(TCPServerConnection connection) {
+		this.connection = connection;
+	}
+	
+	public void startTimer(){
+		System.out.println("Timer start");
+		timer.scheduleAtFixedRate(new MessageBrokerTask(), 100, 1000);
+		
+	}
+	
+	public void stopTimer(){
+		timer.cancel();
+		System.out.println("Timer stop");
+	}
+
 	/*
 	public void notify(String message) throws IOException, SocketException{
 		byte[]data= message.getBytes();
@@ -113,6 +161,7 @@ public class User {
 		
 	}
 	*/
+	/*
 	public synchronized void  startNotification() {
 		System.out.println("notify user: "+name);
 		UDPNotificationThread thread= new UDPNotificationThread(this);
@@ -127,6 +176,7 @@ public class User {
 		thread.start();
 		clearNotifications();
 	}
+	*/
 	
 	
 	

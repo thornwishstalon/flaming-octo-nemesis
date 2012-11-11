@@ -17,7 +17,7 @@ import client.command.ClientLocalCommandList;
 import server.logic.IUserRelated;
 import server.logic.User;
 
-public class TCPConnection extends Thread implements IUserRelated{
+public class TCPOutputConnection extends Thread implements IUserRelated{
 	private Socket socket=null;
 	private PrintWriter writer=null;
 	private BufferedReader reader=null;
@@ -25,14 +25,14 @@ public class TCPConnection extends Thread implements IUserRelated{
 	private CommandParser parser=null;
 
 
-	public TCPConnection(Socket socket, ClientSetup setup){
+	public TCPOutputConnection(Socket socket, ClientSetup setup){
 		this.socket = socket;
 		parser= new CommandParser(false,this);
 		parser.setCommandList(new ClientLocalCommandList(setup.getClientPort()));
 	}
 
 	public void run(){
-		long start=System.currentTimeMillis();
+		//long start=System.currentTimeMillis();
 
 		try {
 			writer = new PrintWriter(socket.getOutputStream(), true);
@@ -40,7 +40,7 @@ public class TCPConnection extends Thread implements IUserRelated{
 			reader = new BufferedReader(new InputStreamReader(System.in));	
 			String input;	
 
-
+			/*
 			//registering
 			writer.println(parser.parse("!register"));
 			System.out.println("waiting for registration");
@@ -54,6 +54,8 @@ public class TCPConnection extends Thread implements IUserRelated{
 				ack= ClientStatus.getInstance().isAck();
 
 			}
+			*/
+			
 
 			System.out.println("READY for Input!");
 
@@ -83,10 +85,12 @@ public class TCPConnection extends Thread implements IUserRelated{
 		catch (IOException e) {
 			System.out.println("IO:....");
 			return;
-		}catch (CommandException e) {
+		}
+		/*catch (CommandException e) {
 			System.out.println(e.getMessage());
 			return;
 		}
+		*/
 		finally{
 			if(!socket.isClosed())
 				close();
@@ -119,7 +123,7 @@ public class TCPConnection extends Thread implements IUserRelated{
 			
 		}
 
-		System.out.println("tcpConnection closed");
+		System.out.println("tcp output Connection closed");
 	}
 
 	@Override

@@ -24,9 +24,9 @@ public class Login implements ICommand {
 			BillingServerSecure sec = ManagementClientStatus.getInstance().getBillingServer().login(username, MD5Helper.StringToMD5(password));
 			if(sec!=null){
 				ManagementClientStatus.getInstance().setbillingServerSecure(sec);
-				return "login successful";
+				return "!print "+"login successful";
 			}
-			else return "an error has occured.";
+			else return "!print "+ "an error has occured.";
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

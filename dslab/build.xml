@@ -5,18 +5,18 @@
     <property name="build.dir" value="build"/>
 
     <!-- You need to update these properties!-->
-    <property name="server.name" value="your.Server"/><!-- Server's full class name (including the package) -->
+    <property name="server.name" value="server.ServerMain"/><!-- Server's full class name (including the package) -->
     <property name="server.host" value="localhost"/><!-- Auction Server's host -->
-    <property name="client.name" value="your.Client"/><!-- Bidding Client's full class name (including the package) -->
-    <property name="client1.port" value="10000 + dslabXXX * 10 + 1"/><!-- UDP port of 1st Bidding Client -->
-    <property name="client2.port" value="10000 + dslabXXX * 10 + 2"/><!-- UDP port of 2nd Bidding Client -->
-    <property name="client3.port" value="10000 + dslabXXX * 10 + 3"/><!-- UDP port of 3rd Bidding Client -->
-    <property name="mgmtclient.name" value="managementClient.ManagementClient"/><!-- Management Client's full class name (including the package) -->
+    <property name="client.name" value="client.ClientMain"/><!-- Bidding Client's full class name (including the package) -->
+    <property name="client1.port" value="11261"/><!-- UDP port of 1st Bidding Client -->
+    <property name="client2.port" value="11262"/><!-- UDP port of 2nd Bidding Client -->
+    <property name="client3.port" value="11263"/><!-- UDP port of 3rd Bidding Client -->
+    <property name="mgmtclient.name" value="managementClient.ManagementClientMain"/><!-- Management Client's full class name (including the package) -->
     <property name="analytics.name" value="your.AnalyticsServer"/><!-- Analytics Server's full class name (including the package) -->
     <property name="billing.name" value="billingServer.BillingServer"/><!-- Billing Server's full class name (including the package) -->
     <property name="analytics.bindingName" value="AnalyticsServerRef"/><!-- RMI Binding Name of the Analytics Server -->
     <property name="billing.bindingName" value="BillingServerRef"/><!-- RMI Binding Name of the Billing Server -->
-    <property name="server.port" value="10000 + dslabXXX * 10"/><!-- TCP port -->
+    <property name="server.port" value="11260"/><!-- TCP port -->
 
     <path id="project.classpath">
         <pathelement location="${build.dir}"/>

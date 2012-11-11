@@ -3,8 +3,10 @@ package network.tcp.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
@@ -19,17 +21,19 @@ import command.CommandParser;
 
 import server.logic.IUserRelated;
 import server.logic.User;
+import server.logic.UserNotification;
 
 public class TCPServerConnection implements Runnable, IUserRelated{
 	private Socket client;
-	private static final int NTHREADS=10;
+	//private static final int NTHREADS=10;
 
 	private BufferedReader in = null;
+	private PrintWriter out=null;
 	private CommandParser parser = null;
 	private User user = null;
 	private InetAddress address=null;
 	private int clientPort;
-	private ExecutorService executor;
+	//private ExecutorService executor;
 	private boolean listening=true;
 
 	public TCPServerConnection(Socket client){
@@ -38,14 +42,15 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		parser.setCommandList(new ClientCommandList(this));
 		address=client.getInetAddress();
 
-		executor = Executors.newFixedThreadPool(NTHREADS);
+		//executor = Executors.newFixedThreadPool(NTHREADS);
 
 	}
 
 	@Override
 	public void run() {
 		try {
-			//out= new PrintWriter(client.getOutputStream(),true);
+			out= new PrintWriter(client.getOutputStream(),true);
+			
 			in= new BufferedReader(new InputStreamReader(client.getInputStream()));
 			String input;
 			String answer;
@@ -59,8 +64,8 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 					
 				}
 				answer= parser.parse(input);
-				//out.println("server says: "+ answer);
-				notify(answer);
+				out.println(answer);
+				//notify(answer);
 				//System.out.println(answer);
 			}
 
@@ -80,16 +85,17 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 
 		try {
 			//System.out.println("remote-kill client");
-			notify("!kill");
-			//out.close();
+			//notify("!kill"); //remote kill via UDP
+			out.println("!kill");
+			out.close();
 			
-			executor.shutdown();
-			
-			executor.awaitTermination(1, TimeUnit.SECONDS);
+			//executor.shutdown();
+			//executor.awaitTermination(1, TimeUnit.SECONDS);
 
 
 			//System.out.println("waiting done");
-
+			in.close();
+			
 			client.close();
 			/*
 			System.out.println("close in!");
@@ -107,9 +113,9 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		}
 		catch (IOException e) {
 			
-		} catch (InterruptedException e) {
+		} //catch (InterruptedException e) {
 			
-		}
+		//}
 		finally{ 
 			//System.out.println("shutdown accomplished");
 			try {
@@ -141,11 +147,13 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		return clientPort;
 	}
 
+	/*
 	private synchronized void notify(String message) throws RejectedExecutionException{
 		UDPNotificationThread thread;
 		thread= new UDPNotificationThread(address,clientPort,message);
 		executor.execute(thread);
 	}
+	*/
 
 	@Override
 	public void setUser(String user) {
@@ -166,6 +174,14 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		this.user=user;
 
 	}
+	
+	public synchronized void print(ArrayList<UserNotification> arrayList){
+		for(UserNotification note: arrayList){
+			out.println(note.getMessage());
+			note.setSent(true);
+		}
+		
+	} 
 
 
 }

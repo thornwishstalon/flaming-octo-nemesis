@@ -29,7 +29,7 @@ public class Login implements ICommand {
 			//return ("!print "+sPort+" is not a number!");
 		//}
 		
-		int x = UserDATABASE.getInstance().loginUser(username, connection.getInetAddress(), connection.getClientPort() );//Integer.valueOf(port));
+		int x = UserDATABASE.getInstance().loginUser(username, connection.getInetAddress(), connection.getClientPort(),connection );//Integer.valueOf(port));
 		switch(x){
 		case UserDATABASE.NO_USER_WITH_THAT_NAME:
 			
@@ -39,6 +39,9 @@ public class Login implements ICommand {
 			
 		case UserDATABASE.ALREADY_LOGGED_IN: return "!print Error: user is already logged in!";
 
+		case UserDATABASE.SUCCESSFULLY_LOGGED_IN_HAS_NOTIFICATIONS:
+			connection.setUser(UserDATABASE.getInstance().getUser(username));
+			return "!ack-login "+username+"\n"+UserDATABASE.getInstance().getNotifactions(username);
 		}
 
 		return "!print ERROR: something is missing here";
@@ -49,6 +52,7 @@ public class Login implements ICommand {
 		return false;
 	}
 
+	
 	/*
 	 * 
 	 * return "Successfully logged in as "+username;
