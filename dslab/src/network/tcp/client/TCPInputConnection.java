@@ -36,7 +36,6 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 			while((input= reader.readLine())!=null){
 				answer=parser.parse(input);
 				System.out.println(ClientStatus.getInstance().getUser() + "> "+answer);
-				
 			}
 			
 		}catch(SocketException e){

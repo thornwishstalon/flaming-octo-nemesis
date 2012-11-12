@@ -27,7 +27,7 @@ public class User {
 		notifications= new ArrayList<UserNotification>();
 		this.name=name;
 		
-		timer= new Timer();
+		//timer= new Timer();
 
 		
 		
@@ -141,6 +141,7 @@ public class User {
 	
 	public void startTimer(){
 		System.out.println("Timer start");
+		timer= new Timer();
 		timer.scheduleAtFixedRate(new MessageBrokerTask(), 100, 1000);
 		
 	}

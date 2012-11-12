@@ -177,6 +177,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 	
 	public synchronized void print(ArrayList<UserNotification> arrayList){
 		for(UserNotification note: arrayList){
+			//System.out.println(note.getMessage());
 			out.println(note.getMessage());
 			note.setSent(true);
 		}

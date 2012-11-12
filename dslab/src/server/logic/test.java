@@ -5,6 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+import analyticsServer.event.AuctionEvent;
+import analyticsServer.event.Event;
+import analyticsServer.event.EventFactory;
+import analyticsServer.event.UserEvent;
+
 public class test {
 
 	/**
@@ -75,6 +80,8 @@ public class test {
 		System.out.println(duration);
 		System.out.println(description);
 		*/
+		
+		/*
 		 String commandPattern="^!{1}[a-zA-z]+";
 		 String input1="!login";
 		 String input2="!login!";
@@ -84,6 +91,15 @@ public class test {
 		 System.out.println(Pattern.matches(commandPattern, input2));
 		 System.out.println(Pattern.matches(commandPattern, input3));
 		 System.out.println(Pattern.matches(commandPattern, input4));
+		 */
+		AuctionEvent e1= EventFactory.createAuctionEvent(12, 0);
+		System.out.println(e1.getID());
+		//id=1
+		
+		AuctionEvent e2= EventFactory.createAuctionEvent(12, 1);
+		System.out.println(e2.getID());
+		//id=2
+		
 		 
 	}
 
