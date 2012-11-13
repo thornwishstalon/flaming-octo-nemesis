@@ -15,7 +15,6 @@ import command.CommandParser;
 /**
  * Thread handling User input 
  * 
- * @author f
  */
 
 public class ManagementClientInputThread extends Thread implements IUserRelated{

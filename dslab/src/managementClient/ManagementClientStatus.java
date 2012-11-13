@@ -12,7 +12,6 @@ import billingServer.remote.BillingServerSecure;
 /**
  * ManagementClient STATUS class, Singleton
  * 
- * @author f
  *
  */
 public class ManagementClientStatus {

@@ -3,7 +3,6 @@ package managementClient;
 /**
  * holding managamentClient related setup informations
  * 
- * @author f
  *
  */
 public class ManagementClientSetup {

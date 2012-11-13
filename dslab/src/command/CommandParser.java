@@ -4,18 +4,17 @@ import java.util.StringTokenizer;
 
 import javax.xml.ws.Holder;
 
+import managementClient.commands.Subscribe;
+
 import server.logic.IUserRelated;
 
 
 
 public class CommandParser {
-	//private HashMap<String, ICommand> commandList;
 	private ICommandList commandList=null;
 	private boolean paramterize=true;
 	private boolean chop=false; //chops the command
 
-	//private final String commandPattern="^!{1}[a-zA-z]+";
-	//private final String commandPattern="^!.+";
 	private IUserRelated userHolder=null;
 
 
@@ -27,13 +26,6 @@ public class CommandParser {
 		this.paramterize=parameterize;
 		this.userHolder=holder;
 	}
-
-	/*
-	public CommandParser(boolean parameterize, boolean chopCommandKey){
-		this.paramterize=parameterize;
-		chop=chopCommandKey;
-	}
-	 */
 
 	public void setCommandList(ICommandList list){
 		this.commandList=list;
@@ -63,6 +55,7 @@ public class CommandParser {
 				try{
 					//checkParameterCount(params, command.numberOfParams());
 					params= params(inputLine,command.numberOfParams());
+
 				}catch(CommandException e){
 					return e.getMessage();
 				}
