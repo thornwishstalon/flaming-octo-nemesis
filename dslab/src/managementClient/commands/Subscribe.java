@@ -6,8 +6,8 @@ public class Subscribe implements ICommand {
 
 	@Override
 	public int numberOfParams() {
-		// TODO Auto-generated method stub
-		return 0;
+		//<!subscribe <regex> >
+		return 0; //TODO 1;
 	}
 
 	@Override

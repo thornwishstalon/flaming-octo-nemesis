@@ -24,8 +24,7 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 	public TCPInputConnection(Socket socket) {
 		this.socket=socket;
 		parser= new CommandParser(true, this);
-		parser.setCommandList(new ResponseList() );
-		
+		parser.setCommandList(new ResponseList() );	
 	}
 	
 	public void run(){

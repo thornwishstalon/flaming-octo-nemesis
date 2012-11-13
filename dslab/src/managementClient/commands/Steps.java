@@ -6,18 +6,30 @@ public class Steps implements ICommand {
 
 	@Override
 	public int numberOfParams() {
-		// TODO Auto-generated method stub
+		// <!steps>
 		return 0;
 	}
 
 	@Override
 	public String execute(String[] params) {
+		/*
+		try{
+			PriceSteps steps = ManagementClientStatus.getInstance().getbillingServerSecure().getPriceSteps();
+			System.out.println(steps.getFormattedString()); //something like that
+			
+		}catch(RemoteException e){
+			System.out.println("ERROR: RemoteException: "+e.getMessage());
+		}catch(Exception e){
+			System.out.println("ERROR: "+e.getMessage());
+		}
+		*/
+		
 		return "!print " +"steps not supported yet";
 	}
 
 	@Override
 	public boolean needsRegistration() {
-		// TODO Auto-generated method stub
+		// TODO return true;
 		return false;
 	}
 

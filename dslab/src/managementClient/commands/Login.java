@@ -26,7 +26,7 @@ public class Login implements ICommand {
 				ManagementClientStatus.getInstance().setbillingServerSecure(sec);
 				return "!print "+"login successful";
 			}
-			else return "!print "+ "an error has occured.";
+			else return "!print "+ "wrong username or password!";
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
