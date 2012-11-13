@@ -17,6 +17,9 @@ public class BillingServerUserDATABASE {
 		initUsers();
 	}
 
+	/*
+	 * loads all users from the properties to the "database" (ConcurrentHashMap users)
+	 */
 	private void initUsers() {
 		InputStream in= ClassLoader.getSystemResourceAsStream("user.properties");
 		if(in!=null){
@@ -38,6 +41,22 @@ public class BillingServerUserDATABASE {
 		}else System.err.println("File not found!");
 	}
 	
+	/*
+	 * checks for a user in the "database" and compares the login password
+	 */
+	public boolean verifyUser(String username, String password) {
+		ManagementUser user = users.get(username);
+		if(user==null)
+			return false;
+		if(!user.getPassword().equals(password))
+			return false;
+		
+		return true;
+	}
+	
+	/*
+	 * produces a string-representation of all users in the system
+	 */
 	public String getUserList(){
 		String output="";
 		
