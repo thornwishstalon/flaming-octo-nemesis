@@ -24,7 +24,7 @@ public class LoadTestRespondCommandList implements ICommandList {
 		commands.put("!new-bid", ignore);
 		
 		//SPECIAL
-		commands.put("!auctionItem", item );
+		commands.put("!auction-item", item );
 		
 	}
 	

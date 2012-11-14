@@ -18,12 +18,13 @@ public class TestClientSpawner extends Thread{
 	}
 	
 	public void run(){
+		
 		//start n client tasks
 		TestClient tmp=null;
 		Random r= new Random();
 		
 		for(int i=0;i<setup.getClients();i++){
-			tmp= new TestClient(setup, i,r.nextInt(2000));
+			tmp= new TestClient(setup, i,r.nextInt(20)*100);
 			clients.add(tmp);
 			
 			executor.execute(tmp);

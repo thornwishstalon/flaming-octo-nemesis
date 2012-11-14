@@ -3,6 +3,8 @@ package loadTest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class LoadTestMain {
 
@@ -22,6 +24,10 @@ public class LoadTestMain {
 		TestClientSpawner spawner= new TestClientSpawner(setup);
 
 		System.out.println("starting client spawner");
+		SimpleDateFormat df= new SimpleDateFormat("dd.MM.yyyy kk:mm z");
+		
+		System.out.println("\nstarted at: "+df.format(new Date(System.currentTimeMillis())));
+		
 		spawner.start();
 
 		try {

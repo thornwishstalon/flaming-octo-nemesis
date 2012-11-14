@@ -29,6 +29,7 @@ public class TestClient extends Thread implements IUserRelated{
 
 	private ArrayList<LoadTestAuction> auctionList;
 	//connection relevant
+	private int auctionCounter=0;
 
 	private Timer bidTimer;
 	private Timer updateTimer;
@@ -59,7 +60,7 @@ public class TestClient extends Thread implements IUserRelated{
 			String input;
 
 			//login testClient
-			printer.print("!login testClient"+ID);
+			printer.println("!login testClient"+ID);
 
 
 			//create TASKS
@@ -68,9 +69,10 @@ public class TestClient extends Thread implements IUserRelated{
 			updateTimer= new Timer();
 
 			//scheduleTASKS
-			updateTimer.scheduleAtFixedRate(new ListUpdateTask(), 10, setup.getUpdateIntervalSec()*1000);
-			bidTimer.scheduleAtFixedRate(new BidTask(), 50, (60/setup.getBidsPerMin())*1000);
 			createTimer.scheduleAtFixedRate(new AuctionTask(), 100, (60/setup.getAuctionsPerMin())*1000);
+			updateTimer.scheduleAtFixedRate(new ListUpdateTask(), 200, setup.getUpdateIntervalSec()*1000);
+			bidTimer.scheduleAtFixedRate(new BidTask(), 300, (60/setup.getBidsPerMin())*1000);
+			
 
 			//timer.scheduleAtFixedRate(new MessageBrokerTask(), 100, 1000);
 
@@ -97,6 +99,8 @@ public class TestClient extends Thread implements IUserRelated{
 	}
 
 	public void shutdown() {
+		
+		
 		if(bidTimer!=null)
 			bidTimer.cancel();
 		if(createTimer!=null)
@@ -104,6 +108,10 @@ public class TestClient extends Thread implements IUserRelated{
 		if(updateTimer!=null)
 			updateTimer.cancel();
 
+		//logout client before closing
+		printer.println("!logout");
+
+		
 		if(socket!=null){
 			try {
 				socket.close();
@@ -130,8 +138,8 @@ public class TestClient extends Thread implements IUserRelated{
 		public void run() {
 
 			synchronized (printer) {
-				System.out.println("auctionTask");
-				printer.println("!create "+setup.getAuctionDuration()+" test_auction"+ID);
+				//System.out.println("auctionTask");
+				printer.println("!create "+setup.getAuctionDuration()+" test_auction"+ID+" "+auctionCounter++);
 			}
 
 		}
@@ -143,7 +151,7 @@ public class TestClient extends Thread implements IUserRelated{
 		@Override
 		public void run() {
 			synchronized (printer) {
-				System.out.println("ListUpdateTask");
+				//System.out.println("ListUpdateTask");
 				auctionList.clear();
 				printer.println("!list");
 			}
@@ -158,9 +166,12 @@ public class TestClient extends Thread implements IUserRelated{
 			System.out.println("bidTask");
 			LoadTestAuction auction= getAuction();
 			if(auction!=null){
+				//System.out.println("id: "+auction.getID());
 				long price= System.currentTimeMillis()-auction.getCreation();
+				//System.out.println(price);
+				
 				synchronized(printer){
-					printer.print("!bid "+auction.getID()+" "+price);
+					printer.println("!bid "+auction.getID()+" "+price);
 				}
 			}
 
@@ -168,7 +179,8 @@ public class TestClient extends Thread implements IUserRelated{
 
 		private LoadTestAuction getAuction(){
 
-			if(auctionList.size()<1){
+			System.out.println(ID+" size: "+auctionList.size());
+			if(auctionList.size()==0){
 				return null;
 			}else{
 				Random r= new Random();
@@ -194,8 +206,10 @@ public class TestClient extends Thread implements IUserRelated{
 	}
 
 	public synchronized void pop(int id, String owner,String bidder, long creation,long duration, double price, String description){
-		LoadTestAuction tmp= new LoadTestAuction(id, owner, bidder, creation, duration, price, description);
-		auctionList.add(tmp);
+		//if(!owner.equals("testClient"+ID)){ //uncomment to add only foreign auctions
+			LoadTestAuction tmp= new LoadTestAuction(id, owner, bidder, creation, duration, price, description);
+			auctionList.add(tmp);
+		//}
 	} 
 
 }

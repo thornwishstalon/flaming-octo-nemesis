@@ -35,7 +35,6 @@ public class LoadTestAuctionItem implements ICommand {
 		
 		//pop auction item to testClient's list
 		client.pop(id, params[3], params[4], creation, duration, price, params[6].trim());
-		
 		return "";
 	}
 
