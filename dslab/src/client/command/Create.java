@@ -43,7 +43,7 @@ public class Create implements ICommand{
 		case AuctionDATABASE.NO_AUCTION_WITH_ID_FOUND:
 			answer= "!print "+"no auction with this id.";
 		case AuctionDATABASE.SUCCESSFULLY_PLACED_BID:
-			answer="!print "+ AuctionDATABASE.getInstance().getCreationString();
+			//answer="!print "+ AuctionDATABASE.getInstance().getCreationString();
 		}
 		return answer;
 	}

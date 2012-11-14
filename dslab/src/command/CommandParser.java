@@ -74,7 +74,7 @@ public class CommandParser {
 		}
 		StringTokenizer tokenizer= new StringTokenizer(inputLine, " ");
 
-		String[] params= new String[5];
+		String[] params= new String[7];
 		String tmp="";
 		for(int i = 0; i<numberOfParams;i++){
 			if(tokenizer.hasMoreTokens()){

@@ -15,7 +15,7 @@ public class ClientCommandList implements ICommandList {
 		
 		Login login= new Login(connection);
 		Logout logout= new Logout(connection);
-		List list = new List();
+		List list = new List(connection);
 		Create create= new Create(connection);
 		Bid bid = new Bid(connection);
 		Register register= new Register(connection);

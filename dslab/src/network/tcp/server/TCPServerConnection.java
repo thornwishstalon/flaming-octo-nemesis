@@ -50,7 +50,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 	public void run() {
 		try {
 			out= new PrintWriter(client.getOutputStream(),true);
-			
+
 			in= new BufferedReader(new InputStreamReader(client.getInputStream()));
 			String input;
 			String answer;
@@ -61,10 +61,11 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 					if(!user.equals(""))
 						parser.parse("!logout");
 					break;
-					
+
 				}
 				answer= parser.parse(input);
-				out.println(answer);
+				if(answer.length()>0)
+					out.println(answer);
 				//notify(answer);
 				//System.out.println(answer);
 			}
@@ -72,7 +73,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		} catch (IOException e) {
 
 		} catch(RejectedExecutionException e){
-			
+
 		}
 		finally{
 			shutdown();
@@ -88,14 +89,14 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 			//notify("!kill"); //remote kill via UDP
 			out.println("!kill");
 			out.close();
-			
+
 			//executor.shutdown();
 			//executor.awaitTermination(1, TimeUnit.SECONDS);
 
 
 			//System.out.println("waiting done");
 			in.close();
-			
+
 			client.close();
 			/*
 			System.out.println("close in!");
@@ -107,14 +108,14 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 			System.out.println("shutdownOutput");
 			 */
 
-			
+
 		}catch(RejectedExecutionException e){
-			
+
 		}
 		catch (IOException e) {
-			
+
 		} //catch (InterruptedException e) {
-			
+
 		//}
 		finally{ 
 			//System.out.println("shutdown accomplished");
@@ -153,7 +154,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		thread= new UDPNotificationThread(address,clientPort,message);
 		executor.execute(thread);
 	}
-	*/
+	 */
 
 	@Override
 	public void setUser(String user) {
@@ -174,15 +175,19 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		this.user=user;
 
 	}
-	
+
 	public synchronized void print(ArrayList<UserNotification> arrayList){
 		for(UserNotification note: arrayList){
 			//System.out.println(note.getMessage());
 			out.println(note.getMessage());
 			note.setSent(true);
 		}
-		
 	} 
+
+	public synchronized void print(String message){
+		//System.out.println(note.getMessage());
+		out.println(message);
+	}
 
 
 }

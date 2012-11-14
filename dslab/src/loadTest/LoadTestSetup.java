@@ -11,11 +11,22 @@ public class LoadTestSetup {
 	private int auctionDuration = 60;
 	private int updateIntervalSec = 20;
 	private int bidsPerMin = 2;
+	
+	private String serverHost;
+	private int serverPort;
+	private String analyticsBindingName;
 
-	public LoadTestSetup() {
+	public LoadTestSetup(String[] params) {
+		serverHost= params[0];
+		serverPort= Integer.valueOf(params[1]);
+		analyticsBindingName= params[2];
+		
 		init();
 	}
-
+	
+	/**
+	 * load testing properties from the loadtest.properties file
+	 */
 	private void init() {
 		InputStream in= ClassLoader.getSystemResourceAsStream("loadtest.properties");
 		if(in!=null){
@@ -37,7 +48,10 @@ public class LoadTestSetup {
 		}
 
 	}
-
+	
+	/*
+	 * GETTER
+	 */
 	public int getClients() {
 		return clients;
 	}
@@ -57,7 +71,25 @@ public class LoadTestSetup {
 	public int getBidsPerMin() {
 		return bidsPerMin;
 	}
+	
+	
+	public String getServerHost() {
+		return serverHost;
+	}
 
+	public int getServerPort() {
+		return serverPort;
+	}
+
+	public String getAnalyticsBindingName() {
+		return analyticsBindingName;
+	}
+
+	
+	/*
+	 *toSTRING
+	 */
+	
 	public String toString(){
 		return  "LOADTEST-SETUP:\n"+
 				"\tclients = "+clients+"\n"+

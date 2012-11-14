@@ -1,7 +1,9 @@
 package server.logic;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AuctionDATABASE {
 	private static AuctionDATABASE instance=null;
@@ -12,11 +14,11 @@ public class AuctionDATABASE {
 	public final static int OWNER_SAME_AS_BIDDER=4;
 
 	private int idCounter=0;
-	private HashMap<Integer,Auction> auctionList;
+	private ConcurrentHashMap<Integer,Auction> auctionList;
 	private Auction last;
 
 	private AuctionDATABASE(){
-		auctionList= new HashMap<Integer, Auction>();
+		auctionList= new ConcurrentHashMap<Integer, Auction>();
 	}
 
 	public static AuctionDATABASE getInstance(){
@@ -24,20 +26,28 @@ public class AuctionDATABASE {
 			instance= new AuctionDATABASE();
 		return instance;
 	}
-
+	
+	/*
 	public String getCreationString(){
 		SimpleDateFormat df= new SimpleDateFormat("dd.MM.yyyy kk:mm z");
 		return "An auction '"+last.getDescription()+"' with id "+last.getID()+" has been created and will end on " + df.format(last.getExpiration())+".";
-
 	}
+	*/
 
 
 	public synchronized int createAuction(User owner, String description, long duration){
 		Auction tmp= new Auction(owner, description, duration*1000);
 		tmp.setID(++idCounter);
 
+		
 		auctionList.put(idCounter,tmp);
 		last=tmp;
+		
+		UserDATABASE.getInstance().getUser(owner.getName()).getConnection().print("!ackCreate "+
+																					tmp.getID()+
+																					" "+tmp.getCreation().getTime()+
+																					" "+duration+
+																					" "+description);
 		return idCounter;
 	}
 
@@ -78,6 +88,20 @@ public class AuctionDATABASE {
 			result="There are currently no auctions.";
 		return result;
 	}
+	
+	public synchronized ArrayList<Auction> getAuctionList(){
+		ArrayList<Auction> tmp = new ArrayList<Auction>();
+		Auction a=null;
+		for(Integer key: auctionList.keySet()){
+			a= auctionList.get(key);
+			if(!a.isExpired()){
+				tmp.add(a);
+			}
+			
+		}
+		return tmp;
+	}
+	
 
 	public synchronized String getFullList(){
 		String result = "";

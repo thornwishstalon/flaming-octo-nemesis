@@ -21,6 +21,8 @@ public class ResponseList implements ICommandList {
 		AckLogin ackLogin= new AckLogin();
 		AckLogout ackLogout = new AckLogout();
 		Kill kill= new Kill();
+		AckCreate ackCreate= new AckCreate();
+		AuctionItem aucItem= new AuctionItem();
 		
 		commands.put("!ack", ack);
 		commands.put("!new-bid", newBid);
@@ -29,6 +31,8 @@ public class ResponseList implements ICommandList {
 		commands.put("!ack-login", ackLogin);
 		commands.put("!ack-logout", ackLogout);
 		commands.put("!kill", kill);
+		commands.put("!ackCreate",ackCreate);
+		commands.put("!auctionItem",aucItem);
 		
 
 	}
