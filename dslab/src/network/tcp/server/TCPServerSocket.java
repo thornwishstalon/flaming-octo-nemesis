@@ -19,7 +19,7 @@ public class TCPServerSocket extends Thread{
 
 	public TCPServerSocket(int port){
 		this.port=port;
-		executor = Executors.newFixedThreadPool(NTHREDS);
+		executor = Executors.newCachedThreadPool();//Executors.newFixedThreadPool(NTHREDS);
 		connectionSet= new HashSet<TCPServerConnection>();
 	}
 

@@ -70,7 +70,7 @@ public class AuctionDATABASE {
 		for(Integer key: auctionList.keySet()){
 			auction= auctionList.get(key);
 			if(!auction.isExpired()){
-				result= result+auction.toString()+"\n";				
+				result= result+"\t"+auction.toString()+"\n";				
 			}			
 		}
 
