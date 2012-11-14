@@ -3,6 +3,12 @@ package client.command.response;
 import client.ClientStatus;
 import command.ICommand;
 
+/**
+ * the server has acknolodged something  
+ *
+ */
+
+@Deprecated
 public class Ack implements ICommand{
 
 	@Override

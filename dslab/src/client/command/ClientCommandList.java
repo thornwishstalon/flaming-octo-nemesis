@@ -7,6 +7,10 @@ import network.tcp.server.TCPServerConnection;
 import command.ICommand;
 import command.ICommandList;
 
+/** 
+ * CommandsList for an CommandParser on the server responsible interpreting user input recieved from a client
+ *
+ */
 public class ClientCommandList implements ICommandList {
 	private HashMap<String, ICommand> commands;
 	

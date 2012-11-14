@@ -2,16 +2,18 @@ package loadTest.command;
 
 import java.util.HashMap;
 
+import loadTest.TestClient;
+
 import command.ICommand;
 import command.ICommandList;
 
 public class LoadTestRespondCommandList implements ICommandList {
 	private HashMap<String, ICommand> commands;
 	
-	public LoadTestRespondCommandList() {
+	public LoadTestRespondCommandList(TestClient client) {
 		commands= new HashMap<String, ICommand>();
 		Ignore ignore= new Ignore();
-		LoadTestAuctionItem item= new LoadTestAuctionItem();
+		LoadTestAuctionItem item= new LoadTestAuctionItem(client);
 		
 		//IGNORE FOLLOWING COMMANDS
 		commands.put("!ackLogin", ignore);

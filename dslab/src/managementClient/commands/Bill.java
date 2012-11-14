@@ -2,6 +2,8 @@ package managementClient.commands;
 
 import java.rmi.RemoteException;
 
+import managementClient.ManagementClientStatus;
+
 import command.ICommand;
 
 public class Bill implements ICommand {
@@ -16,7 +18,8 @@ public class Bill implements ICommand {
 	public String execute(String[] params) {
 		/*
 		String username=params[0];
-		Bill bill=null;
+		
+		//Bill bill=null;
 		try{
 			bill= ManagementClientStatus.getInstance().getbillingServerSecure().getBill(username);
 			return "!print "+bill.toString(); //TODO

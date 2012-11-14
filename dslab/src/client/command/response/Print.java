@@ -2,6 +2,11 @@ package client.command.response;
 
 import command.ICommand;
 
+
+/**
+ * print-command to simply transmit messages visible to the user
+ *
+ */
 public class Print implements ICommand{
 
 	@Override

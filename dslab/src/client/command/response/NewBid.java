@@ -2,6 +2,11 @@ package client.command.response;
 
 import command.ICommand;
 
+
+/**
+ * notification that the user has been overbid on an auction
+ *
+ */
 public class NewBid implements ICommand {
 
 	@Override

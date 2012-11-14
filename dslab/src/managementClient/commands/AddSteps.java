@@ -1,5 +1,8 @@
 package managementClient.commands;
 
+import java.rmi.RemoteException;
+
+import managementClient.ManagementClientStatus;
 import command.ICommand;
 
 public class AddSteps implements ICommand {
@@ -12,40 +15,41 @@ public class AddSteps implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
-		/*
+
 		try{
+			double startPrice, endPrice, fixedPrice, variablePricePercent;
 			try{
-				double startPrice= Double.valueOf(params[0]);
+				startPrice= Double.valueOf(params[0]);
 			}catch(NumberFormatException e){
 				return "!print "+params[0]+ " not a number!";
 			}
 			try{
-				double endPrice= Double.valueOf(params[1]);
+				endPrice= Double.valueOf(params[1]);
 			}catch(NumberFormatException e){
 				return "!print "+params[1]+ " not a number!";
 			}
 			try{
-				double fixedPrice= Double.valueOf(params[2]);
+				fixedPrice= Double.valueOf(params[2]);
 			}catch(NumberFormatException e){
 				return "!print "+params[2]+ " not a number!";
 			}
 			try{
-				double variablePricePercent= Double.valueOf(params[3]);
+				variablePricePercent= Double.valueOf(params[3]);
 			}catch(NumberFormatException e){
 				return "!print "+params[3]+ " not a number!";
 			}
 
 			ManagementClientStatus.getInstance().getbillingServerSecure().createPriceStep(
-			startPrice,endPrice,fixedPrice,variablePricePercent);
+					startPrice,endPrice,fixedPrice,variablePricePercent);
 
 			return "!print"+"Success...."; //TODO create success message
 
 		}catch(RemoteException e){
 			return "!print "+"ERROR: RemoteException: "+e.getMessage();
 		}
-		*/
 
-		return "!print " +"addSteps not supported yet";
+
+		//return "!print " +"addSteps not supported yet";
 	}
 
 	@Override

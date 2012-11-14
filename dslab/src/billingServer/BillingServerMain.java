@@ -29,7 +29,8 @@ public class BillingServerMain {
          */
         try {
 			stub = (BillingServer) UnicastRemoteObject.exportObject(server, 0);
-	        Registry registry = LocateRegistry.getRegistry();
+	        Registry registry = LocateRegistry.getRegistry(11269);
+	        
 	        registry.rebind(setup.getBindingName(), stub);
 	  
 	        System.out.println("BillingServer bound");

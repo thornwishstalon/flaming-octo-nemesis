@@ -3,6 +3,11 @@ package client.command.response;
 import client.ClientStatus;
 import command.ICommand;
 
+/**
+ * the server has acknowledged a login
+ *
+ */
+
 public class AckLogin implements ICommand {
 	//private UDPSocket connection=null;
 	

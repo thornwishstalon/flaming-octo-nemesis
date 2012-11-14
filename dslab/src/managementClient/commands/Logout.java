@@ -1,5 +1,7 @@
 package managementClient.commands;
 
+import java.rmi.RemoteException;
+
 import managementClient.ManagementClientStatus;
 import command.ICommand;
 

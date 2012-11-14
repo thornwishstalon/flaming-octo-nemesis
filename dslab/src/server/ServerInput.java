@@ -14,28 +14,29 @@ public class ServerInput extends Thread implements IUserRelated{
 	private BufferedReader in;
 	private CommandParser parser;
 	private CommandParser respondParser;
-	
+
 	public void run(){
-		
+
 		try {
-		in= new BufferedReader(new InputStreamReader(System.in));
-		String input=null;
-		parser= new CommandParser(true,this);
-		parser.setCommandList(new ServerCommandList());
-		
-		respondParser = new CommandParser(true, this);
-		respondParser.setCommandList(new ServerRespondList());
-		
+			in= new BufferedReader(new InputStreamReader(System.in));
+			String input=null;
+			parser= new CommandParser(true,this);
+			parser.setCommandList(new ServerCommandList());
+
+			respondParser = new CommandParser(true, this);
+			respondParser.setCommandList(new ServerRespondList());
+
 			while((input= in.readLine())!=null){
 				//if(in.) break;
-				break;
-				/* //more commands
+				//break;
+
+
 				if(input.contains("!exit")) break;
-				
+
 				if(input.length()>1)
 					System.out.println("server> "+input+"\n"+respondParser.parse(parser.parse(input)));
-				*/
-				
+
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -43,7 +44,7 @@ public class ServerInput extends Thread implements IUserRelated{
 		finally{
 			System.out.println("input thread closing");
 			try {
-				
+
 				in.close();
 				this.finalize();
 			} catch (IOException e) {
@@ -53,8 +54,8 @@ public class ServerInput extends Thread implements IUserRelated{
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class ServerInput extends Thread implements IUserRelated{
 
 	@Override
 	public void setUser(String user) {
-		
+
 	}
 
 }

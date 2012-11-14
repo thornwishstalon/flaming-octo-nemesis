@@ -3,8 +3,12 @@ package loadTest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import loadTest.command.LoadTestRespondCommandList;
@@ -15,33 +19,58 @@ import command.CommandParser;
 
 
 public class TestClient extends Thread implements IUserRelated{
-	private int port;
-	private int serverPort;
-	private String serverName;
+	private int ID;
+	private LoadTestSetup setup;
 	private CommandParser parser;
 	
 	private Socket socket=null;
 	private BufferedReader reader=null;
-
+	private PrintWriter printer=null;
+	
+	private ArrayList<LoadTestAuction> auctionList;
 	//connection relevant
+	
+	private Timer bidTimer;
+	private Timer updateTimer;
+	private Timer createTimer;
 
 
-	public TestClient(int port, int serverPort, String serverName, int updatesPerMinute, int auctionsPerMinute, int bidsPerMinute)  {
-		this.port=port;
-		this.serverPort= serverPort;
-		this.serverName= serverName;
+	public TestClient(LoadTestSetup setup, int id)  {
+		this.ID= id;
+		this.setup= setup;
+		
 		parser= new CommandParser(true, this);
-		parser.setCommandList(new LoadTestRespondCommandList());
+		parser.setCommandList(new LoadTestRespondCommandList(this));
+		
+		auctionList= new ArrayList<LoadTestAuction>();
 	}
 
 	public void run(){
 		reader= null;
 		try {
-			socket = new Socket(serverName, serverPort); 
+			socket = new Socket(setup.getServerHost(), setup.getServerPort()); 
 
 			reader= new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			printer= new PrintWriter(socket.getOutputStream(),true);
+			
 			String input;
-
+			
+			//login testClient
+			printer.print("!login testClient"+ID);
+			
+			//create TASKS
+			bidTimer= new Timer();
+			createTimer= new Timer();
+			updateTimer= new Timer();
+			
+			//scheduleTASKS
+			updateTimer.scheduleAtFixedRate(new ListUpdateTask(), 10, setup.getUpdateIntervalSec()*1000);
+			bidTimer.scheduleAtFixedRate(new BidTask(), 50, (60/setup.getBidsPerMin())*1000);
+			createTimer.scheduleAtFixedRate(new AuctionTask(), 100, (60/setup.getAuctionsPerMin())*1000);
+			
+			//timer.scheduleAtFixedRate(new MessageBrokerTask(), 100, 1000);
+			
+			//wait for responses
 			while((input= reader.readLine())!=null){
 				parser.parse(input);
 				//System.out.println(ClientStatus.getInstance().getUser() + "> "+answer);
@@ -55,12 +84,19 @@ public class TestClient extends Thread implements IUserRelated{
 			//e.printStackTrace();
 		} 
 		finally{
-			if(socket!=null)
+			//if(socket!=null)
 				shutdown();
 		}		
 	}
 
 	public void shutdown() {
+		if(bidTimer!=null)
+			bidTimer.cancel();
+		if(createTimer!=null)
+			createTimer.cancel();
+		if(updateTimer!=null)
+			updateTimer.cancel();
+			
 		if(socket!=null){
 				try {
 					socket.close();
@@ -85,18 +121,17 @@ public class TestClient extends Thread implements IUserRelated{
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
-
+			printer.println("!create "+setup.getAuctionDuration()+" test_auction"+ID);
 		}
 
 	}
 
 	private class ListUpdateTask extends TimerTask{
-
+		
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
-
+			auctionList.clear();
+			printer.println("!list");
 		}	
 	}
 
@@ -104,8 +139,17 @@ public class TestClient extends Thread implements IUserRelated{
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
+			LoadTestAuction auction= getAuction();
+			long price= System.currentTimeMillis()-auction.getCreation();
+			printer.print("!bid "+auction.getID()+" "+price);
 
+		}
+		
+		private LoadTestAuction getAuction(){
+			Random r= new Random();
+			
+			return auctionList.get( r.nextInt(auctionList.size())); 
+			
 		}
 
 	}
@@ -121,6 +165,11 @@ public class TestClient extends Thread implements IUserRelated{
 		// TODO Auto-generated method stub
 
 	}
+	
+	public synchronized void pop(int id, String owner,String bidder, long creation,long duration, double price, String description){
+		LoadTestAuction tmp= new LoadTestAuction(id, owner, bidder, creation, duration, price, description);
+		auctionList.add(tmp);
+	} 
 
 }
 

@@ -17,7 +17,18 @@ public class TestClientSpawner extends Thread{
 	
 	public void run(){
 		//start n client tasks
+		TestClient tmp=null;
+		for(int i=0;i<setup.getClients();i++){
+			tmp= new TestClient(setup, i);
+			clients.add(tmp);
+			
+			executor.execute(tmp);
+			
+		}
 		
+		while(!executor.isShutdown()){
+			//waiting
+		}
 		
 	}
 	

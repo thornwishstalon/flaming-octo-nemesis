@@ -2,6 +2,8 @@ package managementClient.commands;
 
 import java.rmi.RemoteException;
 
+import managementClient.ManagementClientStatus;
+
 import command.ICommand;
 
 public class RemoveStep implements ICommand {
@@ -14,7 +16,7 @@ public class RemoveStep implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
-		/*
+		
 		try{
 			double startPrice,endPrice=0;
 			
@@ -35,7 +37,7 @@ public class RemoveStep implements ICommand {
 		}catch(RemoteException e){
 			return "!print "+e.getMessage();
 		}
-		*/
+		
 
 
 		return "!print " +"removeStep not supported yet";

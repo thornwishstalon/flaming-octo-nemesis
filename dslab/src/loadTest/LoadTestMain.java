@@ -1,5 +1,9 @@
 package loadTest;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class LoadTestMain {
 
 	/**
@@ -11,9 +15,27 @@ public class LoadTestMain {
 		LoadTestSetup setup= new LoadTestSetup(args);
 		System.out.println(setup.toString());
 		
-		
+		//blocking input
+		BufferedReader reader= new BufferedReader(new InputStreamReader(System.in));
 		
 		//spawn loadTest clients...
+		TestClientSpawner spawner= new TestClientSpawner(setup);
+		
+		System.out.println("starting client spawner");
+		spawner.run();
+		
+		try {
+			String input="";
+			while((input = reader.readLine())!=null){
+				System.out.println(input);
+				break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			System.out.println("ending spawners");
+			spawner.kill();
+		}
 
 	}
 

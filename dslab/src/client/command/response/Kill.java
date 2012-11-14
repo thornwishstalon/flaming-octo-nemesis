@@ -7,7 +7,6 @@ import command.ICommand;
 
 /**
  * remote kill command
- * @author fry
  *
  */
 public class Kill implements ICommand {

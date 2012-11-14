@@ -4,6 +4,11 @@ import client.ClientMain;
 import client.ClientStatus;
 import command.ICommand;
 
+/**
+ * 
+ * the server has acknowledged a logout
+ *
+ */
 public class AckLogout implements ICommand{
 
 	@Override

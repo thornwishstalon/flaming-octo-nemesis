@@ -4,6 +4,10 @@ import client.ClientMain;
 import client.ClientStatus;
 import command.ICommand;
 
+/**
+ * an auction has ended. execute() returns a readable notification
+ *
+ */
 public class AuctionEnded implements ICommand {
 
 	@Override

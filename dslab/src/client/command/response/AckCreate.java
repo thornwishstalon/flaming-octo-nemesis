@@ -5,6 +5,11 @@ import java.util.Date;
 
 import command.ICommand;
 
+/**
+ * the server has acknowledged the creation of an Auction
+ *
+ */
+
 public class AckCreate implements ICommand {
 
 	@Override

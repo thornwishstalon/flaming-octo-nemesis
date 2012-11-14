@@ -5,6 +5,9 @@ import java.util.Date;
 
 import command.ICommand;
 
+/**
+ *  detailed information about an auction
+ */
 public class AuctionItem implements ICommand{
 
 	@Override

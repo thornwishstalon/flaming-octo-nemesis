@@ -6,6 +6,12 @@ import java.util.HashMap;
 import command.ICommand;
 import command.ICommandList;
 
+/**
+ * CommandList implementing ICommandList providing ICommands used by a 
+ * Client's CommandParser responsible to interprete server responses
+ *
+ */
+
 public class ResponseList implements ICommandList {
 	private HashMap<String, ICommand> commands;
 	
