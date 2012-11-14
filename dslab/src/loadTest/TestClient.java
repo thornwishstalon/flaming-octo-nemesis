@@ -35,6 +35,8 @@ public class TestClient extends Thread implements IUserRelated{
 	private Timer updateTimer;
 	private Timer createTimer;
 	private int delay;
+	
+	private boolean ACKLogout=false;
 
 	public TestClient(LoadTestSetup setup, int id, int delay)  {
 		this.ID= id;
@@ -83,7 +85,7 @@ public class TestClient extends Thread implements IUserRelated{
 			}
 
 		}catch(SocketException e){
-
+			System.out.println("SERVER UNREACHABLE");
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -92,14 +94,12 @@ public class TestClient extends Thread implements IUserRelated{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		finally{
-			//if(socket!=null)
+		finally{	
 			shutdown();
 		}		
 	}
 
 	public void shutdown() {
-		
 		
 		if(bidTimer!=null)
 			bidTimer.cancel();
@@ -107,9 +107,26 @@ public class TestClient extends Thread implements IUserRelated{
 			createTimer.cancel();
 		if(updateTimer!=null)
 			updateTimer.cancel();
+		
+		if(printer!=null){
+			//logout client before closing
+			printer.println("!logout");
+			
+			boolean ack=false;
+			long start= System.currentTimeMillis();
+			
+			while(!ack){
+				//System.out.println(ack);
+				if(System.currentTimeMillis()-start > 1000){// timeout
+					break;
+				}
+				ack= isACKLogout();
 
-		//logout client before closing
-		printer.println("!logout");
+			}
+
+			printer.close();
+			
+		}
 
 		
 		if(socket!=null){
@@ -128,6 +145,7 @@ public class TestClient extends Thread implements IUserRelated{
 				e.printStackTrace();
 			}
 		}
+		
 
 	}
 
@@ -163,7 +181,7 @@ public class TestClient extends Thread implements IUserRelated{
 
 		@Override
 		public void run() {
-			System.out.println("bidTask");
+			//System.out.println("bidTask");
 			LoadTestAuction auction= getAuction();
 			if(auction!=null){
 				//System.out.println("id: "+auction.getID());
@@ -178,8 +196,7 @@ public class TestClient extends Thread implements IUserRelated{
 		}
 
 		private LoadTestAuction getAuction(){
-
-			System.out.println(ID+" size: "+auctionList.size());
+			//System.out.println(ID+" size: "+auctionList.size());
 			if(auctionList.size()==0){
 				return null;
 			}else{
@@ -210,7 +227,15 @@ public class TestClient extends Thread implements IUserRelated{
 			LoadTestAuction tmp= new LoadTestAuction(id, owner, bidder, creation, duration, price, description);
 			auctionList.add(tmp);
 		//}
+	}
+
+	public void setAckLogout(boolean b) {
+		ACKLogout= true;
 	} 
+	
+	public boolean isACKLogout() {
+		return ACKLogout;
+	}
 
 }
 

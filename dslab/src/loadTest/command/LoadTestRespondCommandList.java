@@ -14,12 +14,12 @@ public class LoadTestRespondCommandList implements ICommandList {
 		commands= new HashMap<String, ICommand>();
 		Ignore ignore= new Ignore();
 		LoadTestAuctionItem item= new LoadTestAuctionItem(client);
-		
+		LoadTestACKLogout ackLogout= new LoadTestACKLogout(client);
 		//IGNORE FOLLOWING COMMANDS
 		commands.put("!ackLogin", ignore);
 		commands.put("!print", ignore);
-		commands.put("!ackCreate", ignore);
-		commands.put("!ackLogout", ignore);
+		commands.put("!ack-create", ignore);
+		commands.put("!ack-logout", ackLogout);
 		commands.put("!auction-ended", ignore);
 		commands.put("!new-bid", ignore);
 		

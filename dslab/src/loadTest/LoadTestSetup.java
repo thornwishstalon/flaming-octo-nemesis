@@ -95,7 +95,7 @@ public class LoadTestSetup {
 				"\tclients = "+clients+"\n"+
 				"\tauctionsPerMin =" + auctionsPerMin+"\n"+
 				"\tauctionDuration = "+auctionDuration+"\n"+
-				"\tupdateIntervalSec: "+updateIntervalSec+"\n"+
+				"\tupdateIntervalSec = "+updateIntervalSec+"\n"+
 				"\tbidsPerMin = "+bidsPerMin+"\n";
 	}
 }
