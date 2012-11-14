@@ -87,6 +87,10 @@ public class CommandParser {
 		while((tokenizer.hasMoreTokens()&&(numberOfParams!=0))){
 			params[numberOfParams-1]+= tokenizer.nextToken()+" ";
 		}
+		//POLISISHING
+		for(int i=0;i<numberOfParams;i++){
+			params[i]= params[i].trim();
+		}
 
 		return params;
 	}

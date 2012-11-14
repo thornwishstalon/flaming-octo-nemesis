@@ -27,10 +27,10 @@ public class List implements ICommand{
 			if(!a.isExpired()){
 				c++;
 				if(a.getHighestBidder()!=null){
-					connection.print("!auctionItem "+a.getID()+" "+a.getCreation().getTime()+" "+a.getDuration()*1000+" "+
+					connection.print("!auction-item "+a.getID()+" "+a.getCreation().getTime()+" "+a.getDuration()*1000+" "+
 							a.getOwner().getName()+" "+a.getHighestBidder().getName()+" "+a.getPrice()+" "+a.getDescription());
 				}else{
-					connection.print("!auctionItem "+a.getID()+" "+a.getCreation().getTime()+" "+a.getDuration()*1000+" "+
+					connection.print("!auction-item "+a.getID()+" "+a.getCreation().getTime()+" "+a.getDuration()*1000+" "+
 							a.getOwner().getName()+" "+"none"+" "+"0.0"+" "+a.getDescription());
 				}
 			}

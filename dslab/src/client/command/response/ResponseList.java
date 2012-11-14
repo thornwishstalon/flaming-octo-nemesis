@@ -31,8 +31,8 @@ public class ResponseList implements ICommandList {
 		commands.put("!ack-login", ackLogin);
 		commands.put("!ack-logout", ackLogout);
 		commands.put("!kill", kill);
-		commands.put("!ackCreate",ackCreate);
-		commands.put("!auctionItem",aucItem);
+		commands.put("!ack-create",ackCreate);
+		commands.put("!auction-item",aucItem);
 		
 
 	}

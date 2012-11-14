@@ -15,7 +15,6 @@ public class AuctionDATABASE {
 
 	private int idCounter=0;
 	private ConcurrentHashMap<Integer,Auction> auctionList;
-	private Auction last;
 
 	private AuctionDATABASE(){
 		auctionList= new ConcurrentHashMap<Integer, Auction>();
@@ -26,14 +25,6 @@ public class AuctionDATABASE {
 			instance= new AuctionDATABASE();
 		return instance;
 	}
-	
-	/*
-	public String getCreationString(){
-		SimpleDateFormat df= new SimpleDateFormat("dd.MM.yyyy kk:mm z");
-		return "An auction '"+last.getDescription()+"' with id "+last.getID()+" has been created and will end on " + df.format(last.getExpiration())+".";
-	}
-	*/
-
 
 	public synchronized int createAuction(User owner, String description, long duration){
 		Auction tmp= new Auction(owner, description, duration*1000);
@@ -41,9 +32,8 @@ public class AuctionDATABASE {
 
 		
 		auctionList.put(idCounter,tmp);
-		last=tmp;
 		
-		UserDATABASE.getInstance().getUser(owner.getName()).getConnection().print("!ackCreate "+
+		UserDATABASE.getInstance().getUser(owner.getName()).getConnection().print("!ack-create "+
 																					tmp.getID()+
 																					" "+tmp.getCreation().getTime()+
 																					" "+duration+

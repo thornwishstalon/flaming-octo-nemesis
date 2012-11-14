@@ -10,24 +10,30 @@ public class LoadTestRespondCommandList implements ICommandList {
 	
 	public LoadTestRespondCommandList() {
 		commands= new HashMap<String, ICommand>();
+		Ignore ignore= new Ignore();
+		LoadTestAuctionItem item= new LoadTestAuctionItem();
 		
-		/*
-		 * handle !list responses
-		 */
+		//IGNORE FOLLOWING COMMANDS
+		commands.put("!ackLogin", ignore);
+		commands.put("!print", ignore);
+		commands.put("!ackCreate", ignore);
+		commands.put("!ackLogout", ignore);
+		commands.put("!auction-ended", ignore);
+		commands.put("!new-bid", ignore);
 		
+		//SPECIAL
+		commands.put("!auctionItem", item );
 		
 	}
 	
 	@Override
 	public boolean containsKey(String commandKey) {
-		// TODO Auto-generated method stub
-		return false;
+		return commands.containsKey(commandKey);
 	}
 
 	@Override
 	public ICommand get(String commandKey) {
-		// TODO Auto-generated method stub
-		return null;
+		return commands.get(commandKey);
 	}
 
 }
