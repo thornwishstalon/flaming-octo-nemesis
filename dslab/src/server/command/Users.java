@@ -7,7 +7,7 @@ public class Users implements ICommand{
 
 	@Override
 	public int numberOfParams() {
-		return 1;
+		return 0;
 	}
 
 	@Override

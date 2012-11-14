@@ -1,6 +1,7 @@
 package loadTest;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -11,6 +12,7 @@ public class TestClientSpawner extends Thread{
 	
 	public TestClientSpawner(LoadTestSetup setup) {
 		this.setup=setup;
+		clients= new ArrayList<TestClient>();
 		executor= Executors.newFixedThreadPool(setup.getClients());
 		
 	}
@@ -18,8 +20,10 @@ public class TestClientSpawner extends Thread{
 	public void run(){
 		//start n client tasks
 		TestClient tmp=null;
+		Random r= new Random();
+		
 		for(int i=0;i<setup.getClients();i++){
-			tmp= new TestClient(setup, i);
+			tmp= new TestClient(setup, i,r.nextInt(2000));
 			clients.add(tmp);
 			
 			executor.execute(tmp);
@@ -38,7 +42,7 @@ public class TestClientSpawner extends Thread{
 			client.shutdown();
 		}
 		
-		//kill clients!
+		System.out.println("clients killed!");
 	}
 
 }

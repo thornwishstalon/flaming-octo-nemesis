@@ -31,7 +31,10 @@ public class ServerInput extends Thread implements IUserRelated{
 				//break;
 
 
-				if(input.contains("!exit")) break;
+				if(input.contains("!exit")){
+					System.in.close();
+					break;
+				}
 
 				if(input.length()>1)
 					System.out.println("server> "+input+"\n"+respondParser.parse(parser.parse(input)));

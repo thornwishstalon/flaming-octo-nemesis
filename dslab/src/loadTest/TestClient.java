@@ -22,54 +22,58 @@ public class TestClient extends Thread implements IUserRelated{
 	private int ID;
 	private LoadTestSetup setup;
 	private CommandParser parser;
-	
+
 	private Socket socket=null;
 	private BufferedReader reader=null;
 	private PrintWriter printer=null;
-	
+
 	private ArrayList<LoadTestAuction> auctionList;
 	//connection relevant
-	
+
 	private Timer bidTimer;
 	private Timer updateTimer;
 	private Timer createTimer;
+	private int delay;
 
-
-	public TestClient(LoadTestSetup setup, int id)  {
+	public TestClient(LoadTestSetup setup, int id, int delay)  {
 		this.ID= id;
 		this.setup= setup;
-		
+
 		parser= new CommandParser(true, this);
 		parser.setCommandList(new LoadTestRespondCommandList(this));
-		
+
 		auctionList= new ArrayList<LoadTestAuction>();
 	}
 
 	public void run(){
 		reader= null;
 		try {
+
+			sleep(delay); //generate asynchronized load for server
+
 			socket = new Socket(setup.getServerHost(), setup.getServerPort()); 
 
 			reader= new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			printer= new PrintWriter(socket.getOutputStream(),true);
-			
+
 			String input;
-			
+
 			//login testClient
 			printer.print("!login testClient"+ID);
-			
+
+
 			//create TASKS
 			bidTimer= new Timer();
 			createTimer= new Timer();
 			updateTimer= new Timer();
-			
+
 			//scheduleTASKS
 			updateTimer.scheduleAtFixedRate(new ListUpdateTask(), 10, setup.getUpdateIntervalSec()*1000);
 			bidTimer.scheduleAtFixedRate(new BidTask(), 50, (60/setup.getBidsPerMin())*1000);
 			createTimer.scheduleAtFixedRate(new AuctionTask(), 100, (60/setup.getAuctionsPerMin())*1000);
-			
+
 			//timer.scheduleAtFixedRate(new MessageBrokerTask(), 100, 1000);
-			
+
 			//wait for responses
 			while((input= reader.readLine())!=null){
 				parser.parse(input);
@@ -82,10 +86,13 @@ public class TestClient extends Thread implements IUserRelated{
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 		finally{
 			//if(socket!=null)
-				shutdown();
+			shutdown();
 		}		
 	}
 
@@ -96,14 +103,14 @@ public class TestClient extends Thread implements IUserRelated{
 			createTimer.cancel();
 		if(updateTimer!=null)
 			updateTimer.cancel();
-			
+
 		if(socket!=null){
-				try {
-					socket.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if(reader!=null){
 			try {
@@ -121,17 +128,26 @@ public class TestClient extends Thread implements IUserRelated{
 
 		@Override
 		public void run() {
-			printer.println("!create "+setup.getAuctionDuration()+" test_auction"+ID);
+
+			synchronized (printer) {
+				System.out.println("auctionTask");
+				printer.println("!create "+setup.getAuctionDuration()+" test_auction"+ID);
+			}
+
 		}
 
 	}
 
 	private class ListUpdateTask extends TimerTask{
-		
+
 		@Override
 		public void run() {
-			auctionList.clear();
-			printer.println("!list");
+			synchronized (printer) {
+				System.out.println("ListUpdateTask");
+				auctionList.clear();
+				printer.println("!list");
+			}
+
 		}	
 	}
 
@@ -139,17 +155,28 @@ public class TestClient extends Thread implements IUserRelated{
 
 		@Override
 		public void run() {
+			System.out.println("bidTask");
 			LoadTestAuction auction= getAuction();
-			long price= System.currentTimeMillis()-auction.getCreation();
-			printer.print("!bid "+auction.getID()+" "+price);
+			if(auction!=null){
+				long price= System.currentTimeMillis()-auction.getCreation();
+				synchronized(printer){
+					printer.print("!bid "+auction.getID()+" "+price);
+				}
+			}
 
 		}
-		
+
 		private LoadTestAuction getAuction(){
-			Random r= new Random();
-			
-			return auctionList.get( r.nextInt(auctionList.size())); 
-			
+
+			if(auctionList.size()<1){
+				return null;
+			}else{
+				Random r= new Random();
+				int a=r.nextInt(auctionList.size());
+
+				return auctionList.get(a); 
+			}
+
 		}
 
 	}
@@ -165,7 +192,7 @@ public class TestClient extends Thread implements IUserRelated{
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public synchronized void pop(int id, String owner,String bidder, long creation,long duration, double price, String description){
 		LoadTestAuction tmp= new LoadTestAuction(id, owner, bidder, creation, duration, price, description);
 		auctionList.add(tmp);

@@ -33,11 +33,11 @@ public class LoadTestSetup {
 			Properties props= new Properties();
 			try{
 				props.load(in);
-				this.clients= Integer.valueOf(props.getProperty("clients"));
-				this.auctionsPerMin =Integer.valueOf(props.getProperty("auctionsPerMin"));
-				this.auctionDuration= Integer.valueOf(props.getProperty("auctionDuration"));
-				this.updateIntervalSec= Integer.valueOf(props.getProperty("updateIntervalSec"));
-				this.bidsPerMin= Integer.valueOf(props.getProperty("bidsPerMin"));
+				this.clients= Integer.valueOf(props.getProperty("clients").trim());
+				this.auctionsPerMin =Integer.valueOf(props.getProperty("auctionsPerMin").trim());
+				this.auctionDuration= Integer.valueOf(props.getProperty("auctionDuration").trim());
+				this.updateIntervalSec= Integer.valueOf(props.getProperty("updateIntervalSec").trim());
+				this.bidsPerMin= Integer.valueOf(props.getProperty("bidsPerMin").trim());
 
 			}catch(NumberFormatException e){
 				e.printStackTrace();
