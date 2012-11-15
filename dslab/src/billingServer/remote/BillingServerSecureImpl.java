@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import sun.text.normalizer.UnicodeMatcher;
 
 import billingServer.db.BillingServerBillDATABASE;
 import billingServer.db.PriceSteps;
@@ -61,7 +60,7 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 		
 	}
 
-	public PriceSteps getPriceSteps() {
+	public PriceSteps getPriceSteps() throws RemoteException {
 		return priceSteps;
 	}
 
