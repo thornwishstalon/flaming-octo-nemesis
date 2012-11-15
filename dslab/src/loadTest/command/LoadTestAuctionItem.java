@@ -15,6 +15,9 @@ public class LoadTestAuctionItem implements ICommand {
 		return 7;
 	}
 
+	/**
+	 * interpretes the parameters and adds an auctionItem object to the testClient's auction list
+	 */
 	@Override
 	public String execute(String[] params) {
 		/*
@@ -33,8 +36,8 @@ public class LoadTestAuctionItem implements ICommand {
 		long duration= Long.valueOf(params[2].trim());
 		double price= Double.valueOf(params[5].trim());
 		
-		//pop auction item to testClient's list
-		client.pop(id, params[3], params[4], creation, duration, price, params[6].trim());
+		//add auction item to testClient's list
+		client.push(id, params[3], params[4], creation, duration, price, params[6].trim());
 		return "";
 	}
 

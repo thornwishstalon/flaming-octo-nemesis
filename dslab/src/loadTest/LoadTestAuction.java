@@ -1,5 +1,9 @@
 package loadTest;
 
+/**
+ * Dummy class, used to store auction relevant information, which was sent with an !auction-item command
+ *
+ */
 public class LoadTestAuction {
 	private int ID;
 	private String owner;
@@ -19,6 +23,7 @@ public class LoadTestAuction {
 		this.description=description;
 	}
 	
+	//GETTER
 	public int getID() {
 		return ID;
 	}

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class TCPServerSocket extends Thread{
 	private ServerSocket server;
 	private int port;
-	private int NTHREDS=10;
+	private int NTHREDS=100;
 	private	ExecutorService executor;
 	private HashSet<TCPServerConnection> connectionSet;
 
@@ -19,7 +19,7 @@ public class TCPServerSocket extends Thread{
 
 	public TCPServerSocket(int port){
 		this.port=port;
-		executor = Executors.newCachedThreadPool();//Executors.newFixedThreadPool(NTHREDS);
+		executor = Executors.newCachedThreadPool();
 		connectionSet= new HashSet<TCPServerConnection>();
 	}
 

@@ -3,6 +3,11 @@ package loadTest.command;
 import loadTest.TestClient;
 import command.ICommand;
 
+/**
+ * 
+ * NOT SURE IF NECESSARY //TODO
+ *
+ */
 public class LoadTestACKLogout implements ICommand {
 	private TestClient client;
 	

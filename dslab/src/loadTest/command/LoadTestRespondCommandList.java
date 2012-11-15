@@ -7,25 +7,31 @@ import loadTest.TestClient;
 import command.ICommand;
 import command.ICommandList;
 
+/**
+ * CommandList used by the CommandParser within the LoadTest-Client
+ * 
+ *
+ */
 public class LoadTestRespondCommandList implements ICommandList {
 	private HashMap<String, ICommand> commands;
 	
 	public LoadTestRespondCommandList(TestClient client) {
 		commands= new HashMap<String, ICommand>();
+		
 		Ignore ignore= new Ignore();
 		LoadTestAuctionItem item= new LoadTestAuctionItem(client);
 		LoadTestACKLogout ackLogout= new LoadTestACKLogout(client);
+		
 		//IGNORE FOLLOWING COMMANDS
 		commands.put("!ackLogin", ignore);
 		commands.put("!print", ignore);
 		commands.put("!ack-create", ignore);
-		commands.put("!ack-logout", ackLogout);
 		commands.put("!auction-ended", ignore);
 		commands.put("!new-bid", ignore);
 		
 		//SPECIAL
 		commands.put("!auction-item", item );
-		
+		commands.put("!ack-logout", ackLogout);
 	}
 	
 	@Override
