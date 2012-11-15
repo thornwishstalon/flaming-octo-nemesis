@@ -29,13 +29,13 @@ public class BillingServerMain {
          */
         try {
 			stub = (BillingServer) UnicastRemoteObject.exportObject(server, 0);
-	        Registry registry = LocateRegistry.getRegistry(11269);
+	        Registry registry = LocateRegistry.createRegistry(11269); //try
 	        
 	        registry.rebind(setup.getBindingName(), stub);
 	  
 	        System.out.println("BillingServer bound");
 		} catch (RemoteException e) {
-			System.out.println("Binding of BillingServer was not successful!");
+			System.out.println("Binding of BillingServer was not successful!\n");
 			e.printStackTrace();
 		}
         

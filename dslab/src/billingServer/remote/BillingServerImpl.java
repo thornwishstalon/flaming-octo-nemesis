@@ -34,7 +34,9 @@ public class BillingServerImpl implements BillingServer {
 			throws RemoteException {
 		
 		if(users.verifyUser(username, password)) {
-			return BillingServerSecureImpl.getSingleInstance();
+			//return BillingServerSecureImpl.getSingleInstance();
+			BillingServerSecureImpl tmp = new BillingServerSecureImpl();
+			return tmp;
 		} else {
 			return null;
 		}

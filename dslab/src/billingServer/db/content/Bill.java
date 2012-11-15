@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
-import billingServer.db.PriceSteps;
+import billingServer.db.BillingServerPriceDATABASE;
+
 
 
 public class Bill implements Serializable {
@@ -13,7 +14,7 @@ public class Bill implements Serializable {
 	private static final long serialVersionUID = 2398795574464591626L;
 	private ArrayList<BillingLine> bills;
 	private String user;
-	private PriceSteps priceSteps = PriceSteps.getSingleInstance();
+	private PriceSteps priceSteps = BillingServerPriceDATABASE.getInstance().getPriceSteps();
 	
 	public Bill(String user) {
 		bills = new ArrayList<BillingLine>();
@@ -47,7 +48,7 @@ public class Bill implements Serializable {
 		
 		while (it.hasNext()) {
 			b = it.next();
-			p = priceSteps.getPriceStepForPrice(b.getPrice());
+			p = BillingServerPriceDATABASE.getInstance().getPriceStepForPrice(b.getPrice());
 			pPercent = (p.getVariablePricePercent() * b.getPrice()) / 100;
 			
 			out += b.getAuctionID() + "       " + b.getPrice() + "       " + p.getFixedPrice()

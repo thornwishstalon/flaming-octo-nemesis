@@ -3,8 +3,8 @@ package managementClient.commands;
 import java.rmi.RemoteException;
 
 import managementClient.ManagementClientStatus;
-import billingServer.db.PriceSteps;
 import billingServer.db.content.PriceStep;
+import billingServer.db.content.PriceSteps;
 import command.ICommand;
 
 public class Steps implements ICommand {
@@ -21,14 +21,14 @@ public class Steps implements ICommand {
 		try{
 			PriceSteps steps = ManagementClientStatus.getInstance().getbillingServerSecure().getPriceSteps();
 			//System.out.println(steps.getFormattedString()); //something like that
-			System.out.println(steps.toString());
+			return ("!print "+steps.toString());
 			
 		}catch(Exception e){
-			System.out.println("ERROR: "+e.getMessage());
+			return ("!print "+ "ERROR: "+e.getMessage());
 		}
 		
 		
-		return "!print " +"steps not supported yet";
+		//return "!print " +"steps not supported yet";
 	}
 
 	@Override

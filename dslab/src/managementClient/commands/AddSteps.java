@@ -19,22 +19,22 @@ public class AddSteps implements ICommand {
 		try{
 			double startPrice, endPrice, fixedPrice, variablePricePercent;
 			try{
-				startPrice= Double.valueOf(params[0]);
+				startPrice= Double.valueOf(params[0].trim());
 			}catch(NumberFormatException e){
 				return "!print "+params[0]+ " not a number!";
 			}
 			try{
-				endPrice= Double.valueOf(params[1]);
+				endPrice= Double.valueOf(params[1].trim());
 			}catch(NumberFormatException e){
 				return "!print "+params[1]+ " not a number!";
 			}
 			try{
-				fixedPrice= Double.valueOf(params[2]);
+				fixedPrice= Double.valueOf(params[2].trim());
 			}catch(NumberFormatException e){
 				return "!print "+params[2]+ " not a number!";
 			}
 			try{
-				variablePricePercent= Double.valueOf(params[3]);
+				variablePricePercent= Double.valueOf(params[3].trim());
 			}catch(NumberFormatException e){
 				return "!print "+params[3]+ " not a number!";
 			}

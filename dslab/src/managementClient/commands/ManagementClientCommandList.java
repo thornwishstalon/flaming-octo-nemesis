@@ -24,12 +24,14 @@ public ManagementClientCommandList(){
 	RemoveStep rm= new RemoveStep();
 	Subscribe subscribe= new Subscribe();
 	Unsubscribe unsubscribe = new Unsubscribe();
+	Steps steps= new Steps();
 	
 	commands.put("!login", login);
 	commands.put("!logout", logout);
 	commands.put("!addStep", add);
 	commands.put("!removeStep", rm);
 	commands.put("!bill", bill);
+	commands.put("!steps", steps);
 	
 	commands.put("!subscribe", subscribe);
 	commands.put("!unsubscribe", unsubscribe);

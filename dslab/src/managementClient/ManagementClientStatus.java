@@ -27,7 +27,7 @@ public class ManagementClientStatus {
 	 */
 	public void init(ManagementClientSetup setup){
 		try {
-			Registry registry = LocateRegistry.getRegistry();
+			Registry registry = LocateRegistry.getRegistry(11269);
 			billingServer = (BillingServer) registry.lookup(setup.getBillingBindingName());
 			
 			//###########################
