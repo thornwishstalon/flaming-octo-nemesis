@@ -7,13 +7,17 @@
 
 package billingServer.remote;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+import sun.text.normalizer.UnicodeMatcher;
 
 import billingServer.db.BillingServerBillDATABASE;
 import billingServer.db.PriceSteps;
 import billingServer.db.content.Bill;
 
-public class BillingServerSecureImpl implements BillingServerSecure {
+public class BillingServerSecureImpl extends UnicastRemoteObject implements BillingServerSecure {
 
 	private static BillingServerSecureImpl instance;
 	private PriceSteps priceSteps;
@@ -22,14 +26,19 @@ public class BillingServerSecureImpl implements BillingServerSecure {
 	public static BillingServerSecureImpl getSingleInstance() {
 		if(instance == null) {
 			synchronized (BillingServerSecureImpl.class) {
-				instance = new BillingServerSecureImpl();
+				try {
+					instance = new BillingServerSecureImpl();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return instance;
 	}
 	
 	// constructor
-	private BillingServerSecureImpl() {
+	private BillingServerSecureImpl() throws RemoteException {
+		super();
 		priceSteps = PriceSteps.getSingleInstance();
 		billDATABASE = new BillingServerBillDATABASE();
 	}
