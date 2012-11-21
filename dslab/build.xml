@@ -31,6 +31,7 @@
         <copy todir="${build.dir}">
             <fileset dir="${src.dir}">
                 <include name="*.properties"/>
+                <include name="*.sh"/>
             </fileset>
         </copy>
     </target>
@@ -106,8 +107,12 @@
             <arg value="${server.port}"/>
             <arg value="${analytics.bindingName}"/>
         </java>
+        
     </target>
-
+	
+    
+   
+    
     <target name="clean" description="Clean project.">
         <delete dir="${build.dir}"/>
     </target>

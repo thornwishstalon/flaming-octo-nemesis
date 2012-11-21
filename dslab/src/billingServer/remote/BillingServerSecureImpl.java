@@ -7,8 +7,10 @@
 
 package billingServer.remote;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+
 
 import billingServer.db.BillingServerBillDATABASE;
 import billingServer.db.BillingServerPriceDATABASE;
@@ -16,6 +18,7 @@ import billingServer.db.content.Bill;
 import billingServer.db.content.PriceSteps;
 
 public class BillingServerSecureImpl extends UnicastRemoteObject implements BillingServerSecure {
+
 	/**
 	 * 
 	 */
@@ -39,6 +42,7 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 	public BillingServerSecureImpl() throws RemoteException {
 		super();
 		//priceSteps = PriceSteps.getSingleInstance();
+
 		billDATABASE = new BillingServerBillDATABASE();
 	}
 	
@@ -59,6 +63,7 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 			throw new RemoteException();
 		
 	}
+
 
 	public PriceSteps getPriceSteps() throws RemoteException{
 		return BillingServerPriceDATABASE.getInstance().getPriceSteps();

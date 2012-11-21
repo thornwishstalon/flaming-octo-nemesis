@@ -24,6 +24,9 @@ public class LoadTestMain {
 		
 		System.out.println(feat.feat[r.nextInt(3)]);
 
+		
+		//startComponents(); //experimental
+		
 		LoadTestSetup setup= new LoadTestSetup(args);
 		System.out.println(setup.toString());
 

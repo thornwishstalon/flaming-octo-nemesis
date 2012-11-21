@@ -1,5 +1,6 @@
 package billingServer.db;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,8 +8,9 @@ import billingServer.db.content.PriceStep;
 import billingServer.remote.BillingServerSecureImpl;
 
 
-public class PriceSteps  {
+public class PriceSteps implements Serializable {
 	
+	private static final long serialVersionUID = 4355105344497302603L;
 	private List<PriceStep> steps;
 	private static PriceSteps instance;
 
