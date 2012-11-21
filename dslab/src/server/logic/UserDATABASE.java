@@ -1,7 +1,13 @@
 package server.logic;
 
 import java.net.InetAddress;
+import java.rmi.RemoteException;
 import java.util.HashMap;
+
+import server.ServerStatus;
+
+import analyticsServer.event.Event;
+import analyticsServer.event.EventFactory;
 
 import network.tcp.server.TCPServerConnection;
 
@@ -30,6 +36,7 @@ public class UserDATABASE {
 	
 	public synchronized int loginUser(String username, InetAddress inetAddress, int port, TCPServerConnection connection){
 		User user=users.get(username);
+		Event e= null;
 		if((user == null)){
 			user= new User(username);
 			user.setLoggedIn(true);
@@ -51,6 +58,10 @@ public class UserDATABASE {
 				e.printStackTrace();
 			}
 			*/
+			
+			e= EventFactory.createUserEvent(username, 0);
+			notifyAnalytics(e);
+			
 			System.out.println("new user added to DATABASE");
 			return SUCCESSFULLY_LOGGED_IN;
 			
@@ -63,6 +74,9 @@ public class UserDATABASE {
 			user.setConnection(connection);
 			user.startTimer();
 			
+			e= EventFactory.createUserEvent(username, 0);
+			notifyAnalytics(e);
+			
 			return SUCCESSFULLY_LOGGED_IN_HAS_NOTIFICATIONS;
 		}
 		else{
@@ -71,6 +85,9 @@ public class UserDATABASE {
 			user.setPort(port);
 			user.setConnection(connection);
 			user.startTimer();
+			
+			e= EventFactory.createUserEvent(username, 0);
+			notifyAnalytics(e);
 			
 			return SUCCESSFULLY_LOGGED_IN;
 		}
@@ -82,6 +99,8 @@ public class UserDATABASE {
 	
 	public synchronized int logout(String username){
 		User user=users.get(username);
+		Event e=null;
+		
 		if((user == null)){
 			return NO_USER_WITH_THAT_NAME;
 			
@@ -90,6 +109,9 @@ public class UserDATABASE {
 			user.setLoggedIn(false);
 			user.setAddress(null);
 			user.setPort(0);
+			
+			e= EventFactory.createUserEvent(username, 1);
+			notifyAnalytics(e);
 			
 			return SUCCESSFULLY_LOGGED_OUT;
 		}
@@ -116,6 +138,14 @@ public class UserDATABASE {
 		
 		return answer; 
 		
+	}
+	
+	private  synchronized void notifyAnalytics(Event e){
+		try {
+			ServerStatus.getInstance().getAnalyticsServer().processEvent(e);
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	

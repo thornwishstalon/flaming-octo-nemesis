@@ -1,12 +1,19 @@
 package server.logic;
 
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import analyticsServer.event.AuctionEvent;
+import analyticsServer.event.EventFactory;
+
+import server.ServerSetup;
+import server.ServerStatus;
+
 public class Auction {
-	private int ID;
+	private long ID;
 
 	private String description;
 	private double price=0;	
@@ -21,6 +28,9 @@ public class Auction {
 	private boolean expired=false;
 	private Timer timer;
 
+	private boolean isBilled=false;
+	private EventFactory ef;
+
 
 	public Auction(User owner,String description, long duration){
 		creation = new Timestamp(System.currentTimeMillis());
@@ -33,6 +43,13 @@ public class Auction {
 		timer= new Timer();
 
 		timer.schedule(new ExpireTask(), duration, 10000); //10s check interval
+		
+		try {
+			ServerStatus.getInstance().getAnalyticsServer().processEvent(ef.createAuctionEvent(ID,0));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private class ExpireTask extends TimerTask{
@@ -41,19 +58,46 @@ public class Auction {
 		public void run() {
 			timer.cancel();
 			expired=true;
-			//TODO notify bidder!!
+			
 			owner.addNotification(NotificationFactory.createNotification(getOwnerNote()));
-			if(highestBidder!=null)
+			
+			if(highestBidder!=null){
 				highestBidder.addNotification(NotificationFactory.createNotification(getBidderNote()));
+				
+				try {
+					ServerStatus.getInstance().getAnalyticsServer().processEvent(ef.createBidEvent(highestBidder.getName(), ID, price, 2)); //bidder won
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			}
+			
+			//notify analytics-server
+			try {
+				ServerStatus.getInstance().getAnalyticsServer().processEvent(ef.createAuctionEvent(ID,1)); //auction ended
+				
+			} catch (RemoteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			//notify billing-server
+			try {
+				ServerStatus.getInstance().getBillingServer().billAuction(owner.getName(), ID, price);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+			
+			
 		}
 	}
 
 	private String getOwnerNote(){
-		
+
 		if(highestBidder!=null)
 			return "!auction-ended "+ highestBidder.getName()+" "+ price+" "+description;
 		else  return "!auction-ended "+ "none "+" "+ "0.0 "+" "+description;
-		
+
 		//return "!auction-ended "+ highestBidder.getName()+" "+ price+" "+description;
 	}
 
@@ -72,7 +116,7 @@ public class Auction {
 		else s+=" 0.0 none";
 		return  s; 
 	}
-	
+
 	public String toDetailString(){
 		//DateFormat df = DateFormat.getDateInstance(DateFormat.LONG);
 		SimpleDateFormat df= new SimpleDateFormat("dd.MM.yyyy kk:mm:ss z");
@@ -84,16 +128,25 @@ public class Auction {
 		else s+=" 0.0 none";
 		return  s; 
 	}
-
+	
+	
+	
+	
+	
+	/*
+	 * GETTER//SETTER
+	 * 
+	 */
+	
 	public boolean isExpired(){
 		return expired;
 	}
 
-	public int getID() {
+	public long getID() {
 		return ID;
 	}
 
-	public void setID(int iD) {
+	public void setID(long iD) {
 		ID = iD;
 	}
 
@@ -134,6 +187,14 @@ public class Auction {
 
 	public Timestamp getExpiration() {
 		return expiration;
+	}
+
+	public boolean isBilled() {
+		return isBilled;
+	}
+
+	public void setBilled(boolean isBilled) {
+		this.isBilled = isBilled;
 	}
 
 

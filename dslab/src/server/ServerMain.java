@@ -16,6 +16,8 @@ public class ServerMain {
 		ServerSetup setup= new ServerSetup(args);
 		System.out.println(setup.toString());
 		
+		//initialize RMI stuff
+		ServerStatus.getInstance().init(setup);
 		
 		//start TCP connection
 		server= new TCPServerSocket(setup.getPort());

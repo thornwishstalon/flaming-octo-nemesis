@@ -1,9 +1,12 @@
 package server.logic;
 
-import java.text.SimpleDateFormat;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+
+import analyticsServer.event.EventFactory;
+
+import server.ServerStatus;
 
 public class AuctionDATABASE {
 	private static AuctionDATABASE instance=null;
@@ -54,11 +57,27 @@ public class AuctionDATABASE {
 			if(tmp.getPrice()>= money){
 				return NEEDS_MORE_MONEY;
 			}else{
+				// BID_OVERBID event
+				try {
+					ServerStatus.getInstance().getAnalyticsServer().processEvent(EventFactory.createBidEvent(tmp.getHighestBidder().getName(), id, tmp.getPrice(), 1));
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
 				tmp.setHighestBidder(bidder);
 				tmp.setPrice(money);
 				auctionList.remove(id);
 				auctionList.put(id, tmp);
 
+				// BID_PLACED event
+				try {
+					ServerStatus.getInstance().getAnalyticsServer().processEvent(EventFactory.createBidEvent(bidder.getName(), id, money, 0));
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				return SUCCESSFULLY_PLACED_BID;
 			}
 		}else return NO_AUCTION_WITH_ID_FOUND;

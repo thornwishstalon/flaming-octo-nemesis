@@ -2,6 +2,7 @@ package billingServer;
 
 import java.io.IOException;
 
+
 public class BillingServerSetup {
 	private String bindingName;
 	
@@ -20,6 +21,7 @@ public class BillingServerSetup {
 	public String toString(){
 		return "BillingServer SETUP:\nBinding-name: "+bindingName;
 	}
+	
 	
 	public String getRegistryProperty(String propName) {
     	java.io.InputStream is = ClassLoader.getSystemResourceAsStream("registry.properties");
@@ -45,4 +47,6 @@ public class BillingServerSetup {
     	
     	return prop;
 	}
+	
+	
 }

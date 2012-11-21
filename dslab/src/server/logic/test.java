@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+import billingServer.db.content.MD5Helper;
+
 import analyticsServer.event.AuctionEvent;
 import analyticsServer.event.Event;
 import analyticsServer.event.EventFactory;
@@ -92,6 +94,8 @@ public class test {
 		 System.out.println(Pattern.matches(commandPattern, input3));
 		 System.out.println(Pattern.matches(commandPattern, input4));
 		 */
+		
+		/*
 		AuctionEvent e1= EventFactory.createAuctionEvent(12, 0);
 		System.out.println(e1.getID());
 		//id=1
@@ -99,7 +103,10 @@ public class test {
 		AuctionEvent e2= EventFactory.createAuctionEvent(12, 1);
 		System.out.println(e2.getID());
 		//id=2
+		*/
 		
+		String pwd= MD5Helper.StringToMD5("AwesomeAuctionServer3000");
+		System.out.println(pwd);
 		 
 	}
 

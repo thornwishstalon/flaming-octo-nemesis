@@ -6,10 +6,10 @@ public class BidEvent extends Event {
 	public static final String BID_OVERBID="BID_OVERBID";
 	public static final String BID_WON="BID_WON";
 	private String username;
-	private int auctionID;
+	private long auctionID;
 	private double price;
 	
-	protected BidEvent(String ID, String type, long timestamp, String username, int auctionID, double price) {
+	protected BidEvent(String ID, String type, long timestamp, String username, long auctionID, double price) {
 		super(ID, type, timestamp);
 		this.username=username;
 		this.auctionID=auctionID;
@@ -20,7 +20,7 @@ public class BidEvent extends Event {
 		return username;
 	}
 
-	public int getAuctionID() {
+	public long getAuctionID() {
 		return auctionID;
 	}
 

@@ -22,7 +22,7 @@ public class LoadTestMain {
 		Random r= new Random();
 		Feature feat= new Feature();
 		
-		System.out.println(feat.feat[r.nextInt(3)]);
+		System.out.println(feat.feat[r.nextInt(3)]); // futurama feature
 
 		
 		//startComponents(); //experimental

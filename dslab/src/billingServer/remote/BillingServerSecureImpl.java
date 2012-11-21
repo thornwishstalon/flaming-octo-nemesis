@@ -73,7 +73,10 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 		billDATABASE.billAuction(user, auctionID, price);
 	}
 	
-	public Bill getBill(String user) {
+	
+
+	@Override
+	public Bill getBill(String user) throws RemoteException {
 		return billDATABASE.getBill(user);
 	}
 	

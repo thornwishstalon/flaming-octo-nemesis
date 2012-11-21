@@ -11,7 +11,7 @@ public class EventFactory {
 	 * @param type 0 for auction_started, 1 for auction_ended
 	 * @return new AuctionEvent
 	 */
-	public static AuctionEvent createAuctionEvent(int auctionID, int type){
+	public static AuctionEvent createAuctionEvent(long auctionID, int type){
 		AuctionEvent event=null;
 		switch(type){
 		case 0: event= new AuctionEvent(String.valueOf(++idCounter), 
@@ -37,7 +37,7 @@ public class EventFactory {
 	 * @return
 	 */
 
-	public static BidEvent createBidEvent(String username, int auctionID, double price,int type){
+	public static BidEvent createBidEvent(String username, long auctionID, double price,int type){
 		BidEvent event=null;
 		switch(type){
 		case 0: event= new BidEvent(String.valueOf(++idCounter), 
