@@ -12,11 +12,18 @@ public class RMIRegistry {
 	private static boolean create=true;
 	private static Registry registry;
 	
-	public static Registry getRegistry() {
+	/**
+	 * Creates or gets a reference to the RMI Registry
+	 * Uses param port for the port number
+	 * 
+	 * @param  port			The port on which the registry will be created
+	 * @return Registry		RMI Registry
+	 */
+	public static Registry getRegistry(int port) {
 		
 		if(create) {
 			create=false;
-			int port= Integer.parseInt(getRegistryProperty("registry.port"));
+			
 			try {
 				registry = LocateRegistry.createRegistry(port);
 			}catch(ExportException e){
@@ -37,6 +44,21 @@ public class RMIRegistry {
 		
 	}
 	
+	/**
+	 * Creates or gets a reference to the RMI Registry for
+	 * a port specified in the properties file
+	 * @return Registry		RMI Registry
+	 */	
+	public static Registry getRegistry() {
+		int port= Integer.parseInt(getRegistryProperty("registry.port"));
+		return getRegistry(port);
+	}
+	
+	
+	/**
+	 * @param 	propName
+	 * @return	a property from "registry.properties"
+	 */
 	private static String getRegistryProperty(String propName) {
     	java.io.InputStream is = ClassLoader.getSystemResourceAsStream("registry.properties");
     	String prop="";

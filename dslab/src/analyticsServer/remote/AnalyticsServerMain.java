@@ -9,9 +9,9 @@ import billingServer.remote.BillingServer;
 import analyticsServer.db.StatisticEventsDATABASE;
 import analyticsServer.event.Event;
 
-public class AnalyticsServerMain implements IAnalyticsServer {
+public class AnalyticsServerMain {
 
-	private static IAnalyticsServer server, stub;
+	private static AnalyticsServer server, stub;
 	private static StatisticEventsDATABASE statisticEvents;
 	
 	/**
@@ -19,7 +19,7 @@ public class AnalyticsServerMain implements IAnalyticsServer {
 	 */
 	public static void main(String[] args) {
 
-		server = new AnalyticsServerMain();
+		server = new AnalyticsServerImpl();
 		statisticEvents = new StatisticEventsDATABASE();
 		
         /*
@@ -28,7 +28,7 @@ public class AnalyticsServerMain implements IAnalyticsServer {
         try {
         	
         	// get registry & bind remote-obj
-			stub = (IAnalyticsServer) UnicastRemoteObject.exportObject(server, 0);
+			stub = (AnalyticsServer) UnicastRemoteObject.exportObject(server, 0);
 			Registry registry = RMIRegistry.getRegistry(); 
 	        registry.rebind(args[0], stub);
 	 
@@ -38,24 +38,6 @@ public class AnalyticsServerMain implements IAnalyticsServer {
 			System.out.println("Binding of AnalyticsServer was not successful!");
 			e.printStackTrace();
 		}
-	}
-	
-	public void subscribe(String regEx) {
-		
-	}
-
-	public void processEvent(Event event) {
-		
-		switch(event.getType()) {
-		case "bla":
-			
-		case "blo":
-
-		}
-	}
-	
-	public void unsubscribe(String regEx) {
-		
 	}
 	
 }
