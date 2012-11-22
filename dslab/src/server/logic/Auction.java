@@ -32,24 +32,22 @@ public class Auction {
 	private EventFactory ef;
 
 
-	public Auction(User owner,String description, long duration){
+	public Auction(User owner,String description, long duration,int auctionID){
 		creation = new Timestamp(System.currentTimeMillis());
 		this.description= description;
 		this.owner= owner;
 		this.duration=duration;
-
+		this.ID=auctionID;
 		expiration= new Timestamp(creation.getTime()+duration);
 
 		timer= new Timer();
 
 		timer.schedule(new ExpireTask(), duration, 10000); //10s check interval
-		
-		try {
-			ServerStatus.getInstance().getAnalyticsServer().processEvent(ef.createAuctionEvent(ID,0));
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+
+
+		ServerStatus.getInstance().notifyAnalyticsServer(ef.createAuctionEvent(ID,0));
+
 	}
 
 	private class ExpireTask extends TimerTask{
@@ -58,37 +56,29 @@ public class Auction {
 		public void run() {
 			timer.cancel();
 			expired=true;
-			
+
 			owner.addNotification(NotificationFactory.createNotification(getOwnerNote()));
-			
+
 			if(highestBidder!=null){
 				highestBidder.addNotification(NotificationFactory.createNotification(getBidderNote()));
-				
-				try {
-					ServerStatus.getInstance().getAnalyticsServer().processEvent(ef.createBidEvent(highestBidder.getName(), ID, price, 2)); //bidder won
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
+
+
+				ServerStatus.getInstance().notifyAnalyticsServer(ef.createBidEvent(highestBidder.getName(), ID, price, 2)); //bidder won
+
 			}
-			
+
 			//notify analytics-server
-			try {
-				ServerStatus.getInstance().getAnalyticsServer().processEvent(ef.createAuctionEvent(ID,1)); //auction ended
-				
-			} catch (RemoteException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			
+			ServerStatus.getInstance().notifyAnalyticsServer(ef.createAuctionEvent(ID,1)); //auction ended
+
+
+
 			//notify billing-server
-			try {
-				ServerStatus.getInstance().getBillingServer().billAuction(owner.getName(), ID, price);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
 			
+			ServerStatus.getInstance().billAuction(owner.getName(), ID, price);
 			
+
+
 		}
 	}
 
@@ -128,16 +118,16 @@ public class Auction {
 		else s+=" 0.0 none";
 		return  s; 
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/*
 	 * GETTER//SETTER
 	 * 
 	 */
-	
+
 	public boolean isExpired(){
 		return expired;
 	}

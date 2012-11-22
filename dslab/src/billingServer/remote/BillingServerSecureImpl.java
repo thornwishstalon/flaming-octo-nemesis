@@ -47,7 +47,7 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 	}
 	
 	// create [!addStep]
-	public void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent) 
+	public synchronized void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent) 
 			throws RemoteException  {
 		
 		if(!BillingServerPriceDATABASE.getInstance().createPriceStep(startPrice, endPrice, fixedPrice, variablePricePercent))
@@ -56,7 +56,7 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 	}
 	
 	// delete 
-	public void deletePriceStep(double startPrice, double endPrice) 
+	public synchronized void deletePriceStep(double startPrice, double endPrice) 
 			throws RemoteException {
 		
 		if(!BillingServerPriceDATABASE.getInstance().deletePriceStep(startPrice, endPrice))
@@ -65,18 +65,18 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 	}
 
 
-	public PriceSteps getPriceSteps() throws RemoteException{
+	public synchronized PriceSteps getPriceSteps() throws RemoteException{
 		return BillingServerPriceDATABASE.getInstance().getPriceSteps();
 	}
 
-	public void billAuction(String user, long auctionID, double price) {
+	public synchronized void billAuction(String user, long auctionID, double price) {
 		billDATABASE.billAuction(user, auctionID, price);
 	}
 	
 	
 
 	@Override
-	public Bill getBill(String user) throws RemoteException {
+	public synchronized Bill getBill(String user) throws RemoteException {
 		return billDATABASE.getBill(user);
 	}
 	

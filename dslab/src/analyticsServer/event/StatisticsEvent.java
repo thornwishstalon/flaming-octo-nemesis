@@ -1,6 +1,10 @@
 package analyticsServer.event;
 
 public class StatisticsEvent extends Event {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2683420560112386917L;
 	//statistics_event
 	public static final String USER_SESSIONTIME_MIN="USER_SESSIONTIME_MIN";
 	public static final String USER_SESSIONTIME_MAX="USER_SESSIONTIME_MAX";
@@ -19,6 +23,12 @@ public class StatisticsEvent extends Event {
 	
 	public double getValue(){
 		return value;
+	}
+	
+	
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
 	}
 
 }

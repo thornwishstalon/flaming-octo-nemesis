@@ -6,6 +6,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import network.rmi.RMIRegistry;
+
+import analyticsServer.remote.AnalyticsServer;
 import billingServer.remote.BillingServer;
 import billingServer.remote.BillingServerSecure;
 
@@ -19,6 +22,8 @@ public class ManagementClientStatus {
 	private BillingServerSecure billingServerSecure=null;
 	private BillingServer billingServer=null;
 	
+	private AnalyticsServer analyticsServer=null;
+	
 	
 	/**
 	 * stubs are loaded from the registry
@@ -27,11 +32,16 @@ public class ManagementClientStatus {
 	 */
 	public void init(ManagementClientSetup setup){
 		try {
-			Registry registry = LocateRegistry.getRegistry(11269);
+			Registry registry =RMIRegistry.getRegistry(11269);
+			
+			//###########################
+			// billing server
 			billingServer = (BillingServer) registry.lookup(setup.getBillingBindingName());
 			
 			//###########################
-			// TODO Analytics server
+			// analytics server
+			
+			analyticsServer= (AnalyticsServer) registry.lookup(setup.getAnalyticsBindingName());
 			
 			
 			

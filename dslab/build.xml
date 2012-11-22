@@ -30,8 +30,7 @@
         <javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="project.classpath" debug="true" deprecation="true" includeantruntime="false"/>
         <copy todir="${build.dir}">
             <fileset dir="${src.dir}">
-                <include name="*.properties"/>
-                <include name="*.sh"/>
+                <include name="*.properties"/>      
             </fileset>
         </copy>
     </target>

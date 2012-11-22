@@ -9,15 +9,18 @@ import java.util.Properties;
 public class ServerSetup {
 	private int port;
 	private String analyticsServerName;
-	private String billingServer;
+	private String billingServerName;
 	
 	private String username;
 	private String password;
 	
+	private String registry;
+	private int registryPort=11269;
+	
 	public ServerSetup(String[] args){
 		port= Integer.valueOf(args[0]);
 		analyticsServerName= args[1];
-		billingServer= args[2];
+		billingServerName= args[2];
 		
 		loadServerUsername();
 		
@@ -39,12 +42,12 @@ public class ServerSetup {
 		this.analyticsServerName = analyticsServerName;
 	}
 
-	public String getBillingServer() {
-		return billingServer;
+	public String getBillingServerName() {
+		return billingServerName;
 	}
 
-	public void setBillingServer(String billingServer) {
-		this.billingServer = billingServer;
+	public void setBillingServerName(String billingServer) {
+		this.billingServerName = billingServer;
 	}
 	
 	
@@ -64,7 +67,7 @@ public class ServerSetup {
 			Properties props= new Properties();
 			try{
 				props.load(in);
-				this.username= props.getProperty("server.username").trim();
+				this.username= props.getProperty("server.name").trim();
 				this.username= props.getProperty("server.password").trim();
 				
 			}catch(NumberFormatException e){

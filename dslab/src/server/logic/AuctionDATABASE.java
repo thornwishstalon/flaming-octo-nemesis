@@ -30,17 +30,17 @@ public class AuctionDATABASE {
 	}
 
 	public synchronized int createAuction(User owner, String description, long duration){
-		Auction tmp= new Auction(owner, description, duration*1000);
-		tmp.setID(++idCounter);
+		Auction tmp= new Auction(owner, description, duration*1000,++idCounter);
+		//tmp.setID(++idCounter);
 
-		
+
 		auctionList.put(idCounter,tmp);
-		
+
 		UserDATABASE.getInstance().getUser(owner.getName()).getConnection().print("!ack-create "+
-																					tmp.getID()+
-																					" "+tmp.getCreation().getTime()+
-																					" "+duration+
-																					" "+description);
+				tmp.getID()+
+				" "+tmp.getCreation().getTime()+
+				" "+duration+
+				" "+description);
 		return idCounter;
 	}
 
@@ -58,26 +58,20 @@ public class AuctionDATABASE {
 				return NEEDS_MORE_MONEY;
 			}else{
 				// BID_OVERBID event
-				try {
-					ServerStatus.getInstance().getAnalyticsServer().processEvent(EventFactory.createBidEvent(tmp.getHighestBidder().getName(), id, tmp.getPrice(), 1));
-				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				
+
+				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createBidEvent(tmp.getHighestBidder().getName(), id, tmp.getPrice(), 1));
+
+
+
 				tmp.setHighestBidder(bidder);
 				tmp.setPrice(money);
 				auctionList.remove(id);
 				auctionList.put(id, tmp);
 
 				// BID_PLACED event
-				try {
-					ServerStatus.getInstance().getAnalyticsServer().processEvent(EventFactory.createBidEvent(bidder.getName(), id, money, 0));
-				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+
+				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createBidEvent(bidder.getName(), id, money, 0));
+
 				return SUCCESSFULLY_PLACED_BID;
 			}
 		}else return NO_AUCTION_WITH_ID_FOUND;
@@ -97,7 +91,7 @@ public class AuctionDATABASE {
 			result="There are currently no auctions.";
 		return result;
 	}
-	
+
 	public synchronized ArrayList<Auction> getAuctionList(){
 		ArrayList<Auction> tmp = new ArrayList<Auction>();
 		Auction a=null;
@@ -106,11 +100,11 @@ public class AuctionDATABASE {
 			if(!a.isExpired()){
 				tmp.add(a);
 			}
-			
+
 		}
 		return tmp;
 	}
-	
+
 
 	public synchronized String getFullList(){
 		String result = "";

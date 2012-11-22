@@ -17,23 +17,23 @@ public class UserDATABASE {
 	public final static int ALREADY_LOGGED_IN=2;
 	public final static int SUCCESSFULLY_LOGGED_OUT=3;
 	public final static int SUCCESSFULLY_LOGGED_IN_HAS_NOTIFICATIONS=4;
-	
+
 	//public static int AUCTION_EXPIRED=3;
-	
+
 	private int idCounter=0;
 	private static UserDATABASE instance=null;
 	private HashMap<String, User> users;
-	
+
 	private UserDATABASE(){
 		users= new HashMap<String, User>();
 	}
-	
+
 	public static UserDATABASE getInstance(){
 		if(instance==null)
 			instance= new UserDATABASE();
 		return instance;
 	}
-	
+
 	public synchronized int loginUser(String username, InetAddress inetAddress, int port, TCPServerConnection connection){
 		User user=users.get(username);
 		Event e= null;
@@ -46,7 +46,7 @@ public class UserDATABASE {
 			user.startTimer();
 			user.setConnection(connection);
 			users.put(username, user);
-			
+
 			/*
 			try {
 				user.notify("udp says: hey, bitch!");
@@ -57,14 +57,14 @@ public class UserDATABASE {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			*/
-			
+			 */
+
 			e= EventFactory.createUserEvent(username, 0);
 			notifyAnalytics(e);
-			
+
 			System.out.println("new user added to DATABASE");
 			return SUCCESSFULLY_LOGGED_IN;
-			
+
 		}else if((user != null)&&(user.isLoggedIn())){
 			return ALREADY_LOGGED_IN;
 		}else if(user.hasNotifications()){
@@ -73,10 +73,10 @@ public class UserDATABASE {
 			user.setPort(port);
 			user.setConnection(connection);
 			user.startTimer();
-			
+
 			e= EventFactory.createUserEvent(username, 0);
 			notifyAnalytics(e);
-			
+
 			return SUCCESSFULLY_LOGGED_IN_HAS_NOTIFICATIONS;
 		}
 		else{
@@ -85,38 +85,38 @@ public class UserDATABASE {
 			user.setPort(port);
 			user.setConnection(connection);
 			user.startTimer();
-			
+
 			e= EventFactory.createUserEvent(username, 0);
 			notifyAnalytics(e);
-			
+
 			return SUCCESSFULLY_LOGGED_IN;
 		}
 	}
-	
+
 	public synchronized User getUser(String username){
 		return users.get(username); 
 	}
-	
+
 	public synchronized int logout(String username){
 		User user=users.get(username);
 		Event e=null;
-		
+
 		if((user == null)){
 			return NO_USER_WITH_THAT_NAME;
-			
+
 		}else{
 			user.stopTimer();
 			user.setLoggedIn(false);
 			user.setAddress(null);
 			user.setPort(0);
-			
+
 			e= EventFactory.createUserEvent(username, 1);
 			notifyAnalytics(e);
-			
+
 			return SUCCESSFULLY_LOGGED_OUT;
 		}
 	}
-	
+
 	public synchronized String getUserList(){
 		String result="";
 		User user=null;
@@ -124,30 +124,28 @@ public class UserDATABASE {
 			user= users.get(key);
 			result+= user.getFullDescription()+"\n";
 		}
-		
+
 		return result;
 	}
-	
+
 	public synchronized String getNotifactions(String username){
 		String answer="";
-		
+
 		for(UserNotification note : users.get(username).getNotifications()){
 			answer += "!print "+note.getMessage()+"/n";
 		}
-		
-		
+
+
 		return answer; 
-		
+
 	}
-	
+
 	private  synchronized void notifyAnalytics(Event e){
-		try {
-			ServerStatus.getInstance().getAnalyticsServer().processEvent(e);
-		} catch (RemoteException e1) {
-			e1.printStackTrace();
-		}
+
+		ServerStatus.getInstance().notifyAnalyticsServer(e);
+
 	}
-	
-	
-	
+
+
+
 }

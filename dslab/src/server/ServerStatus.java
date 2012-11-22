@@ -1,6 +1,14 @@
 package server;
 
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+
+import network.rmi.RMIRegistry;
+import analyticsServer.event.Event;
 import analyticsServer.remote.AnalyticsServer;
+import billingServer.remote.BillingServer;
 import billingServer.remote.BillingServerSecure;
 
 /**
@@ -10,44 +18,94 @@ import billingServer.remote.BillingServerSecure;
 public class ServerStatus {
 	private static ServerStatus instance=null;
 	private ServerSetup setup=null;
-	
+
 	//RMI interfaces
-	private BillingServerSecure billingServer=null;
+
+	private BillingServerSecure billingServerSecure=null;
 	private AnalyticsServer analyticsServer=null;
-	
-	
+
+
 	private ServerStatus(){
-		
+
 	}
-	
+
 	public static ServerStatus getInstance(){
 		if(instance==null)
-				instance=new ServerStatus();
+			instance=new ServerStatus();
 		return instance;
 	}
-	
+
 	public void init(ServerSetup setup){
 		//get RMI references, initialize them
 		this.setup=setup;
-		
-		//login on billing server
-		
-		//get analyticsServer 
-		
-		//.... TODO
-		
-		
+
+		Registry registry =RMIRegistry.getRegistry(11269);
+
+
+		try {
+			//###########################
+			// billing server
+
+			BillingServer billingServer = (BillingServer) registry.lookup(setup.getBillingServerName());
+			System.out.println("connection to billing server established.");
+
+			billingServerSecure=billingServer.login(setup.getUsername(), setup.getPassword());
+			System.out.println("login on billing server complete.");
+
+			//###########################
+			// analytics server
+
+			analyticsServer= (AnalyticsServer) registry.lookup(setup.getAnalyticsServerName());
+			System.out.println("connection to analytics server established.");
+
+		} catch (AccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+
 	}
-	
-	
-	
+
+
+
 	public BillingServerSecure getBillingServer(){
-		return billingServer;
+		return billingServerSecure;
 	}
-	
-	public AnalyticsServer getAnalyticsServer(){
-		return analyticsServer;
+
+	public synchronized void notifyAnalyticsServer(Event e){
+		if(analyticsServer!=null){
+			try {
+				analyticsServer.processEvent(e);
+			} catch (RemoteException e1) {
+				// TODO Auto-generated catch block
+				analyticsServer=null;
+				
+				System.out.println("analytics-server unreachable! -- "+e.toString());
+				//e1.printStackTrace();
+			}
+		}else System.out.println("analytics-server unreachable! -- "+e.toString());
+
 	}
-	
-	
+
+	public synchronized void billAuction(String name, long auctionID, double price) {
+		if(billingServerSecure!=null){
+			try {
+				billingServerSecure.billAuction(name, auctionID, price);
+			} catch (RemoteException e) {
+				billingServerSecure =null;
+				System.out.println("billing-server unreachable.");
+				e.printStackTrace();
+			}
+		}else System.out.println("billing-server unreachable.");
+
+	}
+
+
 }

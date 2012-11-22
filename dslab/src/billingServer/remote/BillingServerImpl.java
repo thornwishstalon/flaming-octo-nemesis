@@ -30,7 +30,7 @@ public class BillingServerImpl implements BillingServer {
 	 * @param password		password of management-user
 	 */
 	@Override
-	public BillingServerSecure login(String username, String password)
+	public synchronized BillingServerSecure login(String username, String password)
 			throws RemoteException {
 		
 		if(users.verifyUser(username, password)) {
