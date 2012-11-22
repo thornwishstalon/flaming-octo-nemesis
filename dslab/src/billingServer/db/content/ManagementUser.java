@@ -7,26 +7,22 @@ public class ManagementUser {
 	private String password;
 
 	public ManagementUser(String name, String password) {
-		this.userName=name;
-		this.password=password;
+		this.userName = name;
+		this.password = password;
 	}
 
 	public ManagementUser(String line) {
-		StringTokenizer token= new StringTokenizer(line, "=");
-		
-		
-		userName=token.nextToken().trim();
-		//System.out.println(userName);
-		
-		password= token.nextToken().trim();	
-		
+		StringTokenizer token = new StringTokenizer(line, "=");
+
+		userName = token.nextToken().trim();
+		password = token.nextToken().trim();
 	}
 
 	public String getUserName() {
 		return userName;
 	}
 
-	public void setUserName(String userName) {
+	public synchronized void setUserName(String userName) {
 		this.userName = userName;
 	}
 
@@ -34,14 +30,12 @@ public class ManagementUser {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public synchronized void setPassword(String password) {
 		this.password = password;
 	}
 
-	public String toString(){
-		return userName+" "+password+"\n";
+	public String toString() {
+		return userName + " " + password + "\n";
 	}
-
-
 
 }

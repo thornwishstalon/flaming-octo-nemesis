@@ -13,7 +13,7 @@
     <property name="client3.port" value="11263"/><!-- UDP port of 3rd Bidding Client -->
     <property name="mgmtclient.name" value="managementClient.ManagementClientMain"/><!-- Management Client's full class name (including the package) -->
     
-    <property name="analytics.name" value="analyticsServer.AnalyticsServerMain"/><!-- Analytics Server's full class name (including the package) -->
+    <property name="analytics.name" value="analyticsServer.remote.AnalyticsServerMain"/><!-- Analytics Server's full class name (including the package) -->
     <property name="billing.name" value="billingServer.BillingServerMain"/><!-- Billing Server's full class name (including the package) -->
     <property name="loadTest.name" value="loadTest.LoadTestMain"/>
 

@@ -18,7 +18,7 @@ public class BillingLine {
 		return auctionID;
 	}
 
-	public void setAuctionID(long auctionID) {
+	public synchronized void setAuctionID(long auctionID) {
 		this.auctionID = auctionID;
 	}
 
@@ -26,7 +26,7 @@ public class BillingLine {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public synchronized void setPrice(double price) {
 		this.price = price;
 	}
 }

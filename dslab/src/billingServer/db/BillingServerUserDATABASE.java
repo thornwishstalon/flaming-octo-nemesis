@@ -1,3 +1,8 @@
+/*
+ * Gets user from properties-file and handles the 
+ * management users
+ */
+
 package billingServer.db;
 
 import java.io.BufferedReader;
@@ -5,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.ConcurrentHashMap;
-
 import billingServer.db.content.ManagementUser;
 
 public class BillingServerUserDATABASE {
@@ -45,13 +49,17 @@ public class BillingServerUserDATABASE {
 	 * checks for a user in the "database" and compares the login password
 	 */
 	public boolean verifyUser(String username, String password) {
-		ManagementUser user = users.get(username);
-		if(user==null)
-			return false;
-		if(!user.getPassword().equals(password))
-			return false;
 		
-		return true;
+		synchronized (users) {
+			ManagementUser user = users.get(username);
+			
+			if(user==null)
+				return false;
+			if(!user.getPassword().equals(password))
+				return false;
+
+			return true;
+		}
 	}
 	
 	/*
@@ -60,9 +68,12 @@ public class BillingServerUserDATABASE {
 	public String getUserList(){
 		String output="";
 		
-		for(String key: users.keySet()){
-			output = output + "User: " + users.get(key).toString();
+		synchronized (users) {
+			for(String key: users.keySet()){
+				output = output + "User: " + users.get(key).toString();
+			}
 		}
+		
 		return output;
 	}
 }

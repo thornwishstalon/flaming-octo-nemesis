@@ -7,7 +7,6 @@ import java.rmi.server.UnicastRemoteObject;
 
 
 import network.rmi.RMIRegistry;
-
 import billingServer.remote.BillingServer;
 import billingServer.remote.BillingServerImpl;
 
@@ -33,9 +32,6 @@ public class BillingServerMain {
          * make BillingServer available for clients via RMI-Registry
          */
         try {
-        	// get port-number & open registry
-        	int port= Integer.parseInt(setup.getRegistryProperty("registry.port"));
-        	System.out.println("port: " + port);
         	
         	// get registry & bind remote-obj
 			stub = (BillingServer) UnicastRemoteObject.exportObject(server,0);
@@ -43,7 +39,9 @@ public class BillingServerMain {
 	        //Registry registry = LocateRegistry.createRegistry(11269); //try
 
 			//BillingServerSecure stubSecure = (BillingServerSecure) UnicastRemoteObject.exportObject(BillingServerSecureImpl.getSingleInstance(), 0);
-	        Registry registry = RMIRegistry.getRegistry(port);
+
+			Registry registry = RMIRegistry.getRegistry();
+
 	        
 
 	        

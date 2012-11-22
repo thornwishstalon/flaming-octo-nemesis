@@ -1,3 +1,9 @@
+/*
+ * Implements the BillingServer interface and takes care of user validation.
+ * Delivers a reference to a BillingServerSecure after successful login.
+ * Uses Singleton-Pattern.
+ */
+
 package billingServer.remote;
 
 import java.rmi.RemoteException;
@@ -33,12 +39,15 @@ public class BillingServerImpl implements BillingServer {
 	public synchronized BillingServerSecure login(String username, String password)
 			throws RemoteException {
 		
-		if(users.verifyUser(username, password)) {
-			//return BillingServerSecureImpl.getSingleInstance();
-			BillingServerSecureImpl tmp = new BillingServerSecureImpl();
-			return tmp;
-		} else {
-			return null;
+		synchronized (users) {
+			
+			if(users.verifyUser(username, password)) {
+				BillingServerSecureImpl tmp = new BillingServerSecureImpl();
+				return tmp;
+			} else {
+				return null;
+			}
+
 		}
 		
 	}
