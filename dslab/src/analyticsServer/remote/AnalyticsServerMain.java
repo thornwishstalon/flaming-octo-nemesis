@@ -19,8 +19,9 @@ public class AnalyticsServerMain {
 	 */
 	public static void main(String[] args) {
 
-		server = new AnalyticsServerImpl();
 		statisticEvents = new StatisticEventsDATABASE();
+		server = new AnalyticsServerImpl(statisticEvents);
+		
 		
         /*
          * make AnalyticsServer available for clients via RMI-Registry
@@ -39,5 +40,6 @@ public class AnalyticsServerMain {
 			e.printStackTrace();
 		}
 	}
+	
 	
 }

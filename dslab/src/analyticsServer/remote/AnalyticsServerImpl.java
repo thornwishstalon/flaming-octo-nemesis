@@ -4,15 +4,18 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import network.rmi.SubscriberCallback;
+import analyticsServer.db.StatisticEventsDATABASE;
+import analyticsServer.db.content.RegExpHelper;
 import analyticsServer.event.Event;
 
 public class AnalyticsServerImpl implements AnalyticsServer {
 	//TESTING ONLY
 	private ArrayList<SubscriberCallback> subscriptions;
+	private StatisticEventsDATABASE statisticEvents;
 
-	public AnalyticsServerImpl() {
-		//TESTING ONLY
+	public AnalyticsServerImpl(StatisticEventsDATABASE statisticEvents) {
 		this.subscriptions= new ArrayList<SubscriberCallback>();
+		this.statisticEvents = statisticEvents;
 	}
 	
 	@Override
@@ -25,7 +28,17 @@ public class AnalyticsServerImpl implements AnalyticsServer {
 
 	@Override
 	public synchronized void processEvent(Event event) throws RemoteException {
-		//TESTING ONLY
+		
+		if(RegExpHelper.isEventType("(AUCTION_.*)", event)) {
+			
+		} else if(RegExpHelper.isEventType("(USER_.*)", event)) {
+			statisticEvents.processUserEvent(event);
+		} else if(RegExpHelper.isEventType("(BID_.*)", event)) {
+			
+		}
+		
+		
+		// Testing - > Callback
 		 for (SubscriberCallback sub : subscriptions) {
 			sub.notify(event);
 		}
