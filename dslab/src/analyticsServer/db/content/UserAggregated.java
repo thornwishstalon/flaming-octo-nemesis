@@ -2,13 +2,13 @@ package analyticsServer.db.content;
 
 import java.util.HashMap;
 
-public class UserSessiontime {
+public class UserAggregated {
 	
 	private double timeMin=0, timeMax=0, timeAVG=Double.POSITIVE_INFINITY;
 	private int sessionCount=0;
 	private HashMap<String, Double> userLog;
 	
-	public UserSessiontime() {
+	public UserAggregated() {
 		userLog = new HashMap<String, Double>();
 	}
 

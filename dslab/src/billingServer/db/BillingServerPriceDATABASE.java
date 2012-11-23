@@ -40,24 +40,28 @@ public class BillingServerPriceDATABASE {
 		if((startPrice<0)||(endPrice<0)||(fixedPrice<0)||(variablePricePercent<0)||(startPrice>endPrice))
 			return false;
 		
-		PriceStep s = new PriceStep(startPrice, endPrice, fixedPrice, variablePricePercent);
-		
-		// empty list / greater than last element
-		if((steps.isEmpty()) || (steps.get(steps.size()-1).getEndPrice()<startPrice)) {
-			steps.add(s);
-			return true;
-		} 
-		// new first element
-		else if(steps.get(0).getStartPrice()<startPrice) {
-			steps.add(0, s);
-			return true;
-		} 
-		// between existing elements
-		else {		
-			for(int i=1; i<=steps.size(); i++) {
-				if((steps.get(i-1).getEndPrice() < startPrice) && (steps.get(i).getStartPrice() > endPrice)) {
-					steps.add(i, s);
-					return true;
+		synchronized (steps) {
+			PriceStep s = new PriceStep(startPrice, endPrice, fixedPrice,
+					variablePricePercent);
+			// empty list / greater than last element
+			if ((steps.isEmpty())
+					|| (steps.get(steps.size() - 1).getEndPrice() < startPrice)) {
+				steps.add(s);
+				return true;
+			}
+			// new first element
+			else if (steps.get(0).getStartPrice() < startPrice) {
+				steps.add(0, s);
+				return true;
+			}
+			// between existing elements
+			else {
+				for (int i = 1; i <= steps.size(); i++) {
+					if ((steps.get(i - 1).getEndPrice() < startPrice)
+							&& (steps.get(i).getStartPrice() > endPrice)) {
+						steps.add(i, s);
+						return true;
+					}
 				}
 			}
 		}
@@ -72,54 +76,37 @@ public class BillingServerPriceDATABASE {
 	 * @return					true if the interval was removed from the list
 	 */
 	public boolean deletePriceStep(double startPrice, double endPrice)  {
-		if(steps.isEmpty())
-			return false;
-		
-		Iterator<PriceStep> it = steps.iterator();
-		PriceStep s, remove;
-		remove = new PriceStep(startPrice, endPrice, 1, 1);
-		
-		while(it.hasNext()) {
-			s = it.next();
-			if(s.equalInterval(remove)) {
-				it.remove();
-				return true;
+		synchronized (steps) {
+			if (steps.isEmpty())
+				return false;
+			Iterator<PriceStep> it = steps.iterator();
+			PriceStep s, remove;
+			remove = new PriceStep(startPrice, endPrice, 1, 1);
+			while (it.hasNext()) {
+				s = it.next();
+				if (s.equalInterval(remove)) {
+					it.remove();
+					return true;
+				}
 			}
 		}
-	
 		return false;
 	}
 	
 	
 	public PriceStep getPriceStepForPrice(double price) {
-		Iterator<PriceStep> it = steps.iterator();
-		PriceStep s;
-		
-		while(it.hasNext()) {
-			s=it.next();
-			if(s.inInterval(price))
-				return s;
+		synchronized (steps) {
+			Iterator<PriceStep> it = steps.iterator();
+			PriceStep s;
+			while (it.hasNext()) {
+				s = it.next();
+				if (s.inInterval(price))
+					return s;
+			}
 		}
-		
 		return null;
 	}
-	
-//	/* List-representation of all available Price-Steps
-//	 * @see java.lang.Object#toString()
-//	 */
-//	public String toString() {
-//		String out = "Min_Price	   Max_Price	   Fee_Fixed	   Fee_Variable \n";
-//		Iterator<PriceStep> it = steps.iterator();
-//		PriceStep s;
-//		
-//		while(it.hasNext()) {
-//			s=it.next();
-//			out += s.getStartPrice() + "       " + s.getEndPrice() + "       " 
-//				+ s.getFixedPrice() + "       " + s.getVariablePricePercent() + "\n";
-//		}
-//		
-//		return out;
-//	}
+
 	
 	public synchronized PriceSteps getPriceSteps(){
 		return new PriceSteps(steps);

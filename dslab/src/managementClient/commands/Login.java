@@ -20,8 +20,6 @@ public class Login implements ICommand {
 		String password = params[1];
 		String message="";
 		
-		System.out.println("username: "+username);
-		System.out.println("pwd: "+password);
 		try {
 			System.out.println("trying to login!");
 			BillingServerSecure sec = ManagementClientStatus.getInstance().getBillingServer().login(username, MD5Helper.StringToMD5(password));
@@ -36,6 +34,7 @@ public class Login implements ICommand {
 				System.out.println("sec null");
 				message= "!print "+ "wrong username or password!";
 			}
+			System.out.println();
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
