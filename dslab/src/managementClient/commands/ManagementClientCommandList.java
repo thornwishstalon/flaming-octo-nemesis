@@ -25,6 +25,9 @@ public ManagementClientCommandList(){
 	Subscribe subscribe= new Subscribe();
 	Unsubscribe unsubscribe = new Unsubscribe();
 	Steps steps= new Steps();
+	Print print= new Print();
+	Hide hide= new Hide();
+	Auto auto= new Auto();
 	
 	commands.put("!login", login);
 	commands.put("!logout", logout);
@@ -35,6 +38,9 @@ public ManagementClientCommandList(){
 	
 	commands.put("!subscribe", subscribe);
 	commands.put("!unsubscribe", unsubscribe);
+	commands.put("!print", print);
+	commands.put("!auto", auto);
+	commands.put("!hide", hide);
 	
 }
 	
