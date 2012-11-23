@@ -9,7 +9,7 @@ import analyticsServer.event.Event;
 
 
 public interface AnalyticsServer extends Remote {
-	public void subscribe(String regex, SubscriberCallback client) throws RemoteException;
+	public long subscribe(String regex, SubscriberCallback client) throws RemoteException;
 	public void processEvent(Event event) throws RemoteException;
 	public void unsubscribe(long id) throws RemoteException;
 	

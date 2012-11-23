@@ -4,10 +4,10 @@ import network.rmi.SubscriberCallback;
 
 public class Subscription {
 
-	private static int subscriptionID=0;
+	private static long subscriptionID=0;
 	private String regex;
 	private SubscriberCallback client;
-	private int id;
+	private long id;
 	
 	
 	public Subscription(String regex, SubscriberCallback client) {
@@ -30,12 +30,12 @@ public class Subscription {
 	}
 
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
 
-	private static int createId() {
+	private static long createId() {
 		return ++subscriptionID;
 	}
 	

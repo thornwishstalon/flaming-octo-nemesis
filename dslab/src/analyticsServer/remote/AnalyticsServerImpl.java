@@ -20,11 +20,12 @@ public class AnalyticsServerImpl implements AnalyticsServer {
 	}
 	
 	@Override
-	public synchronized void subscribe(String regex, SubscriberCallback client)
+	public synchronized long subscribe(String regex, SubscriberCallback client)
 			throws RemoteException {
-		//TESTING ONLY
-		subscriptions.add(new Subscription(regex, client));
-
+		
+		Subscription s = new Subscription(regex, client);
+		subscriptions.add(s);
+		return s.getId();
 	}
 
 	@Override

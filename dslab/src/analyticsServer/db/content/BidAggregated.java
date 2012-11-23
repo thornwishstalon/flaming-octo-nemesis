@@ -17,6 +17,7 @@ public class BidAggregated {
 			bidCount++;
 	}
 	
+	
 	public double getBidPriceMax() {
 		return bidPriceMax;
 	}

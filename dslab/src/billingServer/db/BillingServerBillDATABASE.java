@@ -9,10 +9,7 @@ public class BillingServerBillDATABASE {
 	private ConcurrentHashMap<String, Bill> bills;
 	
 	public BillingServerBillDATABASE() {
-		
-		synchronized (bills) {
 			bills = new ConcurrentHashMap<String, Bill>();
-		}
 	}
 	
 	

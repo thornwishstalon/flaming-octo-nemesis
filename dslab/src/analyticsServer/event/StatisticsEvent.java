@@ -1,5 +1,8 @@
 package analyticsServer.event;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class StatisticsEvent extends Event {
 	/**
 	 * 
@@ -27,8 +30,19 @@ public class StatisticsEvent extends Event {
 	
 	
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		SimpleDateFormat df= new SimpleDateFormat("dd.MM.yyyy kk:mm:ss z");
+		String s=type+": "+ df.format(new Date(timestamp))+" - ";
+		
+		if(type.equals(USER_SESSIONTIME_MIN))
+			s+= "minimum session time is "+ value +" seconds ";
+		else if(type.equals(USER_SESSIONTIME_MAX)) s+= "maximum session time is "+ value +" seconds ";
+		else if(type.equals(USER_SESSIONTIME_AVERAGE)) s+= "average session time is "+ value +" seconds ";
+		else if(type.equals(BID_PRICE_MAX)) s+= "maximum bid price is "+ value;
+		else if(type.equals(BID_COUNT_PER_MINUTE)) s+= "maximum bids per minute are "+ value;
+		else if(type.equals(AUCTION_TIME_AVERAGE)) s+= "average auction time is "+ value +" seconds ";
+		else s+= "auction success ratio is "+ value;
+
+		return s;
 	}
 
 }

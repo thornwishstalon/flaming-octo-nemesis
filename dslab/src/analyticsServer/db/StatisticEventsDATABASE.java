@@ -3,6 +3,7 @@ package analyticsServer.db;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import analyticsServer.db.content.AuctionAggregated;
 import analyticsServer.db.content.BidAggregated;
 import analyticsServer.db.content.RegExpHelper;
 import analyticsServer.db.content.UserAggregated;
@@ -12,6 +13,7 @@ public class StatisticEventsDATABASE {
 
 	private UserAggregated userAggregated;
 	private BidAggregated bidAggregated;
+	private AuctionAggregated auctionAggregated;
 	
 	
 	private Timestamp sessionStarted;
@@ -20,6 +22,7 @@ public class StatisticEventsDATABASE {
 		sessionStarted = new Timestamp(System.currentTimeMillis());
 		userAggregated = new UserAggregated();
 		bidAggregated = new BidAggregated();
+		auctionAggregated = new AuctionAggregated();
 	}
 
 	public ArrayList<Event> processUserEvent(ArrayList<Event> eventNotifications) {
@@ -47,14 +50,29 @@ public class StatisticEventsDATABASE {
 		try {
 			BidEvent b = (BidEvent) eventNotifications.get(0);
 			
-			if(RegExpHelper.isEventType("(BID_WON.*)", b)) {
-				//? What to do if bid was won ?
-			} else {
-				//? Do place and overbid both incremet the bid count ?
+			if(RegExpHelper.isEventType("(BID_PLACED.*)", b)) {
 				bidAggregated.bidPlaced(b.getPrice());
 				eventNotifications.add(EventFactory.createStatisticsEvent(bidAggregated.getBidPriceMax(), 4));
 				eventNotifications.add(EventFactory.createStatisticsEvent(bidAggregated.getBidCountPerMinute(), 3));
 			}			
+			
+		} catch (Exception e1) {
+			System.out.println("Wrong event-type. Could not process " + eventNotifications.get(0).getType());
+		}
+		
+		return eventNotifications;
+	}
+	
+	public ArrayList<Event> processAuctionEvent(ArrayList<Event> eventNotifications) {
+		try {
+			AuctionEvent a = (AuctionEvent) eventNotifications.get(0);
+			
+			if(RegExpHelper.isEventType("(AUCTION_STARTED.*)", a)) {
+				auctionAggregated.startAuction(a.getAuctionID(), a.getTimestamp());
+			} else {
+				auctionAggregated.endAuction(a.getAuctionID(), a.getTimestamp());
+				eventNotifications.add(EventFactory.createStatisticsEvent(auctionAggregated.getTimeAVG(), 6));
+			}
 			
 		} catch (Exception e1) {
 			System.out.println("Wrong event-type. Could not process " + eventNotifications.get(0).getType());
