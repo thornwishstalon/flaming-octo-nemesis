@@ -38,15 +38,24 @@ public class UserAggregated {
 	/*
 	 * GETTER
 	 */
+	/**
+	 * @return 	Minimum Time in seconds
+	 */
 	public double getTimeMin() {
-		return timeMin;
+		return Math.round(timeMin/1000);
 	}
 
+	/**
+	 * @return 	Maximum Time in seconds
+	 */
 	public double getTimeMax() {
-		return timeMax;
+		return Math.round(timeMax/1000);
 	}
-
+	
+	/**
+	 * @return 	Average Time in seconds
+	 */
 	public double getTimeAVG() {
-		return timeAVG;
+		return Math.round(timeAVG/1000);
 	}
 }

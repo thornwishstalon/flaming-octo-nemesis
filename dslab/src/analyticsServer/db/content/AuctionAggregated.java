@@ -53,8 +53,11 @@ public class AuctionAggregated {
 		return (double) (success/total);
 	}
 	
+	/**
+	 * @return 	Average Time in seconds
+	 */
 	public double getTimeAVG() {
-		return timeAVG;
+		return Math.round(timeAVG/1000);
 	}
 	
 }
