@@ -52,6 +52,7 @@ public class StatisticEventsDATABASE {
 			
 			if(RegExpHelper.isEventType("(BID_PLACED.*)", b)) {
 				bidAggregated.bidPlaced(b.getPrice());
+				auctionAggregated.successfulAuction(b.getAuctionID());
 				eventNotifications.add(EventFactory.createStatisticsEvent(bidAggregated.getBidPriceMax(), 4));
 				eventNotifications.add(EventFactory.createStatisticsEvent(bidAggregated.getBidCountPerMinute(), 3));
 			}			
@@ -72,6 +73,7 @@ public class StatisticEventsDATABASE {
 			} else {
 				auctionAggregated.endAuction(a.getAuctionID(), a.getTimestamp());
 				eventNotifications.add(EventFactory.createStatisticsEvent(auctionAggregated.getTimeAVG(), 6));
+				eventNotifications.add(EventFactory.createStatisticsEvent(auctionAggregated.getSuccessRatio(), 5));
 			}
 			
 		} catch (Exception e1) {

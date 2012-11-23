@@ -35,7 +35,7 @@ public class AnalyticsServerImpl implements AnalyticsServer {
 		eventNotifications.add(event);
 
 		if(RegExpHelper.isEventType("(AUCTION_.*)", event)) {
-			
+			eventNotifications = statisticEvents.processAuctionEvent(eventNotifications);
 		} else if(RegExpHelper.isEventType("(USER_.*)", event)) {
 			eventNotifications = statisticEvents.processUserEvent(eventNotifications);
 		} else if(RegExpHelper.isEventType("(BID_.*)", event)) {
