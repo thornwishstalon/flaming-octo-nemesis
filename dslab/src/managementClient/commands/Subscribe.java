@@ -32,7 +32,7 @@ public class Subscribe implements ICommand {
 
 	@Override
 	public boolean needsRegistration() {
-		return false;
+		return true;
 	}
 
 	

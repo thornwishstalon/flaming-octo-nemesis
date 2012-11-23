@@ -54,8 +54,7 @@ public class AddSteps implements ICommand {
 
 	@Override
 	public boolean needsRegistration() {
-		// TODO return TRUE!!
-		return false;
+		return true;
 	}
 
 

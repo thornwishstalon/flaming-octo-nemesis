@@ -45,7 +45,7 @@ public class RemoveStep implements ICommand {
 
 	@Override
 	public boolean needsRegistration() {
-		return false; // TODO return true;
+		return true;
 	}
 
 

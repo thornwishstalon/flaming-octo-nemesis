@@ -25,6 +25,7 @@ public class Login implements ICommand {
 		
 			if(sec!=null){
 				ManagementClientStatus.getInstance().setbillingServerSecure(sec);
+				ManagementClientStatus.getInstance().setUser(username);
 				message= "!print "+"login successful";
 			}
 			else{

@@ -67,7 +67,7 @@ public class LoadTestMain {
 			}
 			
 			LoadTestSubscriberCallback callback = new LoadTestSubscriberCallback();
-			analyticsServer.subscribe("*", callback);
+			analyticsServer.subscribe(".*", callback);
 			
 			
 			//listening to input
