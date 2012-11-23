@@ -58,8 +58,9 @@ public class AuctionDATABASE {
 				return NEEDS_MORE_MONEY;
 			}else{
 				// BID_OVERBID event
-
-				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createBidEvent(tmp.getHighestBidder().getName(), id, tmp.getPrice(), 1));
+				
+				if(tmp.getHighestBidder()!=null)
+					ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createBidEvent(tmp.getHighestBidder().getName(), id, tmp.getPrice(), 1));
 
 
 

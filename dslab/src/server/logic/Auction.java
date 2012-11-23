@@ -1,15 +1,11 @@
 package server.logic;
 
-import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import analyticsServer.event.AuctionEvent;
 import analyticsServer.event.EventFactory;
-
-import server.ServerSetup;
 import server.ServerStatus;
 
 public class Auction {

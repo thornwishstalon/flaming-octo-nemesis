@@ -44,6 +44,7 @@ public class ManagementClientInputThread extends Thread implements IUserRelated{
 				}
 				
 				if(input.length()>1) //TODO 
+					System.out.println(input);
 					System.out.println("MANAGEMENT> "+input+"\n"+respondParser.parse(parser.parse(input)));
 			}
 		} catch (IOException e) {

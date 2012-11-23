@@ -42,7 +42,7 @@ public class ManagementClientStatus {
 			// analytics server
 			
 			analyticsServer= (AnalyticsServer) registry.lookup(setup.getAnalyticsBindingName());
-			
+			System.out.println("connections established.");
 			
 			
 		} catch (RemoteException e) {

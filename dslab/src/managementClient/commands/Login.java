@@ -18,26 +18,36 @@ public class Login implements ICommand {
 	public String execute(String[] params) {
 		String username = params[0];
 		String password = params[1];
+		String message="";
 		
+		System.out.println("username: "+username);
+		System.out.println("pwd: "+password);
 		try {
-			
+			System.out.println("trying to login!");
 			BillingServerSecure sec = ManagementClientStatus.getInstance().getBillingServer().login(username, MD5Helper.StringToMD5(password));
+			
+			System.out.println("lalala");
 			if(sec!=null){
 				ManagementClientStatus.getInstance().setbillingServerSecure(sec);
-				return "!print "+"login successful";
+				System.out.println("login succss!");
+				message= "!print "+"login successful";
 			}
-			else return "!print "+ "wrong username or password!";
+			else{
+				System.out.println("sec null");
+				message= "!print "+ "wrong username or password!";
+			}
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return e.getMessage();
+			//e.printStackTrace();
+			message= "!print "+e.getMessage();
 		} catch (Exception e){
-			return e.getMessage();
+			message= "!print "+e.getMessage();
 		}
 		
+		System.out.println(message);
+		return message;
 		
-		//return "!print " +"login not supported yet";
 	}
 
 	@Override
