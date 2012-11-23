@@ -72,15 +72,14 @@ public class ManagementClientInputThread extends Thread implements IUserRelated{
 
 	@Override
 	public String getUser() {
-		// TODO Auto-generated method stub
-		return null;
+		return ManagementClientStatus.getInstance().getUser();
 	}
 
 
 
 	@Override
 	public void setUser(String user) {
-		// TODO Auto-generated method stub
+		ManagementClientStatus.getInstance().setUser(user);
 		
 	}
 	

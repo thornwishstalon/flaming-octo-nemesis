@@ -18,6 +18,7 @@ public class Logout implements ICommand {
 		/*
 		try{
 			ManagementClientStatus.getInstance().getbillingServerSecure().logout();
+			ManagementClientStatus.getInstance().setUser("");
 		}catch(RemoteException e){
 			
 		}
@@ -27,9 +28,8 @@ public class Logout implements ICommand {
 	}
 
 	@Override
-	public boolean needsRegistration() {
-		//TODO 
-		return false;
+	public boolean needsRegistration() { 
+		return true;
 	}
 
 

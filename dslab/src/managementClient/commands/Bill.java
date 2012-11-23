@@ -33,7 +33,7 @@ public class Bill implements ICommand {
 
 	@Override
 	public boolean needsRegistration() {
-		return false; // TODO return true;
+		return true;
 	}
 
 

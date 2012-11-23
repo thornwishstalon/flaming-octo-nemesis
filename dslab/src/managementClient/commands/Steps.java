@@ -33,8 +33,7 @@ public class Steps implements ICommand {
 
 	@Override
 	public boolean needsRegistration() {
-		// TODO return true;
-		return false;
+		return true;
 	}
 
 

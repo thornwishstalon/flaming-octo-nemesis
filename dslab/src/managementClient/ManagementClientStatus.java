@@ -23,7 +23,7 @@ public class ManagementClientStatus {
 	private BillingServer billingServer=null;
 	
 	private AnalyticsServer analyticsServer=null;
-	
+	private String user="";
 	
 	
 	/**
@@ -91,6 +91,15 @@ public class ManagementClientStatus {
 	public AnalyticsServer getAnalyticsServer(){
 		return analyticsServer;
 	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+	
 
 	
 	
