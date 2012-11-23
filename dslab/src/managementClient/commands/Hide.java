@@ -12,10 +12,15 @@ public class Hide implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
+		boolean auto =EventDATABASE.getInstance().isAuto();
+		if(auto){
+			EventDATABASE.getInstance().setAuto(false);
+			return "!print "+" !auto-mode is off!";
+		}else{
+			return "!print "+" !auto-mode is already off!";
+		}
 		
-		EventDATABASE.getInstance().setAuto(true);
 		
-		return "!print "+" in auto mode!";
 	}
 
 	@Override

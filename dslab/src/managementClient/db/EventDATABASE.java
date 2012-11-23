@@ -9,7 +9,7 @@ import analyticsServer.event.Event;
 
 public class EventDATABASE {
 	private static EventDATABASE instance=null;
-	private boolean isAuto=false;
+	private boolean isAuto=true;
 	private SubscriberCallback callback;
 	
 	

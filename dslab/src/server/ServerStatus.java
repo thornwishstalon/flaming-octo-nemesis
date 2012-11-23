@@ -39,7 +39,7 @@ public class ServerStatus {
 		//get RMI references, initialize them
 		this.setup=setup;
 
-		Registry registry =RMIRegistry.getRegistry(11269);
+		Registry registry =RMIRegistry.getRegistry();
 
 
 		try {
@@ -49,8 +49,11 @@ public class ServerStatus {
 			BillingServer billingServer = (BillingServer) registry.lookup(setup.getBillingServerName());
 			System.out.println("connection to billing server established.");
 
-			billingServerSecure=billingServer.login(setup.getUsername(), setup.getPassword());
-			System.out.println("login on billing server complete.");
+			billingServerSecure=billingServer.login(setup.getUsername().trim(), setup.getPassword().trim());
+			
+			if(billingServerSecure!=null)
+				System.out.println("login on billing server complete.");
+			//System.out.println(billingServerSecure.getPriceSteps());
 
 			//###########################
 			// analytics server

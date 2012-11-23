@@ -12,8 +12,17 @@ public class Auto implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
-		EventDATABASE.getInstance().setAuto(false);
-		return "!print "+" no longer in auto mode!";
+		boolean auto=EventDATABASE.getInstance().isAuto();
+		
+		if(!auto){
+			EventDATABASE.getInstance().setAuto(false);
+			return "!print "+" in !auto-mode!";
+		}
+		else{
+			return "!print "+" already in !auto-mode!";
+		}
+		
+		//return "!print "+" no longer in auto mode!";
 	}
 
 	@Override

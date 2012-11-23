@@ -68,7 +68,8 @@ public class ServerSetup {
 			try{
 				props.load(in);
 				this.username= props.getProperty("server.name").trim();
-				this.username= props.getProperty("server.password").trim();
+				this.password= props.getProperty("server.password").trim();
+				
 				
 			}catch(NumberFormatException e){
 				e.printStackTrace();
