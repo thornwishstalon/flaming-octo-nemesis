@@ -29,7 +29,7 @@ public class StatisticEventsDATABASE {
 		try {
 			UserEvent u = (UserEvent) eventNotifications.get(0);
 			
-			if(RegExpHelper.isEventType("(USER_LOGIN.*)", u)) {
+			if(RegExpHelper.isEventType("(USER_LOGIN)", u)) {
 				userAggregated.loginUser(u.getUsername(), u.getTimestamp());			
 			} else {
 				userAggregated.logoutUser(u.getUsername(), u.getTimestamp());
@@ -50,7 +50,7 @@ public class StatisticEventsDATABASE {
 		try {
 			BidEvent b = (BidEvent) eventNotifications.get(0);
 			
-			if(RegExpHelper.isEventType("(BID_PLACED.*)", b)) {
+			if(RegExpHelper.isEventType("(BID_PLACED)", b)) {
 				bidAggregated.bidPlaced(b.getPrice());
 				auctionAggregated.successfulAuction(b.getAuctionID());
 				eventNotifications.add(EventFactory.createStatisticsEvent(bidAggregated.getBidPriceMax(), 4));
@@ -68,7 +68,7 @@ public class StatisticEventsDATABASE {
 		try {
 			AuctionEvent a = (AuctionEvent) eventNotifications.get(0);
 			
-			if(RegExpHelper.isEventType("(AUCTION_STARTED.*)", a)) {
+			if(RegExpHelper.isEventType("(AUCTION_STARTED)", a)) {
 				auctionAggregated.startAuction(a.getAuctionID(), a.getTimestamp());
 			} else {
 				auctionAggregated.endAuction(a.getAuctionID(), a.getTimestamp());
