@@ -21,13 +21,10 @@ public class Login implements ICommand {
 		String message="";
 		
 		try {
-			System.out.println("trying to login!");
 			BillingServerSecure sec = ManagementClientStatus.getInstance().getBillingServer().login(username, MD5Helper.StringToMD5(password));
-			
-			System.out.println("lalala");
+		
 			if(sec!=null){
 				ManagementClientStatus.getInstance().setbillingServerSecure(sec);
-				System.out.println("login succss!");
 				message= "!print "+"login successful";
 			}
 			else{
@@ -40,9 +37,7 @@ public class Login implements ICommand {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			message= "!print "+e.getMessage();
-		} catch (Exception e){
-			message= "!print "+e.getMessage();
-		}
+		} 
 		
 		System.out.println(message);
 		return message;

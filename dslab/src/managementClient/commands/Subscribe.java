@@ -1,5 +1,9 @@
 package managementClient.commands;
 
+import java.rmi.RemoteException;
+
+import managementClient.ManagementClientStatus;
+import managementClient.db.EventDATABASE;
 import command.ICommand;
 
 public class Subscribe implements ICommand {
@@ -12,9 +16,18 @@ public class Subscribe implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
-		System.out.println(params[0]);
+		String regex=params[0];
 		
-		return "!print " +"subscribe not supported yet";
+		try {
+			long subID= ManagementClientStatus.getInstance().getAnalyticsServer()
+								.subscribe(regex, EventDATABASE.getInstance().getCallback());
+			return "!print"+" subscription with id "+subID+" created.";
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return "!print "+"an error has occured.";
+		}
+		
+		//return "!print " +"subscribe not supported yet";
 	}
 
 	@Override

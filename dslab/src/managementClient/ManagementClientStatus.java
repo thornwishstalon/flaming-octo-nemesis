@@ -25,6 +25,7 @@ public class ManagementClientStatus {
 	private AnalyticsServer analyticsServer=null;
 	
 	
+	
 	/**
 	 * stubs are loaded from the registry
 	 * 
@@ -85,6 +86,10 @@ public class ManagementClientStatus {
 
 	public void setBillingServer(BillingServer billingServer) {
 		this.billingServer = billingServer;
+	}
+	
+	public AnalyticsServer getAnalyticsServer(){
+		return analyticsServer;
 	}
 
 	
