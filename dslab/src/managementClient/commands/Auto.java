@@ -15,7 +15,7 @@ public class Auto implements ICommand {
 		boolean auto=EventDATABASE.getInstance().isAuto();
 		
 		if(!auto){
-			EventDATABASE.getInstance().setAuto(false);
+			EventDATABASE.getInstance().setAuto(true);
 			return "!print "+" in !auto-mode!";
 		}
 		else{
