@@ -49,7 +49,8 @@ public class TestClient extends Thread implements IUserRelated{
 	public TestClient(LoadTestSetup setup, int id, int delay)  {
 		this.ID= id;
 		this.setup= setup;
-
+		this.delay=delay;
+		
 		parser= new CommandParser(true, this);
 		parser.setCommandList(new LoadTestRespondCommandList(this));
 

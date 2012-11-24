@@ -3,7 +3,9 @@ package loadTest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.text.SimpleDateFormat;
@@ -51,12 +53,13 @@ public class LoadTestMain {
 		spawner.start();
 		
 		
-		
-		
+		AnalyticsServer analyticsServer=null;
+		LoadTestSubscriberCallback callback=null;
+		long subID = 0;
 		
 		try {
 			Registry registry = LocateRegistry.getRegistry(11269);
-			AnalyticsServer analyticsServer=null;
+			
 			
 			//connect to analyticsServer
 			try {
@@ -66,8 +69,8 @@ public class LoadTestMain {
 				e.printStackTrace();
 			}
 			
-			LoadTestSubscriberCallback callback = new LoadTestSubscriberCallback();
-			analyticsServer.subscribe(".*", callback);
+			callback = new LoadTestSubscriberCallback();
+			subID=analyticsServer.subscribe(".*", callback);
 			
 			
 			//listening to input
@@ -83,6 +86,20 @@ public class LoadTestMain {
 		}finally{
 			System.out.println("ending spawners");
 			spawner.kill();
+			try {
+				//terminate RMI connections
+				if(callback!=null){
+					analyticsServer.unsubscribe(subID);
+					
+					callback.terminate();
+				}
+			} catch (NoSuchObjectException e) {
+				//nothing to do
+				//e.printStackTrace();
+			} catch (RemoteException e) {
+				//nothing to do
+				//e.printStackTrace();
+			}
 		}
 
 	}

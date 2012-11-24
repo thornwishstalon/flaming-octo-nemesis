@@ -29,18 +29,13 @@ public class Login implements ICommand {
 				message= "!print "+"login successful";
 			}
 			else{
-				System.out.println("sec null");
 				message= "!print "+ "wrong username or password!";
 			}
-			System.out.println();
 			
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			message= "!print "+e.getMessage();
 		} 
 		
-		System.out.println(message);
 		return message;
 		
 	}

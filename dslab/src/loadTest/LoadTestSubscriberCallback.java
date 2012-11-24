@@ -27,4 +27,11 @@ public class LoadTestSubscriberCallback extends UnicastRemoteObject implements S
 		
 	}
 
+
+	@Override
+	public void terminate() throws RemoteException {
+		this.unexportObject(this, true);
+		
+	}
+
 }

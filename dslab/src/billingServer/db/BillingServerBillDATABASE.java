@@ -41,7 +41,9 @@ public class BillingServerBillDATABASE {
 	public Bill getBill(String user) {
 		
 		synchronized (bills) {
-			return bills.get(user);
+			if(bills.contains(user))
+				return bills.get(user);
+			else return null;
 		}
 	}
 	

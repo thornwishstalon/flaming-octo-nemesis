@@ -15,12 +15,20 @@ public class ManagementClientMain {
 		System.out.println("Setup ready:");
 		System.out.println(setup.toString());
 		
-		ManagementClientStatus.getInstance().init(setup); //initialize remote stuff
+		//initialize remote stuff
+		ManagementClientStatus.getInstance().init(setup); 
 		
-		ManagementClientInputThread input = new ManagementClientInputThread(); //start blocking input thread
+		//start blocking input thread
+		ManagementClientInputThread input = new ManagementClientInputThread(); 
 		input.run();
 		
+		//.... wait
 		
+		
+		//disconnect
+		ManagementClientStatus.getInstance().disconnect(); 
+		
+		//ending
 		System.out.println("Goodbye");
 		
 		

@@ -44,7 +44,7 @@ public class AuctionDATABASE {
 		return idCounter;
 	}
 
-	@SuppressWarnings("unused")
+
 	public synchronized int bidOnAuction(int id, User bidder, double money){
 		Auction tmp= auctionList.get(id);
 		if(bidder.getID()== tmp.getOwner().getID())
@@ -61,7 +61,6 @@ public class AuctionDATABASE {
 				
 				if(tmp.getHighestBidder()!=null)
 					ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createBidEvent(tmp.getHighestBidder().getName(), id, tmp.getPrice(), 1));
-
 
 
 				tmp.setHighestBidder(bidder);

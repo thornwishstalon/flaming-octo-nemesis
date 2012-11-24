@@ -28,4 +28,12 @@ public class ManagementClientSubscriberCallback extends UnicastRemoteObject impl
 
 	}
 
+	@Override
+	public void terminate() throws RemoteException {
+		this.unexportObject(this, true);
+		
+	}
+	
+	
+
 }

@@ -79,5 +79,11 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 	public synchronized Bill getBill(String user) throws RemoteException {
 		return billDATABASE.getBill(user);
 	}
+
+	@Override
+	public void logout() throws RemoteException {
+		this.unexportObject(this, true);
+		
+	}
 	
 }

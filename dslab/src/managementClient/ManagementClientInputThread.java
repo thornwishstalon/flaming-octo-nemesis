@@ -39,13 +39,13 @@ public class ManagementClientInputThread extends Thread implements IUserRelated{
 			while((input= in.readLine())!=null){
 				
 				if(input.contains("!exit")){
-					//TODO Logout first!!!!
 					break;
 				}
 				
-				if(input.length()>1) //TODO 
-					System.out.println(input);
-					System.out.println("MANAGEMENT> "+input+"\n"+respondParser.parse(parser.parse(input)));
+				if(input.length()>1) { 
+					System.out.println(ManagementClientStatus.getInstance().getUser()+
+							"> "+respondParser.parse(parser.parse(input)));
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

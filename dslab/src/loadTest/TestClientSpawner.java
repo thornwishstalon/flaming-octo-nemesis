@@ -29,7 +29,7 @@ public class TestClientSpawner extends Thread{
 		//for n clients
 		for(int i=0;i<setup.getClients();i++){
 			//generate a random delay
-			delay=r.nextInt(30)*100; 
+			delay=r.nextInt(50)*100; 
 			
 			//create a new TestClient
 			tmp= new TestClient(setup, i,delay);
@@ -60,7 +60,7 @@ public class TestClientSpawner extends Thread{
 			client.shutdown();
 		}
 		
-		System.out.println("clients killed!");
+		System.out.println("clients logged out and killed!");
 	}
 
 }

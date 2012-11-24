@@ -16,19 +16,21 @@ public class Bill implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
-		/*
+		
 		String username=params[0];
 		
-		//Bill bill=null;
+		billingServer.db.content.Bill bill=null;
 		try{
 			bill= ManagementClientStatus.getInstance().getbillingServerSecure().getBill(username);
-			return "!print "+bill.toString(); //TODO
+			if(bill!=null)
+				return "!print "+bill.toString(); //TODO
+			else return "!print "+" error: null";
 			
 		}catch(RemoteException e){
 			return "!print "+e.getMessage();
 		}
-		*/
-		 return "!print " +"bill not supported yet";
+		
+		 //return "!print " +"bill not supported yet";
 	}
 
 	@Override

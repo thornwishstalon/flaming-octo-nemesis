@@ -15,16 +15,16 @@ public class Logout implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
-		/*
+		
 		try{
 			ManagementClientStatus.getInstance().getbillingServerSecure().logout();
 			ManagementClientStatus.getInstance().setUser("");
+			return "!print "+"sucessfully logged out";
 		}catch(RemoteException e){
-			
+			return "!print "+"an error has occured";
 		}
-		*/
 		
-		return "!print " +"logout not supported yet";
+		//return "!print " +"logout not supported yet";
 	}
 
 	@Override

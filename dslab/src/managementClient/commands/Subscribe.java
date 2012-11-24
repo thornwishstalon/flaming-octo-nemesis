@@ -19,8 +19,11 @@ public class Subscribe implements ICommand {
 		String regex=params[0];
 		
 		try {
-			long subID= ManagementClientStatus.getInstance().getAnalyticsServer()
-								.subscribe(regex, EventDATABASE.getInstance().getCallback());
+			long subID= ManagementClientStatus.getInstance()
+						.getAnalyticsServer().subscribe(regex, EventDATABASE.getInstance().getCallback());
+			ManagementClientStatus.getInstance().addSubscription(subID);
+							
+			
 			return "!print"+" subscription with id "+subID+" created.";
 		} catch (RemoteException e) {
 			e.printStackTrace();
