@@ -50,7 +50,6 @@ public class Bill implements Serializable {
 			
 			while (it.hasNext()) {
 				b = it.next();
-				System.out.println("MGMT: trying to get price for "+b.getPrice());
 				p = billingServerPrice.getPriceStepForPrice(b.getPrice());
 				
 				if(p!=null) {

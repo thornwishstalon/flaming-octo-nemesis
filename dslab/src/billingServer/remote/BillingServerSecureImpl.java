@@ -59,7 +59,6 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 
 	@Override
 	public synchronized Bill getBill(String user) throws RemoteException {
-		System.out.println("MGMT: Try to bill user" + user);
 		return billDATABASE.getBill(user);
 	}
 

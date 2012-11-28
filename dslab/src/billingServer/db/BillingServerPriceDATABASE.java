@@ -49,21 +49,19 @@ public class BillingServerPriceDATABASE implements Serializable{
 			// empty list / greater than last element
 			if ((steps.isEmpty())
 					|| (steps.get(steps.size() - 1).getEndPrice() <= startPrice)) {
-				System.out.println("Empty or last | adding : [" + startPrice + "-" + endPrice + "]");
 				steps.add(s);
 				return true;
 			}
 			// new first element
 			else if (steps.get(0).getStartPrice() >= endPrice) {
-				System.out.println("First : [" + startPrice + "-" + endPrice + "]");
 				steps.add(0, s);
 				return true;
 			}
 			// between existing elements
 			else {
 				for (int i = 1; i <= steps.size(); i++) {
-					if ((steps.get(i - 1).getEndPrice() < startPrice)
-							&& (steps.get(i).getStartPrice() > endPrice)) {
+					if ((steps.get(i - 1).getEndPrice() <= startPrice)
+							&& (steps.get(i).getStartPrice() >= endPrice)) {
 						System.out.println("On position " +i+" : [" + startPrice + "-" + endPrice + "]");
 						steps.add(i, s);
 						return true;
