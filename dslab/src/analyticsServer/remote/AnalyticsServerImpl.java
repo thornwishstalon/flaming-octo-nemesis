@@ -23,6 +23,8 @@ public class AnalyticsServerImpl implements AnalyticsServer {
 	public synchronized long subscribe(String regex, SubscriberCallback client)
 			throws RemoteException {
 		
+		regex = regex.replaceAll("'", "");
+		
 		Subscription s = new Subscription(regex, client);
 		subscriptions.add(s);
 		return s.getId();

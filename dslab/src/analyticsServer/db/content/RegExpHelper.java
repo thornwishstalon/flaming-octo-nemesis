@@ -4,12 +4,16 @@ import analyticsServer.event.Event;
 
 public class RegExpHelper {
 	
-	public static boolean isEventType(String regEx, Event e) {
+	public static boolean isEventType(String regEx, Event event) {
 		
-		String type = e.getType();
+		String type = event.getType();
 		
-		if(type.matches(regEx))
-			return true;
+		try {
+			if(type.matches(regEx))
+				return true;
+		} catch (Exception e1) {
+			System.out.println("Invalid RegEx pattern '" +  regEx + "' was processed as no match found.");
+		}
 		
 		return false;
 	}

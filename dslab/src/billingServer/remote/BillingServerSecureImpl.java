@@ -17,36 +17,18 @@ import billingServer.db.content.PriceSteps;
 public class BillingServerSecureImpl extends UnicastRemoteObject implements BillingServerSecure {
 
 	private static final long serialVersionUID = 1520541085738561629L;
-	//private static BillingServerSecureImpl instance;
-	//private PriceSteps priceSteps;
-
-
 	private BillingServerBillDATABASE billDATABASE;
-	
-//	public static BillingServerSecureImpl getSingleInstance() {
-//		if(instance == null) {
-//			synchronized (BillingServerSecureImpl.class) {
-//				instance = new BillingServerSecureImpl();
-//			}
-//		}
-//		return instance;
-//	}
-	
-	
 	
 	// constructor
 	public BillingServerSecureImpl() throws RemoteException {
 		super();
-		//priceSteps = PriceSteps.getSingleInstance();
-
-		billDATABASE = new BillingServerBillDATABASE();
+		billDATABASE = BillingServerBillDATABASE.getInstance();
 	}
 	
 	// create [!addStep]
 	public synchronized void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent) 
 			throws RemoteException  {
 
-			//if(!priceSteps.createPriceStep(startPrice, endPrice, fixedPrice, variablePricePercent))
 			if(!BillingServerPriceDATABASE.getInstance().createPriceStep(startPrice, endPrice, fixedPrice, variablePricePercent))
 				throw new RemoteException();
 
@@ -69,7 +51,7 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 			//return priceSteps;
 	}
 
-	public synchronized void billAuction(String user, long auctionID, double price) {
+	public synchronized void billAuction(String user, long auctionID, double price) {		
 		billDATABASE.billAuction(user, auctionID, price);
 	}
 	
@@ -77,6 +59,7 @@ public class BillingServerSecureImpl extends UnicastRemoteObject implements Bill
 
 	@Override
 	public synchronized Bill getBill(String user) throws RemoteException {
+		System.out.println("MGMT: Try to bill user" + user);
 		return billDATABASE.getBill(user);
 	}
 

@@ -9,7 +9,7 @@ public class Unsubscribe implements ICommand {
 
 	@Override
 	public int numberOfParams() {
-		return 0;
+		return 1;
 	}
 
 	@Override

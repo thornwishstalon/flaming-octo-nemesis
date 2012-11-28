@@ -10,7 +10,7 @@ public class AddSteps implements ICommand {
 	@Override
 	public int numberOfParams() {
 		// <!addstep <startPrice> <endPrice> <fixedPrice> <variablePricePercent>> ---- 4 parameters
-		return 0; // TODO return 4
+		return 4;
 	}
 
 	@Override

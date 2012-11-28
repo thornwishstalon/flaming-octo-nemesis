@@ -1,8 +1,11 @@
 package billingServer.db.content;
 
+import java.io.Serializable;
 
-public class BillingLine {
 
+public class BillingLine implements Serializable {
+
+	private static final long serialVersionUID = -996707184733426129L;
 	private long auctionID;
 	private double price;
 	
