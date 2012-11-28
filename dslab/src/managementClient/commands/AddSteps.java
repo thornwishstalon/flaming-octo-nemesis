@@ -16,8 +16,10 @@ public class AddSteps implements ICommand {
 	@Override
 	public String execute(String[] params) {
 
+		double startPrice=0, endPrice=0, fixedPrice, variablePricePercent;
+		
 		try{
-			double startPrice, endPrice, fixedPrice, variablePricePercent;
+
 			try{
 				startPrice= Double.valueOf(params[0].trim());
 			}catch(NumberFormatException e){
@@ -42,10 +44,15 @@ public class AddSteps implements ICommand {
 			ManagementClientStatus.getInstance().getbillingServerSecure().createPriceStep(
 					startPrice,endPrice,fixedPrice,variablePricePercent);
 
-			return "!print"+"Success...."; //TODO create success message
+			
+			if(endPrice==0)
+				return "!print Price step [" + startPrice + " INFINITY] successfully added ";
+			else
+				return "!print Price step [" + startPrice + " " + endPrice + "] successfully added ";
+			
 
 		}catch(RemoteException e){
-			return "!print "+"ERROR: RemoteException: "+e.getMessage();
+			return "!print ERROR: Price step ["+startPrice+ " " + endPrice +"] could not be created.";
 		}
 
 

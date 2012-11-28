@@ -62,7 +62,6 @@ public class BillingServerPriceDATABASE implements Serializable{
 				for (int i = 1; i <= steps.size(); i++) {
 					if ((steps.get(i - 1).getEndPrice() <= startPrice)
 							&& (steps.get(i).getStartPrice() >= endPrice)) {
-						System.out.println("On position " +i+" : [" + startPrice + "-" + endPrice + "]");
 						steps.add(i, s);
 						return true;
 					}

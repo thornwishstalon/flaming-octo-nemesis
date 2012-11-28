@@ -13,9 +13,11 @@ public class PriceStep implements Serializable, Comparable<PriceStep>{
 	
 	public PriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent){
 		this.startPrice = startPrice;
-		this.endPrice = endPrice;
 		this.fixedPrice = fixedPrice;
 		this.variablePricePercent = variablePricePercent;
+		this.endPrice = endPrice;
+		if(endPrice==0)
+			this.endPrice = Double.POSITIVE_INFINITY;			
 	}
 
 
@@ -27,7 +29,7 @@ public class PriceStep implements Serializable, Comparable<PriceStep>{
 	}
 	
 	public boolean inInterval(double price) {
-		if((startPrice<price) && (endPrice>price)) 
+		if((startPrice<price) && (endPrice>=price)) 
 			return true;
 		
 		return false;

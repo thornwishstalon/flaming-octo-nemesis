@@ -13,7 +13,7 @@ public class Subscribe implements ICommand {
 	@Override
 	public int numberOfParams() {
 		//<!subscribe <regex> >
-		return 1; //TODO 1;
+		return 1;
 	}
 
 	@Override

@@ -25,14 +25,12 @@ public class Unsubscribe implements ICommand {
 		try {
 			ManagementClientStatus.getInstance().getAnalyticsServer().unsubscribe(id);
 			ManagementClientStatus.getInstance().removeSubscription(id);
-			return "!print"+" success!";
+			return "!print subscription " + id + " terminated";
 			
 		} catch (RemoteException e) {
 			e.printStackTrace();
-			return "!print"+" error!";
+			return "!print ERROR: subscription "+id+" could not be removed";
 		}
-		
-		//return "!print " +"unsubscribe not supported yet";
 	}
 
 	@Override

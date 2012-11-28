@@ -2,6 +2,8 @@ package managementClient.commands;
 
 import java.rmi.RemoteException;
 
+import javax.xml.stream.events.StartDocument;
+
 import managementClient.ManagementClientStatus;
 
 import command.ICommand;
@@ -11,14 +13,14 @@ public class RemoveStep implements ICommand {
 	@Override
 	public int numberOfParams() {
 		// <!removeStep <startPrice> <endPrice>>
-		return 0; //TODO return 2;
+		return 2;
 	}
 
 	@Override
 	public String execute(String[] params) {
+		double startPrice=0,endPrice=0;
 		
 		try{
-			double startPrice,endPrice=0;
 			
 			try{
 				startPrice= Double.valueOf(params[0]);
@@ -33,14 +35,16 @@ public class RemoveStep implements ICommand {
 			
 			ManagementClientStatus.getInstance().getbillingServerSecure().deletePriceStep(startPrice,endPrice);
 
+			if(endPrice==0)
+				return "!print Price step [" + startPrice + " INFINITY] successfully removed ";
+			else
+				return "!print Price step [" + startPrice + " " + endPrice + "] successfully removed ";
 
 		}catch(RemoteException e){
-			return "!print "+e.getMessage();
+			return "!print ERROR: Price step ["+startPrice+ " " + endPrice +"] does not exist.";
 		}
 		
 
-
-		return "!print " +"removeStep not supported yet";
 	}
 
 	@Override

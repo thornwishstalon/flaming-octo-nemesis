@@ -11,6 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 
 import network.rmi.RMIRegistry;
+import billingServer.db.content.MD5Helper;
 import billingServer.remote.BillingServer;
 import billingServer.remote.BillingServerImpl;
 
@@ -42,14 +43,14 @@ public class BillingServerMain {
 
 			// get registry & bind remote-obj
 			stub = (BillingServer) UnicastRemoteObject.exportObject(server,0);
-
-			//Registry registry = LocateRegistry.createRegistry(11269); //try
-
-			//BillingServerSecure stubSecure = (BillingServerSecure) UnicastRemoteObject.exportObject(BillingServerSecureImpl.getSingleInstance(), 0);
-
 			Registry registry = RMIRegistry.getRegistry();
 
-
+			/*
+			System.out.println("MD5 HELPER");
+			System.out.println("x || " + MD5Helper.StringToMD5("x"));
+			System.out.println("y || " + MD5Helper.StringToMD5("y"));
+			System.out.println("z || " + MD5Helper.StringToMD5("z"));
+			*/
 
 
 			registry.rebind(setup.getBindingName(), stub);

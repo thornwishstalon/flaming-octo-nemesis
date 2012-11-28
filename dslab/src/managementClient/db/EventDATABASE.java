@@ -3,7 +3,6 @@ package managementClient.db;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-
 import network.rmi.SubscriberCallback;
 
 import analyticsServer.event.Event;
@@ -19,8 +18,6 @@ public class EventDATABASE {
 	private static EventDATABASE instance=null;
 	private boolean isAuto=true;
 	private SubscriberCallback callback;
-	
-	
 	private ArrayList<Event> eventBuffer;
 	
 	private EventDATABASE() {
@@ -46,12 +43,13 @@ public class EventDATABASE {
 	 * @param event 		the event the subscriber is getting notified about
 	 */
 	public synchronized void notify(Event event){
-		if(isAuto){
-			System.out.println(event.toString());
-		}
-		else{
-			eventBuffer.add(event);
-		}
+		
+			if(isAuto){
+				System.out.println(event.toString());
+			}
+			else{
+				eventBuffer.add(event);
+			}
 	}
 	
 	/**

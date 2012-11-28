@@ -8,14 +8,14 @@ public class AuctionAggregated {
 	private int auctionCount=0;
 	private HashMap<Long, Double> auctionLog;
 	private HashMap<Long, Boolean> auctionSuccessLog;
-	private int success=0, total=0;
+	private double success=0, total=0;
 	
 	public AuctionAggregated() {
 		auctionLog = new HashMap<Long, Double>();
 		auctionSuccessLog = new HashMap<Long, Boolean>();
 	}
 
-	public void startAuction(Long id, double timestamp) {
+	public void startAuction(Long id, double timestamp) {		
 		synchronized (auctionLog) {
 			auctionLog.put(id, timestamp);
 		}
@@ -50,7 +50,7 @@ public class AuctionAggregated {
 	}
 	
 	public double getSuccessRatio() {
-		return (double) (success/total);
+		return (success/total);
 	}
 	
 	/**
