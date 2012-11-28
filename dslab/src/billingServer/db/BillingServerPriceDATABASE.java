@@ -1,22 +1,25 @@
 package billingServer.db;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import billingServer.db.content.PriceStep;
 import billingServer.db.content.PriceSteps;
 
-public class BillingServerPriceDATABASE {
+public class BillingServerPriceDATABASE implements Serializable{
+
+	private static final long serialVersionUID = 6389842637954031923L;
 	private static BillingServerPriceDATABASE instance=null;
 	
 	private ArrayList<PriceStep> steps;
-	private BillingServerPriceDATABASE(){
+	private BillingServerPriceDATABASE()  {
 		steps= new ArrayList<PriceStep>();
 	}
 	
 	public static BillingServerPriceDATABASE getInstance(){
+		
 		if(instance==null){
-			instance= new BillingServerPriceDATABASE();
+				instance= new BillingServerPriceDATABASE();
 		}
 		return instance;
 	}
@@ -31,7 +34,7 @@ public class BillingServerPriceDATABASE {
 	 * @param variablePricePercent		Percentage of pricing
 	 * @return							true if the interval was added to the list
 	 */
-	public boolean createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent) {
+	public boolean createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent) {	
 		
 		if(endPrice==0)
 			endPrice=Double.POSITIVE_INFINITY;
@@ -45,12 +48,14 @@ public class BillingServerPriceDATABASE {
 					variablePricePercent);
 			// empty list / greater than last element
 			if ((steps.isEmpty())
-					|| (steps.get(steps.size() - 1).getEndPrice() < startPrice)) {
+					|| (steps.get(steps.size() - 1).getEndPrice() <= startPrice)) {
+				System.out.println("Empty or last | adding : [" + startPrice + "-" + endPrice + "]");
 				steps.add(s);
 				return true;
 			}
 			// new first element
-			else if (steps.get(0).getStartPrice() < startPrice) {
+			else if (steps.get(0).getStartPrice() >= endPrice) {
+				System.out.println("First : [" + startPrice + "-" + endPrice + "]");
 				steps.add(0, s);
 				return true;
 			}
@@ -59,6 +64,7 @@ public class BillingServerPriceDATABASE {
 				for (int i = 1; i <= steps.size(); i++) {
 					if ((steps.get(i - 1).getEndPrice() < startPrice)
 							&& (steps.get(i).getStartPrice() > endPrice)) {
+						System.out.println("On position " +i+" : [" + startPrice + "-" + endPrice + "]");
 						steps.add(i, s);
 						return true;
 					}

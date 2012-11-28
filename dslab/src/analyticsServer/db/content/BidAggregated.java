@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class BidAggregated {
 	private double bidPriceMax=0;
 	private long sessionStarted;
-	private int bidCount=0;
+	private double bidCount=0;
 	
 	public BidAggregated() {
 		sessionStarted =System.currentTimeMillis();
@@ -23,7 +23,7 @@ public class BidAggregated {
 	}
 
 	public double getBidCountPerMinute() {
-		long minutes = (System.currentTimeMillis()-sessionStarted)/(1000*60);
+		double minutes = (double)(System.currentTimeMillis()-sessionStarted)/(1000*60);	
 		return bidCount/minutes;
 	}
 

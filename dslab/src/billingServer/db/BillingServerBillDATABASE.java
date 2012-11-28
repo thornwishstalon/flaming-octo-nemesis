@@ -1,15 +1,26 @@
 package billingServer.db;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import billingServer.db.content.Bill;
 
 
 public class BillingServerBillDATABASE {
 
-	private ConcurrentHashMap<String, Bill> bills;
+	private HashMap<String, Bill> bills;
+	private static BillingServerBillDATABASE instance;
 	
-	public BillingServerBillDATABASE() {
-			bills = new ConcurrentHashMap<String, Bill>();
+	private BillingServerBillDATABASE() {
+			bills = new HashMap<String, Bill>();	
+	}
+	
+	public static BillingServerBillDATABASE getInstance(){
+		if(instance==null){
+			instance= new BillingServerBillDATABASE();
+		}
+		return instance;
 	}
 	
 	
@@ -22,14 +33,14 @@ public class BillingServerBillDATABASE {
 	 * @param price			Final bid
 	 */
 	public void billAuction(String user, long auctionID, double price) {	
-		
+
 		synchronized (bills) {
-			if(!bills.contains(user)) {
-				Bill b = new Bill(user);
-				bills.put(b.getUser(), b);
+			if(!bills.containsKey(user)) {	
+				bills.put(user, new Bill(user));
 			}
 
 			bills.get(user).putBill(auctionID, price);
+			
 		}
 	}
 	
@@ -40,10 +51,8 @@ public class BillingServerBillDATABASE {
 	 */
 	public Bill getBill(String user) {
 		
-		synchronized (bills) {
-			if(bills.contains(user))
-				return bills.get(user);
-			else return null;
+		synchronized (bills) {			
+			return bills.get(user);
 		}
 	}
 	
