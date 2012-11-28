@@ -39,6 +39,7 @@ public class ServerMain {
 		server.shutdown();
 		
 		ServerStatus.getInstance().logout();
+		
 		AuctionDATABASE.getInstance().killAuctions();
 		
 		}catch(IOException e){
