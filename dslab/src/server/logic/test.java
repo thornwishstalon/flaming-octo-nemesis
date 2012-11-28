@@ -104,9 +104,14 @@ public class test {
 		System.out.println(e2.getID());
 		//id=2
 		*/
-		
+		/*
 		String pwd= MD5Helper.StringToMD5("AwesomeAuctionServer3000");
 		System.out.println(pwd);
+		*/
+		
+		String regex="";
+		String input="";
+		System.out.println(Pattern.matches(regex, input));
 		 
 	}
 

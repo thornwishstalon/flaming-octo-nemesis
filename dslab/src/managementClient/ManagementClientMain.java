@@ -31,11 +31,6 @@ public class ManagementClientMain {
 		//ending
 		System.out.println("Goodbye");
 		
-		
-		
-		
-		
-		
 
 	}
 

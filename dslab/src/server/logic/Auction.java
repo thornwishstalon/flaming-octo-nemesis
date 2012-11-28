@@ -57,8 +57,7 @@ public class Auction {
 
 			if(highestBidder!=null){
 				highestBidder.addNotification(NotificationFactory.createNotification(getBidderNote()));
-
-
+				
 				ServerStatus.getInstance().notifyAnalyticsServer(ef.createBidEvent(highestBidder.getName(), ID, price, 2)); //bidder won
 
 			}

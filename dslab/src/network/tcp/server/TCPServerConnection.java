@@ -12,6 +12,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import analyticsServer.event.EventFactory;
+
 import network.udp.server.UDPNotificationThread;
 
 import client.command.ClientCommandList;
@@ -19,6 +21,7 @@ import client.command.ClientCommandList;
 
 import command.CommandParser;
 
+import server.ServerStatus;
 import server.logic.IUserRelated;
 import server.logic.User;
 import server.logic.UserNotification;
@@ -71,11 +74,16 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 			}
 
 		} catch (IOException e) {
+			ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
 
 		} catch(RejectedExecutionException e){
-
+			ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
 		}
 		finally{
+			if(user!=null){
+				//user disconnected event...
+				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
+			}
 			shutdown();
 		}
 	}

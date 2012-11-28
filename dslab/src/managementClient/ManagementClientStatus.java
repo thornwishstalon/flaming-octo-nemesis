@@ -1,6 +1,7 @@
 package managementClient;
 
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -52,11 +53,17 @@ public class ManagementClientStatus {
 			
 			
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("an Error has occured!");
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Server unreachable!");
+			try {
+				System.in.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				//e1.printStackTrace();
+			}
 		}
 		
 		
@@ -126,9 +133,11 @@ public class ManagementClientStatus {
 	public void disconnect(){
 		if(!user.equals("")){
 			try {
-				billingServerSecure.logout();
+			
 				terminateSubscribtions();
 				EventDATABASE.getInstance().killCallback();
+				
+				billingServerSecure.logout();
 				
 			} catch (RemoteException e) {
 				//nothing to do...

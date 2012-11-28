@@ -1,6 +1,8 @@
 package managementClient.commands;
 
 import java.rmi.RemoteException;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import managementClient.ManagementClientStatus;
 import managementClient.db.EventDATABASE;
@@ -17,6 +19,12 @@ public class Subscribe implements ICommand {
 	@Override
 	public String execute(String[] params) {
 		String regex=params[0];
+		
+		try{
+			Pattern.compile(regex);
+		}catch(PatternSyntaxException e){
+			return "!print "+"your regex-syntax is not valid!";
+		}
 		
 		try {
 			long subID= ManagementClientStatus.getInstance()

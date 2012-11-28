@@ -63,13 +63,16 @@ public class ServerStatus {
 
 		} catch (AccessException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("the service is was not available via the registry!");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("an error has occured!");
 		} catch (NotBoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("a server is unreachable!");
 		}
 
 
@@ -100,6 +103,7 @@ public class ServerStatus {
 	public synchronized void billAuction(String name, long auctionID, double price) {
 		if(billingServerSecure!=null){
 			try {
+				System.out.println("trying to BILL AUCTION "+auctionID);
 				billingServerSecure.billAuction(name, auctionID, price);
 			} catch (RemoteException e) {
 				billingServerSecure =null;

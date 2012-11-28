@@ -35,6 +35,7 @@ public class ManagementClientInputThread extends Thread implements IUserRelated{
 		
 		respondParser = new CommandParser(true, this);
 		respondParser.setCommandList(new ManagementClientRespondCommandList());
+		System.out.println("READY for user-input\n");
 		
 			while((input= in.readLine())!=null){
 				
@@ -48,20 +49,16 @@ public class ManagementClientInputThread extends Thread implements IUserRelated{
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		finally{
 			System.out.println("input thread closing");
 			try {
-				
 				in.close();
-				this.finalize();
+				
 			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				//e.printStackTrace();
+			} 
 		}
 		
 		

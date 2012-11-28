@@ -1,6 +1,7 @@
 package analyticsServer.remote;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import network.rmi.SubscriberCallback;
 import analyticsServer.db.StatisticEventsDATABASE;
@@ -9,12 +10,11 @@ import analyticsServer.db.content.Subscription;
 import analyticsServer.event.Event;
 
 public class AnalyticsServerImpl implements AnalyticsServer {
-	//TESTING ONLY
 	private ArrayList<Subscription> subscriptions;
 	private StatisticEventsDATABASE statisticEvents;
 
 	public AnalyticsServerImpl(StatisticEventsDATABASE statisticEvents) {
-		//this.subscriptions= new ArrayList<SubscriberCallback>();
+		
 		this.subscriptions= new ArrayList<Subscription>();
 		this.statisticEvents = statisticEvents;
 	}
@@ -46,7 +46,13 @@ public class AnalyticsServerImpl implements AnalyticsServer {
 		for (Subscription sub : subscriptions) { // All subscriptions
 			for(Event e : eventNotifications ) { // All events
 				if(RegExpHelper.isEventType(sub.getRegex(), e)) {
-					sub.getClient().notify(e);   // Callback for matches
+					try{
+						
+						sub.getClient().notify(e);   // Callback for matches
+						
+					}catch(RemoteException ex){
+						// nothing to do here right now TODO
+					}
 				}
 			}
 		}
@@ -62,6 +68,22 @@ public class AnalyticsServerImpl implements AnalyticsServer {
 				break;
 			}
 		} 
+	}
+	
+	
+	public synchronized void killSubscriptions(){
+		System.out.println("kill subs...");
+		for(Subscription sub: subscriptions){
+			try {
+				System.out.println("subID: "+sub.getId()+"...");
+				sub.getClient().terminate();
+				
+				System.out.println("\t...removed");
+			} catch (RemoteException e) {
+				System.out.println("..remove error");
+				//e.printStackTrace();
+			}
+		}
 	}
 
 }

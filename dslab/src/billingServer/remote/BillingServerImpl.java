@@ -6,7 +6,11 @@
 
 package billingServer.remote;
 
+import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+
 import billingServer.db.BillingServerUserDATABASE;
 
 
@@ -14,6 +18,7 @@ public class BillingServerImpl implements BillingServer {
 
 	private static BillingServerImpl instance;
 	private BillingServerUserDATABASE users;
+	private ArrayList<BillingServerSecure> secureConn;
 	
 	public static BillingServerImpl getSingleInstance() {
 		if(instance == null) {
@@ -26,6 +31,7 @@ public class BillingServerImpl implements BillingServer {
 	
 	private BillingServerImpl() {
 		users= new BillingServerUserDATABASE(); //init user-DB
+		secureConn= new ArrayList<BillingServerSecure>();
 	}
 	
 	/*
@@ -43,13 +49,24 @@ public class BillingServerImpl implements BillingServer {
 			
 			if(users.verifyUser(username, password)) {
 				BillingServerSecureImpl tmp = new BillingServerSecureImpl();
+				secureConn.add(tmp);
 				return tmp;
 			} else {
 				return null;
 			}
 
 		}
-		
+	}
+	
+	public synchronized void disconnect(){
+		for(BillingServerSecure sec:secureConn){
+			try {
+				UnicastRemoteObject.unexportObject(sec, true);
+			} catch (NoSuchObjectException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+		}
 	}
 
 	
