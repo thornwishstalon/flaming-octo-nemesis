@@ -123,6 +123,18 @@ public class AuctionDATABASE {
 			return auctionList.get(id).getDescription();
 		else return null;
 	}
+	
+	public synchronized void killAuctions(){
+		System.out.println("ending running auctions");
+		
+		Auction tmp=null;
+		for(Integer key: auctionList.keySet()){
+			tmp= auctionList.get(key);
+			if(!tmp.isExpired()){
+				tmp.stop();
+			}
+		}
+	}
 
 
 

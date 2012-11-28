@@ -114,5 +114,16 @@ public class ServerStatus {
 
 	}
 
+	public void logout() {
+		try {
+			System.out.println("logging out from billing-server");
+			billingServerSecure.logout();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 
 }

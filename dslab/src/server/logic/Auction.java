@@ -114,7 +114,9 @@ public class Auction {
 		return  s; 
 	}
 
-
+	public void stop(){
+		timer.cancel();
+	}
 
 
 

@@ -2,6 +2,8 @@ package server;
 
 import java.io.IOException;
 
+import server.logic.AuctionDATABASE;
+
 import network.tcp.server.TCPServerSocket;
 
 public class ServerMain {
@@ -33,7 +35,11 @@ public class ServerMain {
 		input.run();
 		
 		
+		
 		server.shutdown();
+		
+		ServerStatus.getInstance().logout();
+		AuctionDATABASE.getInstance().killAuctions();
 		
 		}catch(IOException e){
 			
