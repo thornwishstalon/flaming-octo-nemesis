@@ -66,7 +66,7 @@ public class LoadTestMain {
 			try {
 				analyticsServer= (AnalyticsServer) registry.lookup(setup.getAnalyticsBindingName());
 				callback = new LoadTestSubscriberCallback();
-				subID=analyticsServer.subscribe(".*", callback);
+				subID=analyticsServer.subscribe("'(.*)'", callback);
 
 			} catch (NotBoundException e) {
 				// TODO Auto-generated catch block
