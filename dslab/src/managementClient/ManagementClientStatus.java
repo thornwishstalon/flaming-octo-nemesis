@@ -123,11 +123,14 @@ public class ManagementClientStatus {
 	private void terminateSubscribtions(){
 		for(Long key:subscriptionIDs.keySet()){
 			try {
+				System.out.println("ending subscription "+key);
+				
 				analyticsServer.unsubscribe(key);
 			} catch (RemoteException e) {
 				//e.printStackTrace();
 			}
 		}
+		
 	}
 	
 	public void disconnect(){
@@ -138,6 +141,7 @@ public class ManagementClientStatus {
 				EventDATABASE.getInstance().killCallback();
 				
 				billingServerSecure.logout();
+				billingServerSecure= null;
 				
 			} catch (RemoteException e) {
 				//nothing to do...

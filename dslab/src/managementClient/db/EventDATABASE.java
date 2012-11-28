@@ -1,6 +1,7 @@
 package managementClient.db;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import network.rmi.SubscriberCallback;
@@ -95,7 +96,7 @@ public class EventDATABASE {
 	 */
 	public void killCallback() {
 		try {
-			callback.terminate();
+			UnicastRemoteObject.unexportObject(callback, true);
 		} catch (RemoteException e) {
 			//nothing to do
 			//e.printStackTrace();
