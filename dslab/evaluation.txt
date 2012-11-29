@@ -1,0 +1,25 @@
+
+the LoadTest runs stable (~2h) using the following settings
+
+clients = 100
+auctionsPerMin = 10
+auctionDuration = 120
+updateIntervalSec = 10
+bidsPerMin = 10
+
+an increase in clients (e.g.: = 120 ) or operations per minute (auctionsPerMin = 20, bidsPerMin = 10) results
+in a server-side out-of-memory exception shortly after the start (approximately 2-3 minutes). However, the server 
+can still go on with serving the clients after the occurrence of an out-of-memory exception. The creation of new 
+auctions is up from this point no longer possible as there is no memory for new threads available. 
+
+
+tested on MacBook Pro with
+	  Prozessortyp:	Intel Core 2 Duo
+	  Prozessorgeschwindigkeit:	2,53 GHz
+	  Anzahl der Prozessoren:	1
+	  Gesamtzahl der Kerne:	2
+	  L2-Cache:	3 MB
+	  Speicher:	4 GB
+	  Busgeschwindigkeit:	1,07 GHz
+	  
+	  

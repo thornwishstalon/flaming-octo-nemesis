@@ -103,12 +103,12 @@ public class ServerStatus {
 	public synchronized void billAuction(String name, long auctionID, double price) {
 		if(billingServerSecure!=null){
 			try {
-				System.out.println("trying to BILL AUCTION "+auctionID);
+				//System.out.println("trying to BILL AUCTION "+auctionID);
 				billingServerSecure.billAuction(name, auctionID, price);
 			} catch (RemoteException e) {
 				billingServerSecure =null;
 				System.out.println("billing-server unreachable.");
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}else System.out.println("billing-server unreachable.");
 
@@ -120,7 +120,7 @@ public class ServerStatus {
 			billingServerSecure.logout();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 	}

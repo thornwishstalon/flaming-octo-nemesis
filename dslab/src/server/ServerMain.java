@@ -38,9 +38,13 @@ public class ServerMain {
 		
 		server.shutdown();
 		
+		System.out.println("ending auctions");
+		AuctionDATABASE.getInstance().killAuctions();
+		
+		System.out.println("log out from billing server");
 		ServerStatus.getInstance().logout();
 		
-		AuctionDATABASE.getInstance().killAuctions();
+		
 		
 		}catch(IOException e){
 			
