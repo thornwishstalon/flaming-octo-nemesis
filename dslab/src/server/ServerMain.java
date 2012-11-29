@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 
 import server.logic.AuctionDATABASE;
+import server.logic.UserDATABASE;
 
 import network.tcp.server.TCPServerSocket;
 
@@ -40,6 +41,8 @@ public class ServerMain {
 		
 		System.out.println("ending auctions");
 		AuctionDATABASE.getInstance().killAuctions();
+		
+		UserDATABASE.getInstance().killUsers();
 		
 		System.out.println("log out from billing server");
 		ServerStatus.getInstance().logout();

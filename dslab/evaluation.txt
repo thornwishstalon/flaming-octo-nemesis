@@ -7,10 +7,12 @@ auctionDuration = 120
 updateIntervalSec = 10
 bidsPerMin = 10
 
-an increase in clients (e.g.: = 120 ) or operations per minute (auctionsPerMin = 20, bidsPerMin = 10) results
+even a slight increase in clients (e.g.: = 120 ) or operations per minute (auctionsPerMin = 20, bidsPerMin = 10) results
 in a server-side out-of-memory exception shortly after the start (approximately 2-3 minutes). However, the server 
 can still go on with serving the clients after the occurrence of an out-of-memory exception. The creation of new 
-auctions is up from this point no longer possible as there is no memory for new threads available. 
+auctions is up from this point no longer possible as there is no memory for new threads available.
+
+ 
 
 
 tested on MacBook Pro with

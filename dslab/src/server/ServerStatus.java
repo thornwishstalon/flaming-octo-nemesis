@@ -50,7 +50,7 @@ public class ServerStatus {
 			System.out.println("connection to billing server established.");
 
 			billingServerSecure=billingServer.login(setup.getUsername().trim(), setup.getPassword().trim());
-			
+
 			if(billingServerSecure!=null)
 				System.out.println("login on billing server complete.");
 			//System.out.println(billingServerSecure.getPriceSteps());
@@ -92,7 +92,7 @@ public class ServerStatus {
 			} catch (RemoteException e1) {
 				// TODO Auto-generated catch block
 				analyticsServer=null;
-				
+
 				System.out.println("analytics-server unreachable! -- "+e.toString());
 				//e1.printStackTrace();
 			}
@@ -115,14 +115,16 @@ public class ServerStatus {
 	}
 
 	public void logout() {
-		try {
-			System.out.println("logging out from billing-server");
-			billingServerSecure.logout();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+		if(billingServerSecure!=null){
+			try {
+				System.out.println("logging out from billing-server");
+				billingServerSecure.logout();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
 		}
-		
+
 	}
 
 

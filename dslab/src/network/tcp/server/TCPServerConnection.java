@@ -37,6 +37,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 	private InetAddress address=null;
 	private int clientPort;
 	//private ExecutorService executor;
+	
 	private boolean listening=true;
 
 	public TCPServerConnection(Socket client){
@@ -74,17 +75,24 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 			}
 
 		} catch (IOException e) {
-			ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
+			if(user!=null){
+				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
+			}
 
 		} catch(RejectedExecutionException e){
-			ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
+			if(user!=null){
+				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
+			}
 		}
 		finally{
+			/*
 			if(user!=null){
 				//user disconnected event...
 				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
 			}
-			shutdown();
+			*/
+			if(listening)
+				shutdown();
 		}
 	}
 
@@ -94,7 +102,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 
 		try {
 			//System.out.println("remote-kill client");
-			//notify("!kill"); //remote kill via UDP
+			//notify("!kill"); //remote kill via TCP
 			out.println("!kill");
 			out.close();
 
@@ -115,7 +123,8 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 			client.shutdownOutput();
 			System.out.println("shutdownOutput");
 			 */
-
+			user=null;
+			//System.out.println("TCPConnection shutdown complete");
 
 		}catch(RejectedExecutionException e){
 
@@ -126,6 +135,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 
 		//}
 		finally{ 
+			System.out.println("TCPConnection shutdown complete");
 			//System.out.println("shutdown accomplished");
 			try {
 				this.finalize();

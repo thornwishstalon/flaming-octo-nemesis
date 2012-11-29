@@ -141,9 +141,15 @@ public class UserDATABASE {
 	}
 
 	private  synchronized void notifyAnalytics(Event e){
-
 		ServerStatus.getInstance().notifyAnalyticsServer(e);
-
+	}
+	
+	public synchronized void killUsers(){
+		User tmp=null;
+		for(String key: users.keySet()){
+			tmp= users.get(key);
+			tmp.stopTimer();
+		}
 	}
 
 

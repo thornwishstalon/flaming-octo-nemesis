@@ -140,7 +140,6 @@ public class User {
 	}
 	
 	public void startTimer(){
-		System.out.println("Timer start");
 		timer= new Timer();
 		timer.scheduleAtFixedRate(new MessageBrokerTask(), 100, 1000);
 		
@@ -148,7 +147,7 @@ public class User {
 	
 	public void stopTimer(){
 		timer.cancel();
-		System.out.println("Timer stop");
+		timer.purge();
 	}
 
 	/*

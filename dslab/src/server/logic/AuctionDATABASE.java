@@ -125,12 +125,13 @@ public class AuctionDATABASE {
 	}
 	
 	public synchronized void killAuctions(){
-		System.out.println("ending running auctions");
+		//System.out.println("ending running auctions");
 		
 		Auction tmp=null;
 		for(Integer key: auctionList.keySet()){
 			tmp= auctionList.get(key);
 			if(!tmp.isExpired()){
+				System.out.println("kill!");
 				tmp.stop();
 			}
 		}

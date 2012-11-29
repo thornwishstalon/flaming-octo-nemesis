@@ -51,6 +51,8 @@ public class Auction {
 		@Override
 		public void run() {
 			timer.cancel();
+			timer.purge();
+			
 			expired=true;
 
 			owner.addNotification(NotificationFactory.createNotification(getOwnerNote()));
@@ -115,7 +117,10 @@ public class Auction {
 	}
 
 	public void stop(){
+		System.out.println("cancel auction");
 		timer.cancel();
+		timer.purge();
+		
 	}
 
 
