@@ -117,7 +117,7 @@ public class Auction {
 	}
 
 	public void stop(){
-		System.out.println("cancel auction");
+		//System.out.println("cancel auction");
 		timer.cancel();
 		timer.purge();
 		

@@ -131,7 +131,7 @@ public class AuctionDATABASE {
 		for(Integer key: auctionList.keySet()){
 			tmp= auctionList.get(key);
 			if(!tmp.isExpired()){
-				System.out.println("kill!");
+				//System.out.println("kill!");
 				tmp.stop();
 			}
 		}
