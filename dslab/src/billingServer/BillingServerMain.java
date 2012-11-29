@@ -45,14 +45,6 @@ public class BillingServerMain {
 			stub = (BillingServer) UnicastRemoteObject.exportObject(server,0);
 			Registry registry = RMIRegistry.getRegistry();
 
-			/*
-			System.out.println("MD5 HELPER");
-			System.out.println("x || " + MD5Helper.StringToMD5("x"));
-			System.out.println("y || " + MD5Helper.StringToMD5("y"));
-			System.out.println("z || " + MD5Helper.StringToMD5("z"));
-			*/
-
-
 			registry.rebind(setup.getBindingName(), stub);
 
 			System.out.println("BillingServer bound");
@@ -68,9 +60,9 @@ public class BillingServerMain {
 			} catch (IOException e) {
 				//e.printStackTrace();
 			}
-			
+
 			System.out.println("ENDING billingServer");
-			
+
 			//close input-bufferedReader
 			try {
 				in.close();
@@ -78,33 +70,21 @@ public class BillingServerMain {
 				//e.printStackTrace();
 			}
 
-			
-	//		try {
-				//disconnect loggedin clients
-				((BillingServerImpl) server).disconnect();
-				
-				System.out.println("unbind billing-service from registry...");
-				UnicastRemoteObject.unexportObject(server, true);
-				
-				//registry.unbind(setup.getBindingName());
-		//	} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
-			//	e.printStackTrace();
-			//}
+			((BillingServerImpl) server).disconnect();
+
+			System.out.println("unbind billing-service from registry...");
+			UnicastRemoteObject.unexportObject(server, true);
+
 
 
 		} catch (RemoteException e) {
 			System.out.println("Binding of BillingServer was not successful!\n");
 			e.printStackTrace();
 		}
-		
+
 
 		System.out.println("\tGoodbye");
-		
-		
 
-
-		//System.out.println(MD5Helper.StringToMD5("dslab2012"));
 
 	}
 

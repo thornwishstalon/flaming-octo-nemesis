@@ -28,15 +28,18 @@ public class StatisticEventsDATABASE {
 	public ArrayList<Event> processUserEvent(ArrayList<Event> eventNotifications) {
 		try {
 			UserEvent u = (UserEvent) eventNotifications.get(0);
-			
 			if(RegExpHelper.isEventType("(USER_LOGIN)", u)) {
 				userAggregated.loginUser(u.getUsername(), u.getTimestamp());			
 			} else {
-				userAggregated.logoutUser(u.getUsername(), u.getTimestamp());
-				// Events are created -> USER_SESSIONTIME_MIN, USER_SESSIONTIME_MAX, USER_SESSIONTIME_AVERAGE
-				eventNotifications.add(EventFactory.createStatisticsEvent(userAggregated.getTimeMin(), 0));
-				eventNotifications.add(EventFactory.createStatisticsEvent(userAggregated.getTimeMax(), 1));
-				eventNotifications.add(EventFactory.createStatisticsEvent(userAggregated.getTimeAVG(), 2));
+				if(userAggregated.logoutUser(u.getUsername(), u.getTimestamp())) {
+					// Events are created -> USER_SESSIONTIME_MIN, USER_SESSIONTIME_MAX, USER_SESSIONTIME_AVERAGE
+					eventNotifications.add(EventFactory.createStatisticsEvent(userAggregated.getTimeMin(), 0));
+					eventNotifications.add(EventFactory.createStatisticsEvent(userAggregated.getTimeMax(), 1));
+					eventNotifications.add(EventFactory.createStatisticsEvent(userAggregated.getTimeAVG(), 2));
+				} else {
+					// Duplicate event -> ignore
+					eventNotifications = new ArrayList<Event>();
+				}
 			}			
 			
 		} catch (Exception e1) {

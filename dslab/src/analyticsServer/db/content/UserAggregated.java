@@ -18,21 +18,26 @@ public class UserAggregated {
 		}
 	}
 	
-	public void logoutUser(String name, double timestamp) {
+	public boolean logoutUser(String name, double timestamp) {
 		
-		double sessionTime;
-		
-		synchronized (userLog) {
-			sessionTime = timestamp - userLog.get(name);
-			userLog.remove(name);
+		try {
+			double sessionTime;
+			
+			synchronized (userLog) {
+				sessionTime = timestamp - userLog.get(name);
+				userLog.remove(name);
+			}
+			
+			if(timeMin>sessionTime)
+				timeMin=sessionTime;
+			if(timeMax<sessionTime)
+				timeMax=sessionTime;
+			
+			timeAVG = (timeAVG*sessionCount + sessionTime) / (++sessionCount);
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
-		
-		if(timeMin>sessionTime)
-			timeMin=sessionTime;
-		if(timeMax<sessionTime)
-			timeMax=sessionTime;
-		
-		timeAVG = (timeAVG*sessionCount + sessionTime) / (++sessionCount);
 	}
 	
 	/*

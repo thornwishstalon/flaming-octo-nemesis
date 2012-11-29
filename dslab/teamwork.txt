@@ -1,0 +1,5 @@
+Konzept, definieren und anlegen der Schnittstellen -> Gemeinsam
+
+Ungefähre Aufteilung der Implementierung:
+Billing- & Analytics-Server -> Lukas
+Loadtesting & MGMT-Client -> Fabian
