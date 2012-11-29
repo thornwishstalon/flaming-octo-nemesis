@@ -8,9 +8,9 @@
     <property name="server.name" value="server.ServerMain"/><!-- Server's full class name (including the package) -->
     <property name="server.host" value="localhost"/><!-- Auction Server's host -->
     <property name="client.name" value="client.ClientMain"/><!-- Bidding Client's full class name (including the package) -->
-    <property name="client1.port" value="11261"/><!-- UDP port of 1st Bidding Client -->
-    <property name="client2.port" value="11262"/><!-- UDP port of 2nd Bidding Client -->
-    <property name="client3.port" value="11263"/><!-- UDP port of 3rd Bidding Client -->
+    <property name="client1.port" value="13881"/><!-- UDP port of 1st Bidding Client -->
+    <property name="client2.port" value="13882"/><!-- UDP port of 2nd Bidding Client -->
+    <property name="client3.port" value="13883"/><!-- UDP port of 3rd Bidding Client -->
     <property name="mgmtclient.name" value="managementClient.ManagementClientMain"/><!-- Management Client's full class name (including the package) -->
     
     <property name="analytics.name" value="analyticsServer.remote.AnalyticsServerMain"/><!-- Analytics Server's full class name (including the package) -->
@@ -19,7 +19,7 @@
 
     <property name="analytics.bindingName" value="AnalyticsServerRef"/><!-- RMI Binding Name of the Analytics Server -->
     <property name="billing.bindingName" value="BillingServerRef"/><!-- RMI Binding Name of the Billing Server -->
-    <property name="server.port" value="11260"/><!-- TCP port -->
+    <property name="server.port" value="13880"/><!-- TCP port -->
 
     <path id="project.classpath">
         <pathelement location="${build.dir}"/>
