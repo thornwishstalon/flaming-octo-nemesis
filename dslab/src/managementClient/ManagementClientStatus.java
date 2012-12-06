@@ -39,7 +39,7 @@ public class ManagementClientStatus {
 	public void init(ManagementClientSetup setup){
 		subscriptionIDs= new HashMap<Long,Long>();
 		try {
-			Registry registry =RMIRegistry.getRegistry(11269);
+			Registry registry =RMIRegistry.getRegistry();
 			
 			//###########################
 			// billing server
