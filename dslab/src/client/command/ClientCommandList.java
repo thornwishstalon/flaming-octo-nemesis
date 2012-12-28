@@ -24,12 +24,16 @@ public class ClientCommandList implements ICommandList {
 		Bid bid = new Bid(connection);
 		Register register= new Register(connection);
 		
+		//TESTING dslab3_stage2
+		HMAC_TEST hesh= new HMAC_TEST("keys/alice.key");
+		
 		commands.put("!login", login);
 		commands.put("!logout", logout);
 		commands.put("!list", list);
 		commands.put("!create", create);
 		commands.put("!bid", bid);
 		commands.put("!register", register);
+		commands.put("!hesh", hesh);
 	}
 	
 	

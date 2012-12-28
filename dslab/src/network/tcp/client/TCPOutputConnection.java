@@ -71,8 +71,10 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 				else{
 					if(input.length()>0){
 						String query=parser.parse(input.trim());
-						if(query.length()>1)
+						if(query.length()>1){
+							//TODO HMAC data structure add input line...
 							writer.println(query);
+						}
 					}
 					else System.out.println("");
 

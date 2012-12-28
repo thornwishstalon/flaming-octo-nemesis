@@ -25,7 +25,9 @@ public class ClientLocalCommandList implements ICommandList {
 		commands.put("!logout", through);
 		commands.put("!bid", through);
 		commands.put("!register", register);
-		
+
+		//TESTING dslab3_stage2
+		commands.put("!hesh", through);
 
 	}
 	

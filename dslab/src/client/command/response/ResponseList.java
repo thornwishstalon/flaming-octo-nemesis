@@ -30,6 +30,9 @@ public class ResponseList implements ICommandList {
 		AckCreate ackCreate= new AckCreate();
 		AuctionItem aucItem= new AuctionItem();
 		
+		//TESTING dslab3_stage2
+		DEHESH_TEST dehesh= new DEHESH_TEST("keys/alice.key");
+		
 		commands.put("!ack", ack);
 		commands.put("!new-bid", newBid);
 		commands.put("!auction-ended", auctionEnded);
@@ -39,7 +42,7 @@ public class ResponseList implements ICommandList {
 		commands.put("!kill", kill);
 		commands.put("!ack-create",ackCreate);
 		commands.put("!auction-item",aucItem);
-		
+		commands.put("!dehesh", dehesh);
 
 	}
 	

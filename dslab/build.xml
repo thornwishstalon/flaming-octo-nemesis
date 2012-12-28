@@ -3,6 +3,7 @@
 
     <property name="src.dir" value="src"/>
     <property name="build.dir" value="build"/>
+    <property name="lib.dir" value="lib"/>
 
     <!-- You need to update these properties!-->
     <property name="server.name" value="server.ServerMain"/><!-- Server's full class name (including the package) -->

@@ -33,6 +33,8 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 			String input,answer;
 			
 			while((input= reader.readLine())!=null){
+				
+				//TODO HMAC verify!
 				answer=parser.parse(input);
 				System.out.println(ClientStatus.getInstance().getUser() + "> "+answer);
 			}
