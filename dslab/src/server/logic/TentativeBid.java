@@ -24,12 +24,11 @@ public class TentativeBid {
 		this.price=price;
 
 		timer= new Timer();
-		timer.schedule(new TimeoutTask(), timeout, 1000);
+		timer.schedule(new TimeoutTask(), timeout); //timeout= delay in that case
 
 
 		//notify all logged in Users
-		UserDATABASE.getInstance().notifyLoggedInUsers(NotificationFactory.createNotification(
-				"!print "+"A new group-bid poll has been initialised/nby "+initiator+"on auction "+auctionId+" with "+price));
+		UserDATABASE.getInstance().notifyLoggedInUsers("!print "+"A new group-bid poll has been started by "+initiator+" on auction "+auctionId+" with "+price);
 	}
 
 	public boolean isConfirmed() {
@@ -79,8 +78,7 @@ public class TentativeBid {
 			}
 			
 			
-			UserDATABASE.getInstance().notifyLoggedInUsers(NotificationFactory.createNotification(
-					message));
+			UserDATABASE.getInstance().notifyLoggedInUsers(message);
 
 			timer.cancel();
 			timer.purge();
@@ -98,8 +96,7 @@ public class TentativeBid {
 
 			timedOut=true; 
 
-			UserDATABASE.getInstance().notifyLoggedInUsers(NotificationFactory.createNotification(
-					"!rejected "));
+			UserDATABASE.getInstance().notifyLoggedInUsers("!rejected ");
 
 		}
 

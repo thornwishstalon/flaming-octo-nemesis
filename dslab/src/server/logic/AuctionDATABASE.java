@@ -142,7 +142,11 @@ public class AuctionDATABASE {
 	}
 	
 	public synchronized int createGroupBid(int auctionID, double price, String initiator){
-		if(tentativeBids.get(auctionID)!=null)
+		if(auctionList.get(auctionList) != null  )
+			return NO_AUCTION_WITH_ID_FOUND;
+		
+		TentativeBid bid= tentativeBids.get(auctionID);
+		if(tentativeBids.get(auctionID)!=null && !bid.isTimedOut())
 			return EXISTING_POLL;
 		else{
 			tentativeBids.put(auctionID, new TentativeBid(auctionID, initiator, price));

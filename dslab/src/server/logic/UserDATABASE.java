@@ -152,12 +152,14 @@ public class UserDATABASE {
 		}
 	}
 	
-	public synchronized void notifyLoggedInUsers(UserNotification note){
+	public synchronized void notifyLoggedInUsers(String note){
+		
 		User tmp=null;
 		for(String key: users.keySet()){
 			tmp= users.get(key);
 				if(tmp.isLoggedIn()){
-					tmp.addNotification(note);
+					//System.out.println(tmp.getName()+" notified: "+note);
+					tmp.addNotification(NotificationFactory.createNotification(note));
 				}
 		}		
 	}

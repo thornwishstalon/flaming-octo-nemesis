@@ -16,50 +16,53 @@ public class User {
 	private String name;
 	private boolean loggedIn=false;
 	private TCPServerConnection connection=null;
-	
+
 	private InetAddress address;
 	private int port;
-	
+
 	private ArrayList<UserNotification> notifications;
 	private Timer timer=null;
-	
+
 	public User(String name){
 		notifications= new ArrayList<UserNotification>();
 		this.name=name;
-		
+
 		//timer= new Timer();
 
-		
-		
+
+
 	}
-	
+
 	private class MessageBrokerTask extends TimerTask{
 		//private int checkInterval = 1000; //ms
-		
+
 		public MessageBrokerTask() {
-			
+
 		}
 		@Override
 		public void run() {
 			//System.out.println("task says hi");
-			if(hasNotifications()){
-				connection.print(notifications);
-				clearNotifications();
+			synchronized (connection) {
+				if(hasNotifications()){
+					//System.out.println("printing");
+					connection.print(notifications);
+					clearNotifications();
+				}
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
 	}
-	
+
 	public boolean isLoggedIn() {
 		return loggedIn;
 	}
@@ -71,16 +74,17 @@ public class User {
 	public void setID(int iD) {
 		ID = iD;
 	}
-	
+
 	public void addNotification(UserNotification note){
+		//System.out.println(name+": note added");
 		notifications.add(note);
 	}
-	
+
 	public ArrayList<UserNotification> getNotifications(){
 		Collections.sort(notifications); //order by timestamp
 		return notifications;
 	}
-	
+
 	public void clearNotifications(){
 		UserNotification note=null;
 		for(int i=0; i<notifications.size();i++){
@@ -90,7 +94,7 @@ public class User {
 			}
 		}
 	}
-	
+
 	public synchronized boolean hasNotifications(){
 		boolean notes=false;
 		for(UserNotification n:notifications){
@@ -99,10 +103,10 @@ public class User {
 				break;
 			}
 		}
-		
+
 		return notes;
 	}
-	
+
 	public String getDescription(){
 		return "ID: "+ID+" "+name+" ONLINE: "+loggedIn;
 	}
@@ -122,15 +126,15 @@ public class User {
 	public void setPort(int port) {
 		this.port = port;
 	}
-	
+
 	public String getFullDescription(){
 		if(loggedIn)
 			return "ID: "+ID+" "+name+" contact from: "+address.getHostName()+":"+port+"\n\tonline: "+loggedIn+", has notifiactions: "+hasNotifications();
 		else return "ID: "+ID+" "+name+"\n\tonline: "+loggedIn+", has notifiactions: "+hasNotifications();
-		
+
 	}
-	
-	
+
+
 	public TCPServerConnection getConnection() {
 		return connection;
 	}
@@ -138,13 +142,13 @@ public class User {
 	public void setConnection(TCPServerConnection connection) {
 		this.connection = connection;
 	}
-	
+
 	public void startTimer(){
 		timer= new Timer();
 		timer.scheduleAtFixedRate(new MessageBrokerTask(), 100, 1000);
-		
+
 	}
-	
+
 	public void stopTimer(){
 		timer.cancel();
 		timer.purge();
@@ -156,11 +160,11 @@ public class User {
 		DatagramPacket packet= new DatagramPacket(data, data.length,address,port);
 		DatagramSocket socket= new DatagramSocket();
 		socket.send(packet);
-		
+
 		socket.close();
-		
+
 	}
-	*/
+	 */
 	/*
 	public synchronized void  startNotification() {
 		System.out.println("notify user: "+name);
@@ -168,7 +172,7 @@ public class User {
 		thread.start();
 		clearNotifications();
 	}
-	
+
 
 	public synchronized void  startNotification(int delay) {
 		System.out.println("notify user: "+name);
@@ -176,8 +180,8 @@ public class User {
 		thread.start();
 		clearNotifications();
 	}
-	*/
-	
-	
-	
+	 */
+
+
+
 }

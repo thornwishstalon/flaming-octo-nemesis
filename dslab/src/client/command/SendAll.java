@@ -1,19 +1,25 @@
-package client.command.response;
+package client.command;
 
+
+import server.logic.UserDATABASE;
 import command.ICommand;
 
-public class Rejected implements ICommand {
+public class SendAll implements ICommand {
 
 	@Override
 	public int numberOfParams() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public String execute(String[] params) {
-		// TODO Auto-generated method stub
-		return "poll rejected";
+		String message= params[0];
+		
+		UserDATABASE.getInstance().notifyLoggedInUsers("!print "+message);
+		
+		
+		return "";
 	}
 
 	@Override
