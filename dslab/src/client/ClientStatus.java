@@ -7,6 +7,7 @@ public class ClientStatus {
 	private  boolean ack= false;
 	private  String user="";
 	private  boolean kill= false;
+	private boolean blocked=false;
 	//private Socket socket=null;
 	
 	
@@ -50,6 +51,17 @@ public class ClientStatus {
 		kill=b;
 		
 	}
+
+
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
+	
 	
 	
 }

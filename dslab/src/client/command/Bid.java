@@ -13,7 +13,6 @@ public class Bid implements ICommand {
 
 	@Override
 	public int numberOfParams() {
-		// TODO Auto-generated method stub
 		return 2;
 	}
 

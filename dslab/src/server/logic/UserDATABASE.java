@@ -151,7 +151,15 @@ public class UserDATABASE {
 			tmp.stopTimer();
 		}
 	}
-
-
+	
+	public synchronized void notifyLoggedInUsers(UserNotification note){
+		User tmp=null;
+		for(String key: users.keySet()){
+			tmp= users.get(key);
+				if(tmp.isLoggedIn()){
+					tmp.addNotification(note);
+				}
+		}		
+	}
 
 }

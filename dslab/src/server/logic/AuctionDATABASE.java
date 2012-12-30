@@ -1,6 +1,5 @@
 package server.logic;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,12 +14,17 @@ public class AuctionDATABASE {
 	public final static int NEEDS_MORE_MONEY=2;
 	public final static int AUCTION_EXPIRED=3;
 	public final static int OWNER_SAME_AS_BIDDER=4;
+	//Concerning Group bids
+	public final static int EXISTING_POLL=5;
+	public final static int SUCCESSFULLY_PLACED_POLL=6;
 
 	private int idCounter=0;
 	private ConcurrentHashMap<Integer,Auction> auctionList;
+	private ConcurrentHashMap<Integer,TentativeBid> tentativeBids;
 
 	private AuctionDATABASE(){
 		auctionList= new ConcurrentHashMap<Integer, Auction>();
+		tentativeBids= new ConcurrentHashMap<Integer, TentativeBid>();
 	}
 
 	public static AuctionDATABASE getInstance(){
@@ -135,6 +139,21 @@ public class AuctionDATABASE {
 				tmp.stop();
 			}
 		}
+	}
+	
+	public synchronized int createGroupBid(int auctionID, double price, String initiator){
+		if(tentativeBids.get(auctionID)!=null)
+			return EXISTING_POLL;
+		else{
+			tentativeBids.put(auctionID, new TentativeBid(auctionID, initiator, price));
+			
+			return SUCCESSFULLY_PLACED_POLL;
+		}
+		
+	}
+	
+	public synchronized void confirmTentativeBid(int auctionId, double price, String initiator){
+		//TODO
 	}
 
 
