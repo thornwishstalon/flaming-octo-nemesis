@@ -42,6 +42,8 @@ public class GroupBid implements ICommand {
 			return "!print "+"There is already a group-bid poll concerning this auction.";
 		case AuctionDATABASE.SUCCESSFULLY_PLACED_POLL:
 			return "!print Your Poll has successfully been placed.";
+		case AuctionDATABASE.REJECTED_POLL:
+			return  "!print "+"Your Poll has been rejected!";
 		}
 		
 		return "";

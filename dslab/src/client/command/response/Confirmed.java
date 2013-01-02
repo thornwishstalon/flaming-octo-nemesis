@@ -1,5 +1,6 @@
 package client.command.response;
 
+import client.ClientStatus;
 import command.ICommand;
 
 public class Confirmed implements ICommand {
@@ -11,13 +12,16 @@ public class Confirmed implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
-		return "poll confirmed";
+		ClientStatus.getInstance().setBlocked(true);
+		System.out.println("<BLOCK>");
+		
+		return "poll confirmed by you";
 	}
 
 	@Override
 	public boolean needsRegistration() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

@@ -23,6 +23,7 @@ public class UserDATABASE {
 	private int idCounter=0;
 	private static UserDATABASE instance=null;
 	private HashMap<String, User> users;
+	private int activeUsers=0;
 
 	private UserDATABASE(){
 		users= new HashMap<String, User>();
@@ -153,15 +154,20 @@ public class UserDATABASE {
 	}
 	
 	public synchronized void notifyLoggedInUsers(String note){
-		
+		activeUsers=0;
 		User tmp=null;
 		for(String key: users.keySet()){
 			tmp= users.get(key);
 				if(tmp.isLoggedIn()){
+					activeUsers++;
 					//System.out.println(tmp.getName()+" notified: "+note);
 					tmp.addNotification(NotificationFactory.createNotification(note));
 				}
 		}		
+	}
+	
+	public synchronized int getActiveUsers(){
+		return activeUsers;
 	}
 
 }

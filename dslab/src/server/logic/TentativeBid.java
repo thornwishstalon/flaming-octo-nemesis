@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TentativeBid {
-	private long timeout=15000; //15 secs 
+	private long timeout=30000; //30 secs timeout 
 	private int auctionId;
 	private boolean isConfirmed=false;
 	private boolean timedOut=false;
@@ -96,7 +96,7 @@ public class TentativeBid {
 
 			timedOut=true; 
 
-			UserDATABASE.getInstance().notifyLoggedInUsers("!rejected ");
+			UserDATABASE.getInstance().notifyLoggedInUsers("!rejected "+"Poll was timed out!");
 
 		}
 

@@ -24,6 +24,8 @@ public class ClientCommandList implements ICommandList {
 		Bid bid = new Bid(connection);
 		Register register= new Register(connection);
 		GroupBid groupBid= new GroupBid(connection);
+		Confirm confirm= new Confirm();
+		
 		//TESTING dslab3_stage2
 		HMAC_TEST hesh= new HMAC_TEST("keys/alice.key");
 		
@@ -35,6 +37,7 @@ public class ClientCommandList implements ICommandList {
 		commands.put("!register", register);
 		commands.put("!hesh", hesh);
 		commands.put("!groupBid", groupBid);
+		commands.put("!confirm", confirm);
 		
 		//TESTING
 		commands.put("!sendAll", new SendAll());
