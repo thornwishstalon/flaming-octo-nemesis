@@ -21,7 +21,7 @@ public class AuctionDATABASE {
 	public final static int PRICE_MISSMATCH=8;
 	public final static int INITIATOR_MISSMATCH=9;
 	public final static int SUCCESSFULLY_CONFIRMED_POLL=10;
-	
+
 
 	private int idCounter=0;
 	private ConcurrentHashMap<Integer,Auction> auctionList;
@@ -56,8 +56,11 @@ public class AuctionDATABASE {
 
 	public synchronized int bidOnAuction(int id, User bidder, double money){
 		Auction tmp= auctionList.get(id);
+		
+		/*
 		if(bidder.getID()== tmp.getOwner().getID())
 			return OWNER_SAME_AS_BIDDER;
+		*/
 
 		if(tmp!=null){
 			if(tmp.isExpired())
@@ -67,7 +70,7 @@ public class AuctionDATABASE {
 				return NEEDS_MORE_MONEY;
 			}else{
 				// BID_OVERBID event
-				
+
 				if(tmp.getHighestBidder()!=null)
 					ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createBidEvent(tmp.getHighestBidder().getName(), id, tmp.getPrice(), 1));
 
@@ -132,10 +135,10 @@ public class AuctionDATABASE {
 			return auctionList.get(id).getDescription();
 		else return null;
 	}
-	
+
 	public synchronized void killAuctions(){
 		//System.out.println("ending running auctions");
-		
+
 		//kill auctions
 		Auction tmp=null;
 		for(Integer key: auctionList.keySet()){
@@ -145,7 +148,7 @@ public class AuctionDATABASE {
 				tmp.stop();
 			}
 		}
-		
+
 		//kill tentativeBids
 		TentativeBid bid=null;
 		for(Integer key: tentativeBids.keySet()){
@@ -156,7 +159,7 @@ public class AuctionDATABASE {
 	private synchronized int numberOfTentativeBids(){
 		TentativeBid bid=null;
 		int n=0;
-		
+
 		for(Integer key: tentativeBids.keySet()){
 			bid= tentativeBids.get(key);
 			if(bid.isTimedOut() && !bid.isConfirmed()){
@@ -167,45 +170,66 @@ public class AuctionDATABASE {
 		}
 		return n;
 	}
-	
-	private synchronized boolean isGroupBidPossisble(){
-		return (numberOfTentativeBids() <= UserDATABASE.getInstance().getActiveUsers());
+
+	private synchronized int numberOfGroupAuctions(){
+		Auction bid=null;
+		int n=0;
+		
+		User bidder=null;
+		for(Integer key: auctionList.keySet()){
+			bid= auctionList.get(key);
+			
+			bidder= bid.getHighestBidder();
+			if(bidder!=null){
+				if(bidder.getName().equals("group"))
+					n++;
+			}
+				
+				
+
+		}
+		return n;
 	}
-	
+
+	private synchronized boolean isGroupBidPossisble(){
+		//return (numberOfTentativeBids() <= UserDATABASE.getInstance().getActiveUsers());
+		return (numberOfGroupAuctions() <= UserDATABASE.getInstance().getActiveUsers());
+	}
+
 	public synchronized int createGroupBid(int auctionID, double price, String initiator){
 		if(!isGroupBidPossisble())
 			return REJECTED_POLL;
-		
+
 		if(auctionList.get(auctionList) != null  )
 			return NO_AUCTION_WITH_ID_FOUND;
-		
+
 		TentativeBid bid= tentativeBids.get(auctionID);
 		if(tentativeBids.get(auctionID)!=null && !bid.isTimedOut())
 			return EXISTING_POLL;
 		else{
 			tentativeBids.put(auctionID, new TentativeBid(auctionID, initiator, price));
-			
+
 			return SUCCESSFULLY_PLACED_POLL;
 		}
-		
+
 	}
-	
+
 	public synchronized int confirmTentativeBid(int auctionId, double price, String initiator){
 		TentativeBid bid=tentativeBids.get(auctionId);
 		if(bid==null)
 			return NO_AUCTION_WITH_ID_FOUND;
-		
+
 		else if(!bid.getInitiator().equals(initiator))
 			return INITIATOR_MISSMATCH;
-		
+
 		else if(bid.getPrice() != price)
 			return PRICE_MISSMATCH;
 		else{
 			bid.confirm();
-	
+
 			return SUCCESSFULLY_CONFIRMED_POLL;
 		}
-		
+
 	}
 
 

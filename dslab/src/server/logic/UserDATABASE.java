@@ -1,7 +1,6 @@
 package server.logic;
 
 import java.net.InetAddress;
-import java.rmi.RemoteException;
 import java.util.HashMap;
 
 import server.ServerStatus;
@@ -27,6 +26,8 @@ public class UserDATABASE {
 
 	private UserDATABASE(){
 		users= new HashMap<String, User>();
+		
+		users.put("group", new Group("group")); // add Group- User
 	}
 
 	public static UserDATABASE getInstance(){

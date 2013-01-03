@@ -12,10 +12,10 @@ public class Confirmed implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
-		ClientStatus.getInstance().setBlocked(true);
-		System.out.println("<BLOCK>");
+		ClientStatus.getInstance().setBlocked(false);
+		//System.out.println("<BLOCK>");
 		
-		return "poll confirmed by you";
+		return "Poll was confirmed. Your bid will be placed.";
 	}
 
 	@Override

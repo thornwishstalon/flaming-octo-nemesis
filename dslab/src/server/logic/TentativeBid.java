@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TentativeBid {
-	private long timeout=30000; //30 secs timeout 
+	private long timeout=90000; //90 secs timeout 
 	private int auctionId;
 	private boolean isConfirmed=false;
 	private boolean timedOut=false;
@@ -53,12 +53,13 @@ public class TentativeBid {
 	}
 
 	public void confirm(){
-
-		if(confirmCounter++ >= 2 && !isConfirmed){
+		
+		confirmCounter++;
+		
+		if(confirmCounter >= 2 && !isConfirmed){
 			isConfirmed=true;
 			
-
-			int x= AuctionDATABASE.getInstance().bidOnAuction(auctionId, UserDATABASE.getInstance().getUser(initiator), price);
+			int x= AuctionDATABASE.getInstance().bidOnAuction(auctionId, UserDATABASE.getInstance().getUser("group"), price);
 			String message="";
 			switch(x){
 			case AuctionDATABASE.NEEDS_MORE_MONEY:
@@ -71,10 +72,14 @@ public class TentativeBid {
 				message= "!rejected This auction has expired";
 				
 			case AuctionDATABASE.SUCCESSFULLY_PLACED_BID:
-				message= "!confirmed You successfully bid with " +price+" on '"+AuctionDATABASE.getInstance().getDescription(auctionId)+"'.";
-				
+				//solve blocks
+				UserDATABASE.getInstance().notifyLoggedInUsers("!confirmed");
+				//build success message
+				message= "!print You successfully bid with " +price+" on '"+AuctionDATABASE.getInstance().getDescription(auctionId)+"'.";
+			/*	
 			case AuctionDATABASE.OWNER_SAME_AS_BIDDER:
 				message= "!rejected Don't bid on your own items!";
+			*/
 			}
 			
 			
