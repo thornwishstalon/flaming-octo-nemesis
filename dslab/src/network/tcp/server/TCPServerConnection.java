@@ -14,6 +14,9 @@ import java.util.concurrent.TimeUnit;
 
 import analyticsServer.event.EventFactory;
 
+import network.security.Base64StringDecorator;
+import network.security.IStringStream;
+import network.security.SimpleStringStream;
 import network.udp.server.UDPNotificationThread;
 
 import client.command.ClientCommandList;
@@ -37,6 +40,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 	private InetAddress address=null;
 	private int clientPort;
 	//private ExecutorService executor;
+	private IStringStream stringStream;
 	
 	private boolean listening=true;
 
@@ -45,7 +49,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		parser= new CommandParser(true,this);
 		parser.setCommandList(new ClientCommandList(this));
 		address=client.getInetAddress();
-
+		stringStream = new SimpleStringStream();
 		//executor = Executors.newFixedThreadPool(NTHREADS);
 
 	}
@@ -59,6 +63,18 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 			String input;
 			String answer;
 			while(((input=in.readLine())!=null)){
+				
+				
+				//DEBUG - Cypher-Stream
+				System.out.println("[CLIENT_RAW]: " + input);
+				
+				if(!input.equals("!list"))
+					input = stringStream.getIncomingStream(input);
+				
+				//DEBUG - Regular input
+				System.out.println("[CLIENT_ENC]: " + input);
+				
+				
 				if(!listening)
 					break;
 				if(input.equals("!end")){
@@ -207,5 +223,12 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		out.println(message);
 	}
 
+	public IStringStream getStringStream() {
+		return stringStream;
+	}
+
+	public void setStringStream(IStringStream stringStream) {
+		this.stringStream = stringStream;
+	}
 
 }

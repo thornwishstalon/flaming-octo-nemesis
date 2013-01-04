@@ -7,6 +7,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 
+import network.security.Base64StringDecorator;
+import network.security.IStringStream;
+import network.security.SimpleStringStream;
+
 import command.CommandException;
 import command.CommandParser;
 
@@ -23,12 +27,14 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 	private BufferedReader reader=null;
 	private User user=null;
 	private CommandParser parser=null;
+	private IStringStream stringStream;
 
 
 	public TCPOutputConnection(Socket socket, ClientSetup setup){
 		this.socket = socket;
 		parser= new CommandParser(false,this);
 		parser.setCommandList(new ClientLocalCommandList(setup.getClientPort()));
+		stringStream = new SimpleStringStream();
 	}
 
 	public void run(){
@@ -73,7 +79,7 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 						String query=parser.parse(input.trim());
 						if(query.length()>1){
 							//TODO HMAC data structure add input line...
-							writer.println(query);
+							writer.println(stringStream.putOutgoingStream(query));
 						}
 					}
 					else System.out.println("");
@@ -99,6 +105,14 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 		}
 	}
 
+	
+	public synchronized void setStreamProperties(IStringStream stringStream) {
+		this.stringStream= stringStream; 
+	}
+	
+	public synchronized IStringStream getStreamProperties() {
+		return stringStream; 
+	}
 
 	public synchronized void close() {
 		//System.out.println("tcpConnection close");

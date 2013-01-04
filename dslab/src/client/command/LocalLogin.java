@@ -14,11 +14,16 @@ public class LocalLogin implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
+		
 		if(!ClientStatus.getInstance().getUser().equals("")){
 			System.out.println("Error: "+ClientStatus.getInstance().getUser()+" still logged in!");
 			return "";
 		}
-		else return params[0];
+		else {
+			
+			
+			return params[0];
+		}
 	}
 
 	@Override
