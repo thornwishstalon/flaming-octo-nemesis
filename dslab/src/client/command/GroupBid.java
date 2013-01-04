@@ -43,7 +43,7 @@ public class GroupBid implements ICommand {
 		case AuctionDATABASE.SUCCESSFULLY_PLACED_POLL:
 			return "!print Your Poll has successfully been placed.";
 		case AuctionDATABASE.REJECTED_POLL:
-			return  "!print "+"Your Poll has been rejected!";
+			return  "!print "+"Your Poll has been rejected due to policies regarding fairness!";
 		}
 		
 		return "";

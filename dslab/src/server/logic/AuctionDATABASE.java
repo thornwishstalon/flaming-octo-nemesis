@@ -26,10 +26,12 @@ public class AuctionDATABASE {
 	private int idCounter=0;
 	private ConcurrentHashMap<Integer,Auction> auctionList;
 	private ConcurrentHashMap<Integer,TentativeBid> tentativeBids;
+	private GroupQueue queue;
 
 	private AuctionDATABASE(){
 		auctionList= new ConcurrentHashMap<Integer, Auction>();
 		tentativeBids= new ConcurrentHashMap<Integer, TentativeBid>();
+		queue= new GroupQueue();
 	}
 
 	public static AuctionDATABASE getInstance(){
@@ -138,7 +140,9 @@ public class AuctionDATABASE {
 
 	public synchronized void killAuctions(){
 		//System.out.println("ending running auctions");
-
+		//kill queue
+		queue.cancel();
+		
 		//kill auctions
 		Auction tmp=null;
 		for(Integer key: auctionList.keySet()){
@@ -191,13 +195,19 @@ public class AuctionDATABASE {
 		return n;
 	}
 
-	private synchronized boolean isGroupBidPossisble(){
+	private synchronized boolean isGroupBidPossisble(String initiator){
 		//return (numberOfTentativeBids() <= UserDATABASE.getInstance().getActiveUsers());
-		return (numberOfGroupAuctions() <= UserDATABASE.getInstance().getActiveUsers());
+		boolean check= (numberOfGroupAuctions() <= UserDATABASE.getInstance().getActiveUsers());
+		
+		if(check== true){
+			check= check && queue.queue(initiator);
+		}
+		
+		return check;
 	}
 
 	public synchronized int createGroupBid(int auctionID, double price, String initiator){
-		if(!isGroupBidPossisble())
+		if(!isGroupBidPossisble(initiator))
 			return REJECTED_POLL;
 
 		if(auctionList.get(auctionList) != null  )

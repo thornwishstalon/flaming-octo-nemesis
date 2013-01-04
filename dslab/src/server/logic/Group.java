@@ -35,5 +35,17 @@ public class Group extends User {
 	public String getName() {
 		return super.getName();
 	}
+	
+	@Override
+	public void stopTimer() {
+		// nothing to do here
+	//	super.stopTimer();
+	}
+	
+	@Override
+	public void startTimer() {
+		// nothing to do here
+		//super.startTimer();
+	}
 
 }
