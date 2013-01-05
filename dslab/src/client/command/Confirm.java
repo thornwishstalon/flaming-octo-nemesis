@@ -7,7 +7,7 @@ public class Confirm implements ICommand {
 
 	@Override
 	public int numberOfParams() {
-		return 3; //!confir, <auctionID> <price> <initiator>
+		return 3; //!confirm <auctionID> <price> <initiator>
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class Confirm implements ICommand {
 		case AuctionDATABASE.INITIATOR_MISSMATCH:
 			return "!rejected "+"Incorrect Initiator!";
 		case AuctionDATABASE.SUCCESSFULLY_CONFIRMED_POLL:	
-			return "!print "+"You have confirmed the poll!";
+			return "!ackConfirm";
 		}
 
 

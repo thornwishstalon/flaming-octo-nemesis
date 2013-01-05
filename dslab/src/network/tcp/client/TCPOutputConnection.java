@@ -75,7 +75,7 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 					break;
 				}
 				else{
-					if(input.length()>0){
+					if(input.length()>0 && !ClientStatus.getInstance().isBlocked()){
 						String query=parser.parse(input.trim());
 						if(query.length()>1 && !ClientStatus.getInstance().isBlocked()){
 							//TODO HMAC data structure add input line...

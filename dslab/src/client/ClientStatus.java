@@ -67,7 +67,7 @@ public class ClientStatus {
 	}
 
 
-	public void setBlocked(boolean blocked) {
+	public synchronized void setBlocked(boolean blocked) {
 		System.out.println("new value: "+blocked);
 		if(blocked==true && this.blocked==false){
 			timer.schedule(new UnblockTask(), timeout); 
