@@ -56,8 +56,7 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 	
 	@Override
 	public String getUser() {
-		// TODO Auto-generated method stub
-		return null;
+		return ClientStatus.getInstance().getUser();
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class ClientLocalCommandList implements ICommandList {
 		LocalLogin login= new LocalLogin();
 		//LocalCreate create= new LocalCreate();
 		LocalPassThrough through= new LocalPassThrough();
-		LocalRegister register= new LocalRegister(port);  
+		//LocalRegister register= new LocalRegister(port);  
 		
 		commands.put("!login", login);
 		commands.put("!list", through);
@@ -24,11 +24,14 @@ public class ClientLocalCommandList implements ICommandList {
 		commands.put("!create", through);
 		commands.put("!logout", through);
 		commands.put("!bid", through);
-		commands.put("!register", register);
-
+		//commands.put("!register", register);
+		commands.put("!groupBid", through);
+		//commands.put("!sendAll", through); //DEBUG ONLY
+		commands.put("!confirm", through);
+		
 		//TESTING dslab3_stage2
 		commands.put("!hesh", through);
-
+		
 	}
 	
 	

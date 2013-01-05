@@ -60,8 +60,8 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 				ack= ClientStatus.getInstance().isAck();
 
 			}
-			*/
-			
+			 */
+
 
 			System.out.println("READY for Input!");
 
@@ -77,7 +77,7 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 				else{
 					if(input.length()>0){
 						String query=parser.parse(input.trim());
-						if(query.length()>1){
+						if(query.length()>1 && !ClientStatus.getInstance().isBlocked()){
 							//TODO HMAC data structure add input line...
 							writer.println(stringStream.putOutgoingStream(query));
 						}
@@ -85,6 +85,7 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 					else System.out.println("");
 
 				}
+
 			}
 		}catch(SocketException e){
 			System.out.println("socket gone");
@@ -98,7 +99,7 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 			System.out.println(e.getMessage());
 			return;
 		}
-		*/
+		 */
 		finally{
 			if(!socket.isClosed())
 				close();
@@ -122,11 +123,11 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		if(writer!=null){
 			writer.close();
 		}
-		
+
 		if(reader!=null){
 			try {
 				System.out.println("closing reader");
@@ -136,7 +137,7 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 				System.err.println("io");
 				e.printStackTrace();
 			}
-			
+
 		}
 
 		System.out.println("tcp output Connection closed");
