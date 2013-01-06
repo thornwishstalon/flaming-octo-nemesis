@@ -37,7 +37,13 @@ public class Bid implements ICommand {
 		catch(NumberFormatException e){
 			return "!print "+sAmount+" is not a number";
 		}
-		int x= AuctionDATABASE.getInstance().bidOnAuction(id, connection.getUserObject(), amount);
+		
+		int x;
+		try {
+			x = AuctionDATABASE.getInstance().bidOnAuction(id, connection.getUserObject(), amount);
+		} catch (Exception e) {
+			return "!print There is no auction with that id!";
+		}
 		
 		switch(x){
 		case AuctionDATABASE.NEEDS_MORE_MONEY:

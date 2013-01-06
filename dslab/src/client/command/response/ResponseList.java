@@ -29,6 +29,7 @@ public class ResponseList implements ICommandList {
 		Kill kill= new Kill();
 		AckCreate ackCreate= new AckCreate();
 		AuctionItem aucItem= new AuctionItem();
+		RSAServerConfirmation srvConfirm = new RSAServerConfirmation();
 		
 		//TESTING dslab3_stage2
 		DEHESH_TEST dehesh= new DEHESH_TEST("keys/alice.key");
@@ -43,6 +44,7 @@ public class ResponseList implements ICommandList {
 		commands.put("!ack-create",ackCreate);
 		commands.put("!auction-item",aucItem);
 		commands.put("!dehesh", dehesh);
+		commands.put("!ok", srvConfirm);
 
 	}
 	

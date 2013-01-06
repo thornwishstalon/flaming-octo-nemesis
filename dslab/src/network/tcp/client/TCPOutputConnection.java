@@ -10,6 +10,7 @@ import java.net.SocketException;
 import network.security.Base64StringDecorator;
 import network.security.IStringStream;
 import network.security.SimpleStringStream;
+import network.security.StaticStream;
 
 import command.CommandException;
 import command.CommandParser;
@@ -27,14 +28,12 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 	private BufferedReader reader=null;
 	private User user=null;
 	private CommandParser parser=null;
-	private IStringStream stringStream;
 
 
 	public TCPOutputConnection(Socket socket, ClientSetup setup){
 		this.socket = socket;
 		parser= new CommandParser(false,this);
 		parser.setCommandList(new ClientLocalCommandList(setup.getClientPort()));
-		stringStream = new SimpleStringStream();
 	}
 
 	public void run(){
@@ -44,29 +43,14 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 			writer = new PrintWriter(socket.getOutputStream(), true);
 
 			reader = new BufferedReader(new InputStreamReader(System.in));	
-			String input;	
-
-			/*
-			//registering
-			writer.println(parser.parse("!register"));
-			System.out.println("waiting for registration");
-			boolean ack=ClientStatus.getInstance().isAck();
-			while(!ack){
-
-				//System.out.println(ack);
-				if(System.currentTimeMillis()-start > 5000){// timeout
-					throw new CommandException("registration failed! Timeout!");
-				}
-				ack= ClientStatus.getInstance().isAck();
-
-			}
-			*/
-			
+			String input;			
 
 			System.out.println("READY for Input!");
 
 			while((input = reader.readLine()) != null) {
-
+				
+				
+				
 				if(input.equals("!end")) {					
 					if(!ClientStatus.getInstance().getUser().equals("")){
 						writer.println("!logout");
@@ -79,7 +63,11 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 						String query=parser.parse(input.trim());
 						if(query.length()>1){
 							//TODO HMAC data structure add input line...
-							writer.println(stringStream.putOutgoingStream(query));
+
+							//System.out.println("\n------------------\n" + "[QUERY RAW]" + query + "\n------------------\n");
+							query = StaticStream.getStaticStreamInstance().useEncoder(query);
+							//System.out.println("\n------------------\n" + "[QUERY ENC]" + query + "\n------------------\n");
+							writer.println(query);
 						}
 					}
 					else System.out.println("");
@@ -104,16 +92,15 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 				close();
 		}
 	}
-
 	
-	public synchronized void setStreamProperties(IStringStream stringStream) {
-		this.stringStream= stringStream; 
+	/*
+	 * Sends a query to the server over the existing connection
+	 */
+	public void printToOutputstream(String query) {
+		query = StaticStream.getStaticStreamInstance().useEncoder(query);
+		writer.println(query);
 	}
 	
-	public synchronized IStringStream getStreamProperties() {
-		return stringStream; 
-	}
-
 	public synchronized void close() {
 		//System.out.println("tcpConnection close");
 		try {

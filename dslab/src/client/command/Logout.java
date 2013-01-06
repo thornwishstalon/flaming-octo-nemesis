@@ -2,6 +2,8 @@ package client.command;
 
 import server.logic.User;
 import server.logic.UserDATABASE;
+import network.security.SimpleStringStream;
+import network.security.StaticStream;
 import network.tcp.server.TCPServerConnection;
 import command.ICommand;
 
@@ -31,7 +33,10 @@ public class Logout implements ICommand {
 			return "!print "+"ERROR: no user with that name known!";
 		case UserDATABASE.SUCCESSFULLY_LOGGED_OUT:
 			connection.setUserObject(null);
-			return "!ack-logout";
+			// reset en/decoding
+			connection.print("!ack-logout");
+			connection.initDecoderSetting();
+			return "";
 		}
 		
 		return null;

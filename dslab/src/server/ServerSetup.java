@@ -104,7 +104,7 @@ public class ServerSetup {
 		// Server - Private Key
 		PEMReader in;
 		try {
-			System.out.println("SERVER KEYFILE " + serverKeyfile);
+			//System.out.println("SERVER KEYFILE " + serverKeyfile);
 			
 			in = new PEMReader(new FileReader(serverKeyfile), new PasswordFinder() {
 				@Override
@@ -152,8 +152,13 @@ public class ServerSetup {
 		
 	}
 	
+	// get RSA keys
+	
 	public PublicKey getSinglePubRSAKey(String username) {
 		return userPubRSAKeys.get(username);
 	}
 	
+	public PrivateKey getServerKey() {
+		return serverKey;
+	}
 }
