@@ -14,6 +14,11 @@ import java.util.concurrent.TimeUnit;
 
 import analyticsServer.event.EventFactory;
 
+import network.security.Base64StringDecorator;
+import network.security.IStringStream;
+import network.security.RSAStringDecorator;
+import network.security.SimpleStringStream;
+import network.security.StaticStream;
 import network.udp.server.UDPNotificationThread;
 
 import client.command.ClientCommandList;
@@ -21,6 +26,7 @@ import client.command.ClientCommandList;
 
 import command.CommandParser;
 
+import server.ServerMain;
 import server.ServerStatus;
 import server.logic.IUserRelated;
 import server.logic.User;
@@ -36,18 +42,20 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 	private User user = null;
 	private InetAddress address=null;
 	private int clientPort;
-	//private ExecutorService executor;
-	
+	private int confirmAES=0;	
 	private boolean listening=true;
+	private String aesSecretKey, aesIVParam; 
+	
+	private IStringStream inputDecoder, outputEncoder;
 
 	public TCPServerConnection(Socket client){
 		this.client=client;
 		parser= new CommandParser(true,this);
 		parser.setCommandList(new ClientCommandList(this));
 		address=client.getInetAddress();
-
-		//executor = Executors.newFixedThreadPool(NTHREADS);
-
+		
+		// decorator for streams
+		initDecoderSetting();
 	}
 
 	@Override
@@ -59,6 +67,25 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 			String input;
 			String answer;
 			while(((input=in.readLine())!=null)){
+				
+				
+				//DEBUG - Cypher-Stream
+				//System.out.println("\n------------------\n" + "[QUERY RAW]" + input + "\n------------------\n");
+				
+				// use input-decorator on all commands except plaintext list & end
+				if(!input.equals("!list") && !input.equals("!end")) {
+					try {
+						input = inputDecoder.getIncomingStream(input);
+					} catch (Exception e) {
+						System.out.println("An illegal command was caught and rejected.");
+						input = "";
+					}
+				}
+				
+				//DEBUG - Regular input
+				//System.out.println("\n------------------\n" + "[QUERY DEC]" + input + "\n------------------\n");
+				
+				
 				if(!listening)
 					break;
 				if(input.equals("!end")){
@@ -67,11 +94,27 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 					break;
 
 				}
+				
+				//waiting for confirmation of server-challenge
+				if(confirmAES!=0) {
+					// reset to init-status
+					if(Integer.valueOf(input)!=confirmAES) {
+						initDecoderSetting();
+						input="";
+						System.out.println("AES authentication failed!");
+					} else {
+						System.out.println("AES authentication successful!");
+					}
+					input="";
+					confirmAES=0;
+				}
+				
+				
 				answer= parser.parse(input);
+				
 				if(answer.length()>0)
-					out.println(answer);
-				//notify(answer);
-				//System.out.println(answer);
+					out.println(outputEncoder.putOutgoingStream(answer)); // Use current encoding (Plain, RSA, AES ...) on output-stream
+
 			}
 
 		} catch (IOException e) {
@@ -197,15 +240,60 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 	public synchronized void print(ArrayList<UserNotification> arrayList){
 		for(UserNotification note: arrayList){
 			//System.out.println(note.getMessage());
-			out.println(note.getMessage());
+			out.println(outputEncoder.putOutgoingStream(note.getMessage()));
 			note.setSent(true);
 		}
 	} 
 
 	public synchronized void print(String message){
-		//System.out.println(note.getMessage());
-		out.println(message);
+		out.println(outputEncoder.putOutgoingStream(message));
+	}
+	
+	/*
+	 * Sets a flag for the server to wait for AES encoded challenge
+	 */
+	public void confirmAESHandshake(int challenge) {
+		confirmAES = challenge;
 	}
 
+	public IStringStream getInputDecoder() {
+		return inputDecoder;
+	}
 
+	public void setInputDecoder(IStringStream inputDecoder) {
+		this.inputDecoder = inputDecoder;
+	}
+
+	public IStringStream getOutputEncoder() {
+		return outputEncoder;
+	}
+
+	public void setOutputEncoder(IStringStream outputEncoder) {
+		this.outputEncoder = outputEncoder;
+	}
+	
+	public String getAesSecretKey() {
+		return aesSecretKey;
+	}
+
+	public void setAesSecretKey(String aesSecretKey) {
+		this.aesSecretKey = aesSecretKey;
+	}
+
+	public String getAesIVParam() {
+		return aesIVParam;
+	}
+
+	public void setAesIVParam(String aesIVParam) {
+		this.aesIVParam = aesIVParam;
+	}
+
+	/*
+	 * Set/reset the decoder/encoder decorators
+	 */
+	public void initDecoderSetting() {
+		inputDecoder = new RSAStringDecorator(new SimpleStringStream(), null, ServerMain.getSetup().getServerKey());
+		outputEncoder = new SimpleStringStream();
+	}
+	
 }

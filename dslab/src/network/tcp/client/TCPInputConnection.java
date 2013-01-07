@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 
+import network.security.StaticStream;
+
 import client.ClientStatus;
 import client.command.response.ResponseList;
 
@@ -33,6 +35,9 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 			String input,answer;
 			
 			while((input= reader.readLine())!=null){
+				
+				// Use current decoding (Plain, RSA, AES ...) on input-stream
+				input=StaticStream.getStaticStreamInstance().useDecoder(input);
 				
 				//TODO HMAC verify!
 				answer=parser.parse(input);

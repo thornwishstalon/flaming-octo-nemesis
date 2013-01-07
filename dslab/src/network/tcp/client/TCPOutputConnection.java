@@ -7,6 +7,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 
+import network.security.Base64StringDecorator;
+import network.security.IStringStream;
+import network.security.SimpleStringStream;
+import network.security.StaticStream;
+
 import command.CommandException;
 import command.CommandParser;
 
@@ -38,29 +43,15 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 			writer = new PrintWriter(socket.getOutputStream(), true);
 
 			reader = new BufferedReader(new InputStreamReader(System.in));	
-			String input;	
 
-			/*
-			//registering
-			writer.println(parser.parse("!register"));
-			System.out.println("waiting for registration");
-			boolean ack=ClientStatus.getInstance().isAck();
-			while(!ack){
-
-				//System.out.println(ack);
-				if(System.currentTimeMillis()-start > 5000){// timeout
-					throw new CommandException("registration failed! Timeout!");
-				}
-				ack= ClientStatus.getInstance().isAck();
-
-			}
-			 */
-
+			String input;			
 
 			System.out.println("READY for Input!");
 
 			while((input = reader.readLine()) != null) {
-
+				
+				
+				
 				if(input.equals("!end")) {					
 					if(!ClientStatus.getInstance().getUser().equals("")){
 						writer.println("!logout");
@@ -73,6 +64,10 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 						String query=parser.parse(input.trim());
 						if(query.length()>1 && !ClientStatus.getInstance().isBlocked()){
 							//TODO HMAC data structure add input line...
+
+							//System.out.println("\n------------------\n" + "[QUERY RAW]" + query + "\n------------------\n");
+							query = StaticStream.getStaticStreamInstance().useEncoder(query);
+							//System.out.println("\n------------------\n" + "[QUERY ENC]" + query + "\n------------------\n");
 							writer.println(query);
 						}
 					}
@@ -99,8 +94,15 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 				close();
 		}
 	}
-
-
+	
+	/*
+	 * Sends a query to the server over the existing connection
+	 */
+	public void printToOutputstream(String query) {
+		query = StaticStream.getStaticStreamInstance().useEncoder(query);
+		writer.println(query);
+	}
+	
 	public synchronized void close() {
 		//System.out.println("tcpConnection close");
 		try {

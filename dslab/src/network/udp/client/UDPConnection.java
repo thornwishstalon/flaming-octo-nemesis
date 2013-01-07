@@ -3,6 +3,8 @@ package network.udp.client;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+import network.security.StaticStream;
+
 import server.logic.IUserRelated;
 
 import client.ClientMain;
@@ -37,6 +39,9 @@ public class UDPConnection extends Thread implements IUserRelated{
 	@Override
 	public void run() {
 		String message=new String(packet.getData(),0,packet.getLength());
+		
+		// Decode notifications
+		//message=StaticStream.getStaticStreamInstance().useDecoder(message);
 		
 		String answer= parser.parse(message);
 		if(answer.contains("!kill")){

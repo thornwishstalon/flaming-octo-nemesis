@@ -25,11 +25,12 @@ public class ClientMain {
 	private static UDPSocket udp=null;
 	private static TCPOutputConnection out=null;
 	private static TCPInputConnection in=null;
+	private static ClientSetup setup = null;
 	
 	public static void main(String[] args) {
 		System.out.println("Welcome");
 		
-		ClientSetup setup= new ClientSetup(args);
+		setup= new ClientSetup(args);
 		System.out.println("setup: "+setup.toString());
 		
 		
@@ -80,6 +81,10 @@ public class ClientMain {
 
 	}
 	
+	public static void printToOutputstream(String query) {
+		out.printToOutputstream(query);
+	}
+	
 	/*
 	public static boolean isAck(){
 		return ClientMain.ack;
@@ -125,7 +130,8 @@ public class ClientMain {
 		} 
 	}
 	
-		
+	public static ClientSetup getClientSetup() {
+		return setup;
+	}
 	
-
 }

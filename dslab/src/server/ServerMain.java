@@ -9,6 +9,8 @@ import network.tcp.server.TCPServerSocket;
 
 public class ServerMain {
 
+	private static ServerSetup setup;
+	
 	/**
 	 * @param args
 	 */
@@ -16,7 +18,7 @@ public class ServerMain {
 		TCPServerSocket server;
 		try{
 		System.out.println("Welcome!\nstarting Server");
-		ServerSetup setup= new ServerSetup(args);
+		setup= new ServerSetup(args);
 		System.out.println(setup.toString());
 		
 		//initialize RMI stuff
@@ -58,4 +60,8 @@ public class ServerMain {
 		
 	}
 
+	public static ServerSetup getSetup() {
+		return setup;
+	}
+	
 }
