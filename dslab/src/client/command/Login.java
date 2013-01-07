@@ -61,7 +61,10 @@ public class Login implements ICommand {
 			String secretKey = AESStringDecorator.generateSecretKey();
 			String ivParam = AESStringDecorator.generateRandomIV();
 			int serverChallenge = RSAStringDecorator.secureRand();
+			
 			connection.confirmAESHandshake(serverChallenge);
+			connection.setAesSecretKey(secretKey);
+			connection.setAesIVParam(ivParam);
 			
 			// send 2nd message: !ok <client-challenge> <server-challenge> <secret-key> <iv-parameter>
 			String responseMsg = "!ok " + params[2] + " " + 

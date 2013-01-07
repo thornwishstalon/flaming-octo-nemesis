@@ -44,6 +44,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 	private int clientPort;
 	private int confirmAES=0;	
 	private boolean listening=true;
+	private String aesSecretKey, aesIVParam; 
 	
 	private IStringStream inputDecoder, outputEncoder;
 
@@ -271,6 +272,22 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		this.outputEncoder = outputEncoder;
 	}
 	
+	public String getAesSecretKey() {
+		return aesSecretKey;
+	}
+
+	public void setAesSecretKey(String aesSecretKey) {
+		this.aesSecretKey = aesSecretKey;
+	}
+
+	public String getAesIVParam() {
+		return aesIVParam;
+	}
+
+	public void setAesIVParam(String aesIVParam) {
+		this.aesIVParam = aesIVParam;
+	}
+
 	/*
 	 * Set/reset the decoder/encoder decorators
 	 */

@@ -40,6 +40,11 @@ public class RSAServerConfirmation implements ICommand {
 			StaticStream.getStaticStreamInstance().setEncoderStream(stream);
 			StaticStream.getStaticStreamInstance().setDecoderStream(stream);
 			
+			// save AESKey + ivParam
+			ClientMain.getClientSetup().setAesSecretKey(params[2]);
+			ClientMain.getClientSetup().setAesIVParam(params[3]);
+			
+			// send confirmation to server
 			ClientMain.printToOutputstream(Base64StringDecorator.decodeBase64Helper(params[1]));
 			
 			return "Successfully logged in as "+ ClientStatus.getInstance().getUser();

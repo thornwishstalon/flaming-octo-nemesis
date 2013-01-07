@@ -26,8 +26,8 @@ public class AESStringDecorator extends AbstractStringStream {
 	public AESStringDecorator(IStringStream stream, String secretKey, String ivParam) {
 		super(stream);
 
-			this.secretKey = Base64.decode(secretKey.getBytes());
-			this.ivParam = Base64.decode(ivParam.getBytes());
+		this.secretKey = Base64.decode(secretKey.getBytes());
+		this.ivParam = Base64.decode(ivParam.getBytes());
 		init();
 	}
 	

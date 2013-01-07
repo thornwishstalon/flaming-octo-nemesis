@@ -14,6 +14,7 @@ public class ClientSetup {
 	private int rsaChallenge=0;
 	private PublicKey pubKeyServer;
 	private String clientKeyDir;
+	private String aesSecretKey, aesIVParam; 
 	
 	public ClientSetup(String[] args){
 		host=args[0];
@@ -65,6 +66,22 @@ public class ClientSetup {
 
 	public String getClientKeyDir() {
 		return clientKeyDir;
+	}
+	
+	public String getAesSecretKey() {
+		return aesSecretKey;
+	}
+
+	public void setAesSecretKey(String aesSecretKey) {
+		this.aesSecretKey = aesSecretKey;
+	}
+
+	public String getAesIVParam() {
+		return aesIVParam;
+	}
+
+	public void setAesIVParam(String aesIVParam) {
+		this.aesIVParam = aesIVParam;
 	}
 	
 }
