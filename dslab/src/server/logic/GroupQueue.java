@@ -17,7 +17,6 @@ public class GroupQueue {
 	}
 	
 	public synchronized boolean queue(String intitiator){
-		System.out.println(intitiator+" enqueued");
 		Integer x = queue.get(intitiator);
 		
 		if(x == null){
@@ -44,7 +43,6 @@ public class GroupQueue {
 
 		@Override
 		public void run() {
-			System.out.println("clean queue");
 			queue.clear();
 		}
 		

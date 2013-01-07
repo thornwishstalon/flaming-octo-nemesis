@@ -39,7 +39,7 @@ public class Confirm implements ICommand {
 		case AuctionDATABASE.INITIATOR_MISSMATCH:
 			return "!rejected "+"Incorrect Initiator!";
 		case AuctionDATABASE.SUCCESSFULLY_CONFIRMED_POLL:	
-			return "!print "+"You have confirmed the poll!";
+			return "!ackConfirm";
 		}
 
 

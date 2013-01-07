@@ -50,6 +50,7 @@ public class ResponseList implements ICommandList {
 		
 		commands.put("!rejected", rejected);
 		commands.put("!confirmed", confirmed);
+		commands.put("!ackConfirm", new AckConfirm());
 	
 
 	}
