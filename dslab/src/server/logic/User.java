@@ -131,6 +131,12 @@ public class User {
 		if(loggedIn)
 			return "ID: "+ID+" "+name+" contact from: "+address.getHostName()+":"+port+"\n\tonline: "+loggedIn+", has notifiactions: "+hasNotifications();
 		else return "ID: "+ID+" "+name+"\n\tonline: "+loggedIn+", has notifiactions: "+hasNotifications();
+	}
+	
+	public String getClientDescription(){
+		if(loggedIn)
+			return name + " " + address.getHostName() + " " + port;
+		else return "";
 
 	}
 

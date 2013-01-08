@@ -23,6 +23,10 @@ public class Hesher {
 		 setKeyPath(keyPath);
 	}
 	
+	public Hesher() {
+		
+	}
+
 	private void init(){
 		byte[] keyBytes = new byte[1024];
 		FileInputStream fis;
@@ -80,6 +84,11 @@ public class Hesher {
 	public boolean compare(byte[] receivedHash, byte[] computedHash){
 		return MessageDigest.isEqual(computedHash,receivedHash);
 
+	}
+
+	public String hashMessage(String message) {
+		
+		return new String(hash(message));
 	}
 	
 

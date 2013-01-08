@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.PublicKey;
+import java.util.ArrayList;
 
 import org.bouncycastle.openssl.PEMReader;
 
@@ -15,6 +16,7 @@ public class ClientSetup {
 	private PublicKey pubKeyServer;
 	private String clientKeyDir;
 	private String aesSecretKey, aesIVParam; 
+	private ArrayList<LocalUserListItem> ActiveClients;
 	
 	public ClientSetup(String[] args){
 		host=args[0];
@@ -34,6 +36,7 @@ public class ClientSetup {
 		}
 		
 		clientKeyDir = args[4];
+		ActiveClients = new ArrayList<LocalUserListItem>();
 	}
 
 	public String toString(){
@@ -82,6 +85,14 @@ public class ClientSetup {
 
 	public void setAesIVParam(String aesIVParam) {
 		this.aesIVParam = aesIVParam;
+	}
+	
+	public void addActiveClient(LocalUserListItem c) {
+		ActiveClients.add(c);
+	}
+	
+	public ArrayList<LocalUserListItem> getActiveClients() {
+		return ActiveClients;
 	}
 	
 }

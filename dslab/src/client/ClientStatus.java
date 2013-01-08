@@ -1,13 +1,18 @@
 package client;
 
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 import network.tcp.client.TCPOutputConnection;
 
+import java.util.ArrayList;
+
+
 
 public class ClientStatus {
 	private static ClientStatus instance=null;
+
 
 	private  boolean ack= false;
 	private  String user="";
@@ -18,7 +23,7 @@ public class ClientStatus {
 	private int resendTry;
 	
 	private TCPOutputConnection connection;
-	
+
 	
 	private Timer timer;
 	private long timeout=90000; //TODO set to 20000 after testing
@@ -28,8 +33,10 @@ public class ClientStatus {
 	}
 
 	public synchronized static ClientStatus getInstance(){
-		if(instance==null)
+		if(instance==null) {
 			instance= new ClientStatus();
+			
+		}
 		return instance;
 	}
 
@@ -75,11 +82,11 @@ public class ClientStatus {
 
 
 	public void setBlocked(boolean blocked) {
-		System.out.println("new value: "+blocked);
+		//System.out.println("new value: "+blocked);
 		if(blocked==true && this.blocked==false){
 			timer.schedule(new UnblockTask(), timeout); 
 		}else{
-			System.out.println("unblock, cancel unblock-task");
+			//System.out.println("unblock, cancel unblock-task");
 			try{
 				timer.cancel();
 				timer.purge();
@@ -91,6 +98,7 @@ public class ClientStatus {
 		this.blocked = blocked;
 	}
 	
+
 	
 
 

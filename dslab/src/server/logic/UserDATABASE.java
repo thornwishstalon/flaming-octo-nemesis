@@ -2,6 +2,7 @@ package server.logic;
 
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.List;
 
 import server.ServerStatus;
 
@@ -127,6 +128,21 @@ public class UserDATABASE {
 			result+= user.getFullDescription()+"\n";
 		}
 
+		return result;
+	}
+	
+	public synchronized String getClientList(){
+		String result="";
+		String user="";
+		
+		for(String key: users.keySet()){
+			user= users.get(key).getClientDescription();
+			if(!user.equals(""))
+				result+=user+"\n";
+		}
+		
+		result.substring(0,result.lastIndexOf('\n'));
+		
 		return result;
 	}
 

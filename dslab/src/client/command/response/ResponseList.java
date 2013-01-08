@@ -30,6 +30,7 @@ public class ResponseList implements ICommandList {
 		Print print= new Print();
 		AckLogin ackLogin= new AckLogin();
 		AckLogout ackLogout = new AckLogout();
+		AckGetClientList ackGetClientList = new AckGetClientList();
 		Kill kill= new Kill();
 		AckCreate ackCreate= new AckCreate();
 		AuctionItem aucItem= new AuctionItem();
@@ -38,6 +39,8 @@ public class ResponseList implements ICommandList {
 		Confirmed confirmed= new Confirmed();
 
 		RSAServerConfirmation srvConfirm = new RSAServerConfirmation();
+
+		UserListItem userListItem = new UserListItem();
 
 		
 		//TESTING dslab3_stage2
@@ -63,6 +66,9 @@ public class ResponseList implements ICommandList {
 		commands.put("!sendLastCommand", new ReSendLastCommand(ClientStatus.getInstance().getConnection()));
 
 		commands.put("!ok", srvConfirm);
+		commands.put("!ack-getClientList", ackGetClientList);
+		commands.put("!userlist-item", userListItem);
+		
 
 	}
 	
