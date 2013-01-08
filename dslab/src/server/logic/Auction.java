@@ -8,7 +8,7 @@ import java.util.TimerTask;
 import analyticsServer.event.EventFactory;
 import server.ServerStatus;
 
-public class Auction {
+public class Auction implements Comparable<Auction>{
 	private long ID;
 
 	private String description;
@@ -187,6 +187,15 @@ public class Auction {
 
 	public void setBilled(boolean isBilled) {
 		this.isBilled = isBilled;
+	}
+
+	@Override
+	public int compareTo(Auction o) {
+		if(this.ID == o.getID())
+			return 0;
+		else if(this.ID < o.getID())
+			return -1;
+		else return 1;
 	}
 
 

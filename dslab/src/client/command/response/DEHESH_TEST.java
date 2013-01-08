@@ -36,12 +36,12 @@ public class DEHESH_TEST implements ICommand {
 		String clientHesh= new String (Base64.encode(hesher.hashMessage(message).getBytes())) ;
 		System.out.println(serverHesh);
 		System.out.println(clientHesh);
-		System.out.println(message);
+		//System.out.println(message);
 		
 		if(serverHesh.equals(clientHesh))
-			return "!print"+" HMAC is valid";
+			return "HMAC is valid\n"+message;
 
-		else return "!print"+" the message has been altered!!";
+		else return "the message has been altered!!\n"+message;
 	}
 
 	@Override

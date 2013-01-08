@@ -1,6 +1,9 @@
 package server.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import analyticsServer.event.EventFactory;
@@ -94,7 +97,14 @@ public class AuctionDATABASE {
 	public synchronized String getList(){
 		String result = "";
 		Auction auction=null;
-		for(Integer key: auctionList.keySet()){
+		
+		Integer[] tmp= new Integer[auctionList.size()];
+		
+		auctionList.keySet().toArray(tmp);
+		Arrays.sort(tmp);
+		
+		
+		for(Integer key: tmp){
 			auction= auctionList.get(key);
 			if(!auction.isExpired()){
 				result= result+"\t"+auction.toString()+"\n";				
