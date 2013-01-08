@@ -55,7 +55,7 @@ public class ClientMain {
 			out= new TCPOutputConnection(socket,setup);
 			out.start();
 			
-			in= new TCPInputConnection(socket);
+			in= new TCPInputConnection(socket,setup);
 			System.out.println("TCP ready");
 			in.run();
 			

@@ -8,6 +8,7 @@ import network.security.StaticStream;
 import server.logic.IUserRelated;
 
 import client.ClientMain;
+import client.ClientSetup;
 import client.ClientStatus;
 import client.command.response.ResponseList;
 
@@ -20,20 +21,20 @@ public class UDPConnection extends Thread implements IUserRelated{
 	private CommandParser parser;
 	private UDPSocket home;
 
-	public UDPConnection(DatagramSocket socket, DatagramPacket packet){
+	public UDPConnection(DatagramSocket socket, DatagramPacket packet, ClientSetup setup){
 		//this.socket=socket;
 		this.packet= packet;
 		parser= new CommandParser(true,this);
-		parser.setCommandList(new ResponseList());
+		parser.setCommandList(new ResponseList(setup));
 	}
 
 	public UDPConnection(UDPSocket udpSocket, DatagramSocket socket,
-			DatagramPacket packet2) {
+			DatagramPacket packet2, ClientSetup setup) {
 		
 		home=udpSocket;
 		this.packet= packet2;
 		parser= new CommandParser(true,this);
-		parser.setCommandList(new ResponseList());
+		parser.setCommandList(new ResponseList(setup));
 	}
 
 	@Override

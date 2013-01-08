@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
 
+import client.ClientSetup;
 import client.ClientStatus;
 import client.command.response.ResponseList;
 
@@ -20,11 +21,14 @@ public class LoadTestTCPInputConnection extends Thread implements IUserRelated {
 	private BufferedReader reader=null;
 	
 	private CommandParser parser=null;
+	private ClientSetup setup;
 	
-	public LoadTestTCPInputConnection(Socket socket) {
+	public LoadTestTCPInputConnection(Socket socket, ClientSetup setup) {
 		this.socket=socket;
+		this.setup=setup;
+		
 		parser= new CommandParser(true, this);
-		parser.setCommandList(new ResponseList() );	
+		parser.setCommandList(new ResponseList(setup) );	
 	}
 	
 	public void run(){

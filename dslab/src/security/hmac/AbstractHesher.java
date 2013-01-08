@@ -58,8 +58,24 @@ public abstract class AbstractHesher {
 		init();
 	}
 	
+	protected void setKey(String key){
+		byte[] input = Hex.decode(key.getBytes());
+		// TODO algorithm???
+		this.key = new SecretKeySpec(input,"HmacSHA256");
+		
+		try {
+			mac = Mac.getInstance("HmacSHA256");
+			mac.init(this.key);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} 
+	}
+	
 	
 	protected byte[] hash(String message) {
+		
 		mac.update(message.getBytes());
 		return mac.doFinal();
 	}

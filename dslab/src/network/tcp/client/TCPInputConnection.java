@@ -9,6 +9,7 @@ import java.net.SocketException;
 
 import network.security.StaticStream;
 
+import client.ClientSetup;
 import client.ClientStatus;
 import client.command.response.ResponseList;
 
@@ -22,11 +23,13 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 	private BufferedReader reader=null;
 	
 	private CommandParser parser=null;
+	private ClientSetup setup;
 	
-	public TCPInputConnection(Socket socket) {
+	public TCPInputConnection(Socket socket, ClientSetup setup) {
 		this.socket=socket;
+		this.setup= setup;
 		parser= new CommandParser(true, this);
-		parser.setCommandList(new ResponseList() );	
+		parser.setCommandList(new ResponseList(setup) );	
 	}
 	
 	public void run(){

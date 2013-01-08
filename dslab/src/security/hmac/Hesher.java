@@ -10,6 +10,9 @@ public class Hesher extends AbstractHesher{
 	public Hesher(){
 		
 	}
+	public void setKey(String key){
+		super.setKey(key);
+	}
 	
 	public void setKeyPath(String path){
 		super.setKeyPath(path);

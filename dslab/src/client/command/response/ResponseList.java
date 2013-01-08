@@ -2,6 +2,8 @@ package client.command.response;
 
 import java.util.HashMap;
 
+import client.ClientSetup;
+
 
 import command.ICommand;
 import command.ICommandList;
@@ -14,9 +16,10 @@ import command.ICommandList;
 
 public class ResponseList implements ICommandList {
 	private HashMap<String, ICommand> commands;
+	private ClientSetup setup;
 	
-	
-	public ResponseList(){
+	public ResponseList(ClientSetup setup){
+		this.setup= setup;
 		
 		commands= new HashMap<String, ICommand>();
 		Ack ack= new Ack();
@@ -37,7 +40,7 @@ public class ResponseList implements ICommandList {
 
 		
 		//TESTING dslab3_stage2
-		DEHESH_TEST dehesh= new DEHESH_TEST("keys/alice.key");
+		DEHESH_TEST dehesh= new DEHESH_TEST(setup);
 		
 		commands.put("!ack", ack);
 		commands.put("!new-bid", newBid);

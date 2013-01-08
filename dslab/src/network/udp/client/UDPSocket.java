@@ -19,11 +19,12 @@ public class UDPSocket extends Thread{
 	private boolean listening=true;
 	private DatagramSocket socket=null;
 	private ExecutorService executor=null;
-
+	private ClientSetup setup;
 
 
 	public UDPSocket(ClientSetup setup) {
 		this.port= setup.getClientPort();
+		this.setup=setup;
 		try {
 			this.socket= new DatagramSocket(port);
 			executor= Executors.newFixedThreadPool(NTHREDS);
@@ -45,8 +46,8 @@ public class UDPSocket extends Thread{
 				byte[] data= new byte[1024];
 				DatagramPacket packet= new DatagramPacket(data, data.length);
 				socket.receive(packet);
-				executor.execute(new UDPConnection(this,socket, packet));
-
+				executor.execute(new UDPConnection(this,socket, packet, setup));
+ 
 			}
 		}catch(RejectedExecutionException e){
 

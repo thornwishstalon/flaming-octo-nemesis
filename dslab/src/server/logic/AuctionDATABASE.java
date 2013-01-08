@@ -210,7 +210,7 @@ public class AuctionDATABASE {
 		if(!isGroupBidPossisble(initiator))
 			return REJECTED_POLL;
 
-		if(auctionList.get(auctionList) != null  )
+		if(auctionList.get(auctionID) == null  )
 			return NO_AUCTION_WITH_ID_FOUND;
 
 		TentativeBid bid= tentativeBids.get(auctionID);
