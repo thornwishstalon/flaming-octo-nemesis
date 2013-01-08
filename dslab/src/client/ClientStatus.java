@@ -1,22 +1,25 @@
 package client;
 
+import java.util.ArrayList;
+
 
 public class ClientStatus {
 	private static ClientStatus instance=null;
 	
-	private  boolean ack= false;
-	private  String user="";
-	private  boolean kill= false;
-	//private Socket socket=null;
-	
+	private boolean ack= false;
+	private String user="";
+	private boolean kill= false;
+
+
 	
 	public synchronized static ClientStatus getInstance(){
-		if(instance==null)
+		if(instance==null) {
 			instance= new ClientStatus();
+			
+		}
 		return instance;
 	}
-	
-	
+		
 	public synchronized  boolean isAck(){
 		return ack;
 	}
@@ -51,5 +54,6 @@ public class ClientStatus {
 		
 	}
 	
+
 	
 }

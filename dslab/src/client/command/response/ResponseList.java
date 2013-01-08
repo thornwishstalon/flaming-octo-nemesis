@@ -26,10 +26,12 @@ public class ResponseList implements ICommandList {
 		Print print= new Print();
 		AckLogin ackLogin= new AckLogin();
 		AckLogout ackLogout = new AckLogout();
+		AckGetClientList ackGetClientList = new AckGetClientList();
 		Kill kill= new Kill();
 		AckCreate ackCreate= new AckCreate();
 		AuctionItem aucItem= new AuctionItem();
 		RSAServerConfirmation srvConfirm = new RSAServerConfirmation();
+		UserListItem userListItem = new UserListItem();
 		
 		//TESTING dslab3_stage2
 		DEHESH_TEST dehesh= new DEHESH_TEST("keys/alice.key");
@@ -45,6 +47,9 @@ public class ResponseList implements ICommandList {
 		commands.put("!auction-item",aucItem);
 		commands.put("!dehesh", dehesh);
 		commands.put("!ok", srvConfirm);
+		commands.put("!ack-getClientList", ackGetClientList);
+		commands.put("!userlist-item", userListItem);
+		
 
 	}
 	

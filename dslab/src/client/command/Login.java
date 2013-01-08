@@ -14,7 +14,7 @@ import network.tcp.server.TCPServerConnection;
 import command.ICommand;
 
 public class Login implements ICommand {
-	//!login alice
+
 	private TCPServerConnection connection;
 
 	public Login(TCPServerConnection connection) {

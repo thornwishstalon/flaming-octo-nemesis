@@ -23,6 +23,7 @@ public class ClientCommandList implements ICommandList {
 		Create create= new Create(connection);
 		Bid bid = new Bid(connection);
 		Register register= new Register(connection);
+		GetClientList getClientList = new GetClientList(connection);
 		
 		//TESTING dslab3_stage2
 		HMAC_TEST hesh= new HMAC_TEST("keys/alice.key");
@@ -34,6 +35,7 @@ public class ClientCommandList implements ICommandList {
 		commands.put("!bid", bid);
 		commands.put("!register", register);
 		commands.put("!hesh", hesh);
+		commands.put("!getClientList", getClientList);
 	}
 	
 	

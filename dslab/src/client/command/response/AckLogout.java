@@ -1,5 +1,7 @@
 package client.command.response;
 
+import network.security.SimpleStringStream;
+import network.security.StaticStream;
 import client.ClientMain;
 import client.ClientStatus;
 import command.ICommand;
@@ -20,6 +22,10 @@ public class AckLogout implements ICommand{
 	public String execute(String[] params) {
 		String name= ClientStatus.getInstance().getUser();
 		ClientStatus.getInstance().setUser("");
+		
+		StaticStream.getStaticStreamInstance().setDecoderStream(new SimpleStringStream());
+		StaticStream.getStaticStreamInstance().setEncoderStream(new SimpleStringStream());
+		
 		return "Successfully logged out as "+name+"!";
 	}
 
