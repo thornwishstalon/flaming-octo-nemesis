@@ -1,11 +1,12 @@
 package client.command.response;
 
+import network.security.Hesher;
+
 import org.bouncycastle.util.encoders.Base64;
 
 import client.ClientSetup;
 import client.ClientStatus;
 
-import security.hmac.Hesher;
 import command.ICommand;
 
 /**
@@ -33,15 +34,15 @@ public class DEHESH_TEST implements ICommand {
 		String message=params[1];
 		String serverHesh=params[0];
 		
-		String clientHesh= new String (Base64.encode(hesher.hashMessage(message).getBytes())) ;
-		System.out.println(serverHesh);
-		System.out.println(clientHesh);
+		String clientHesh= new String (Base64.encode(hesher.hashMessage(message).getBytes())) ; //
+		//System.out.println(serverHesh);
+		//System.out.println(clientHesh);
 		//System.out.println(message);
 		
 		if(serverHesh.equals(clientHesh))
-			return "HMAC is valid\n"+message;
+			return "!print "+message;
 
-		else return "the message has been altered!!\n"+message;
+		else return "!sendLastCommand";
 	}
 
 	@Override

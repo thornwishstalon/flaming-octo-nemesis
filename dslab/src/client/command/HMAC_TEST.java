@@ -1,6 +1,6 @@
 package client.command;
 
-import security.hmac.Hesher;
+import network.security.Hesher;
 import command.ICommand;
 
 

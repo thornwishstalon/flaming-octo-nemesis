@@ -63,11 +63,13 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 					if(input.length()>0){
 						String query=parser.parse(input.trim());
 						if(query.length()>1 && !ClientStatus.getInstance().isBlocked()){
-							//TODO HMAC data structure add input line...
 
+							ClientStatus.getInstance().setLastCommand(query);
+							
 							//System.out.println("\n------------------\n" + "[QUERY RAW]" + query + "\n------------------\n");
 							query = StaticStream.getStaticStreamInstance().useEncoder(query);
 							//System.out.println("\n------------------\n" + "[QUERY ENC]" + query + "\n------------------\n");
+							
 							writer.println(query);
 						}
 					}

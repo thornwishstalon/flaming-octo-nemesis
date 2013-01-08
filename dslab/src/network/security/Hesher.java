@@ -1,4 +1,4 @@
-package security.hmac;
+package network.security;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,16 +13,13 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.bouncycastle.util.encoders.Hex;
 
-public abstract class AbstractHesher {
+public class Hesher {
 	protected Key key;
 	protected Mac mac;
 	protected String path;
 	
-	protected AbstractHesher() {
-		
-	}
 	
-	protected AbstractHesher(String keyPath){
+	public Hesher(String keyPath){
 		 setKeyPath(keyPath);
 	}
 	
@@ -53,12 +50,12 @@ public abstract class AbstractHesher {
 		} 
 	}
 	
-	protected void setKeyPath(String keyPath){
+	public void setKeyPath(String keyPath){
 		this.path=keyPath;
 		init();
 	}
 	
-	protected void setKey(String key){
+	public void setKey(String key){
 		byte[] input = Hex.decode(key.getBytes());
 		// TODO algorithm???
 		this.key = new SecretKeySpec(input,"HmacSHA256");
@@ -74,16 +71,18 @@ public abstract class AbstractHesher {
 	}
 	
 	
-	protected byte[] hash(String message) {
+	public byte[] hash(String message) {
 		
 		mac.update(message.getBytes());
 		return mac.doFinal();
 	}
 	
-	protected boolean compare(byte[] receivedHash, byte[] computedHash){
+	public boolean compare(byte[] receivedHash, byte[] computedHash){
 		return MessageDigest.isEqual(computedHash,receivedHash);
 
 	}
 	
-	
+
+
+
 }

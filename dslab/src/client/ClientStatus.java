@@ -3,6 +3,8 @@ package client;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import network.tcp.client.TCPOutputConnection;
+
 
 public class ClientStatus {
 	private static ClientStatus instance=null;
@@ -12,6 +14,11 @@ public class ClientStatus {
 	private  boolean kill= false;
 	private boolean blocked=false;
 	//private Socket socket=null;
+	private String lastCommand;
+	private int resendTry;
+	
+	private TCPOutputConnection connection;
+	
 	
 	private Timer timer;
 	private long timeout=90000; //TODO set to 20000 after testing
@@ -83,6 +90,38 @@ public class ClientStatus {
 
 		this.blocked = blocked;
 	}
+	
+	
+
+
+	public TCPOutputConnection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(TCPOutputConnection connection) {
+		this.connection = connection;
+	}
+
+	public String getLastCommand() {
+		return lastCommand;
+	}
+
+	public void setLastCommand(String lastCommand) {
+		resendTry=0;
+		//System.out.println("last command: "+lastCommand);
+		this.lastCommand = lastCommand;
+	}
+
+
+	public int getResendTry() {
+		return resendTry;
+	}
+
+	public void setResendTry(int resendTry) {
+		this.resendTry = resendTry;
+	}
+
+
 
 
 	private class UnblockTask extends TimerTask{

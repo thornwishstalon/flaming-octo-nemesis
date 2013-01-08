@@ -3,6 +3,7 @@ package client.command.response;
 import java.util.HashMap;
 
 import client.ClientSetup;
+import client.ClientStatus;
 
 
 import command.ICommand;
@@ -59,7 +60,7 @@ public class ResponseList implements ICommandList {
 		commands.put("!rejected", rejected);
 		commands.put("!confirmed", confirmed);
 		commands.put("!ackConfirm", new AckConfirm());
-	
+		commands.put("!sendLastCommand", new ReSendLastCommand(ClientStatus.getInstance().getConnection()));
 
 		commands.put("!ok", srvConfirm);
 

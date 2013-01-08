@@ -14,7 +14,7 @@ public class AckConfirm implements ICommand {
 	public String execute(String[] params) {
 		ClientStatus.getInstance().setBlocked(true);
 
-		return "You have the poll confirmed!";
+		return "!print You have the poll confirmed!";
 	}
 
 	@Override

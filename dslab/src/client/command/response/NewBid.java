@@ -17,7 +17,7 @@ public class NewBid implements ICommand {
 	@Override
 	public String execute(String[] params) {
 		String description= params[0];
-		return " You have been overbid on '"+description+"'";
+		return "!print  You have been overbid on '"+description+"'";
 	}
 
 	@Override

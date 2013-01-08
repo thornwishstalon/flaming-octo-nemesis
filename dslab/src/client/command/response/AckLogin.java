@@ -25,7 +25,7 @@ public class AckLogin implements ICommand {
 	public String execute(String[] params) {
 		String username=params[0].trim();
 		ClientStatus.getInstance().setUser(username);
-		return "Successfully logged in as "+username;
+		return "!print Successfully logged in as "+username;
 	}
 
 	@Override

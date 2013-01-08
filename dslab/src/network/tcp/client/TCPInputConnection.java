@@ -42,9 +42,11 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 				// Use current decoding (Plain, RSA, AES ...) on input-stream
 				input=StaticStream.getStaticStreamInstance().useDecoder(input);
 				
-				//TODO HMAC verify!
-				answer=parser.parse(input);
-				System.out.println(ClientStatus.getInstance().getUser() + "> "+answer);
+				answer=parser.parse(parser.parse(input));
+				/*
+				if(answer.length()>0)
+					System.out.println(ClientStatus.getInstance().getUser() + "> "+answer);
+					*/
 			}
 			
 		}catch(SocketException e){

@@ -20,7 +20,7 @@ public class AckLogout implements ICommand{
 	public String execute(String[] params) {
 		String name= ClientStatus.getInstance().getUser();
 		ClientStatus.getInstance().setUser("");
-		return "Successfully logged out as "+name+"!";
+		return "!print Successfully logged out as "+name+"!";
 	}
 
 	@Override

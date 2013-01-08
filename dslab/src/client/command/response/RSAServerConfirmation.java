@@ -47,13 +47,13 @@ public class RSAServerConfirmation implements ICommand {
 			// send confirmation to server
 			ClientMain.printToOutputstream(Base64StringDecorator.decodeBase64Helper(params[1]));
 			
-			return "Successfully logged in as "+ ClientStatus.getInstance().getUser();
+			return "!print Successfully logged in as "+ ClientStatus.getInstance().getUser();
 				
 		} else {
 			StaticStream.getStaticStreamInstance().setEncoderStream(new SimpleStringStream());
 			StaticStream.getStaticStreamInstance().setDecoderStream(new SimpleStringStream());
 			ClientStatus.getInstance().setUser("");
-			return "Invalid Server-Response. Login canceled due to security issues.";
+			return "!print Invalid Server-Response. Login canceled due to security issues.";
 		}
 		
 		

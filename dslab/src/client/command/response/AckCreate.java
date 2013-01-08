@@ -26,7 +26,7 @@ public class AckCreate implements ICommand {
 		
 		SimpleDateFormat df= new SimpleDateFormat("dd.MM.yyyy kk:mm z");
 		
-		return "An auction '"+description+"' with id "+id+" has been created and will end on " + df.format(new Date(create + duration))+".";
+		return "!print An auction '"+description+"' with id "+id+" has been created and will end on " + df.format(new Date(create + duration))+".";
 	}
 
 	@Override

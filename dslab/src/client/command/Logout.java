@@ -30,7 +30,7 @@ public class Logout implements ICommand {
 		int x= UserDATABASE.getInstance().logout(user.getName());
 		switch(x){
 		case UserDATABASE.NO_USER_WITH_THAT_NAME:
-			return "!print "+"ERROR: no user with that name known!";
+			return "!print !print "+"ERROR: no user with that name known!";
 		case UserDATABASE.SUCCESSFULLY_LOGGED_OUT:
 			connection.setUserObject(null);
 			// reset en/decoding

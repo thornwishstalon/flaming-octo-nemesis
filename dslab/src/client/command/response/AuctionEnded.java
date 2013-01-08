@@ -22,8 +22,8 @@ public class AuctionEnded implements ICommand {
 		String description= params[2];
 		//System.out.println("!auction-ended block:");
 		if(user.trim().equals(ClientStatus.getInstance().getUser().trim()))
-			return "The auction '"+description+"' has ended. You won with "+price+".";
-		else return "The auction '"+description+"' has ended. "+user+" won with "+price+".";
+			return "!print The auction '"+description+"' has ended. You won with "+price+".";
+		else return "!print The auction '"+description+"' has ended. "+user+" won with "+price+".";
 	}
 
 	@Override

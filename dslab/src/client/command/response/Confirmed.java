@@ -15,7 +15,7 @@ public class Confirmed implements ICommand {
 		ClientStatus.getInstance().setBlocked(false);
 		//System.out.println("<BLOCK>");
 		
-		return "Poll was confirmed. Your bid will be placed.";
+		return "!print Poll was confirmed. Your bid will be placed.";
 	}
 
 	@Override

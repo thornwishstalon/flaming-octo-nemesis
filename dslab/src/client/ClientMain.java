@@ -53,6 +53,7 @@ public class ClientMain {
 			//start blocking input
 			
 			out= new TCPOutputConnection(socket,setup);
+			ClientStatus.getInstance().setConnection(out);
 			out.start();
 			
 			in= new TCPInputConnection(socket,setup);

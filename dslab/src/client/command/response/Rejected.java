@@ -18,7 +18,7 @@ public class Rejected implements ICommand {
 			ClientStatus.getInstance().setBlocked(false);
 			System.out.println("<BLOCK SOLVED>");
 		}
-		return "poll rejected: "+params[0];
+		return "!print poll rejected: "+params[0];
 	}
 
 	@Override

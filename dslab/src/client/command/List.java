@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.bouncycastle.util.encoders.Base64;
 
+import network.security.Hesher;
 import network.tcp.server.TCPServerConnection;
-import security.hmac.Hesher;
 import server.logic.Auction;
 import server.logic.AuctionDATABASE;
 import command.ICommand;
@@ -48,6 +48,7 @@ public class List implements ICommand{
 		//OTHERWISE :
 		String list=AuctionDATABASE.getInstance().getList();
 		String answer="";
+		
 		if(!connection.getUser().equals("")){
 			hesher= new Hesher();
 			hesher.setKey(connection.getAesSecretKey());
