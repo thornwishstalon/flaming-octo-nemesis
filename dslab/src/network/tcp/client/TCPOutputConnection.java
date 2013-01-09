@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import network.security.Base64StringDecorator;
 import network.security.IStringStream;
@@ -15,6 +16,7 @@ import network.security.StaticStream;
 import command.CommandException;
 import command.CommandParser;
 
+import client.ClientMain;
 import client.ClientSetup;
 import client.ClientStatus;
 import client.command.ClientLocalCommandList;
@@ -28,6 +30,7 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 	private BufferedReader reader=null;
 	private User user=null;
 	private CommandParser parser=null;
+	private boolean tryReconnecting;
 
 
 	public TCPOutputConnection(Socket socket, ClientSetup setup){
@@ -37,26 +40,21 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 	}
 
 	public void run(){
-		//long start=System.currentTimeMillis();
 
 		try {
 			writer = new PrintWriter(socket.getOutputStream(), true);
-
-			reader = new BufferedReader(new InputStreamReader(System.in));	
-
+			//reader = new BufferedReader(new InputStreamReader(System.in));	
+			reader=ClientMain.getReader();
 			String input;			
-
 			System.out.println("READY for Input!");
 
 			while((input = reader.readLine()) != null) {
-				
-				
-				
+
 				if(input.equals("!end")) {					
 					if(!ClientStatus.getInstance().getUser().equals("")){
-						writer.println("!logout");
-						ClientStatus.getInstance().setKill(true);
+						writer.println(StaticStream.getStaticStreamInstance().useEncoder("!logout"));
 					}
+					ClientStatus.getInstance().setKill(true);
 					break;
 				}
 				else{
@@ -65,38 +63,35 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 						if(query.length()>1 && !ClientStatus.getInstance().isBlocked()){
 
 							ClientStatus.getInstance().setLastCommand(query);
-							
-							//System.out.println("\n------------------\n" + "[QUERY RAW]" + query + "\n------------------\n");
 							query = StaticStream.getStaticStreamInstance().useEncoder(query);
-							//System.out.println("\n------------------\n" + "[QUERY ENC]" + query + "\n------------------\n");
-							
+
 							writer.println(query);
 						}
 					}
 					else System.out.println("");
-
 				}
-
 			}
 		}catch(SocketException e){
 			System.out.println("socket gone");
 			return;
 		}
 		catch (IOException e) {
+			e.printStackTrace();
 			System.out.println("IO:....");
+			//socket=null;
 			return;
 		}
-		/*catch (CommandException e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-		 */
 		finally{
 			if(!socket.isClosed())
 				close();
 		}
+
 	}
-	
+
+
+
+
+
 	/*
 	 * Sends a query to the server over the existing connection
 	 */
@@ -104,19 +99,21 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 		query = StaticStream.getStaticStreamInstance().useEncoder(query);
 		writer.println(query);
 	}
-	
+
 	public synchronized void close() {
 		//System.out.println("tcpConnection close");
+
 		try {
 			System.in.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
+		 
 		if(writer!=null){
 			writer.close();
 		}
+
 
 		if(reader!=null){
 			try {

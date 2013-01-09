@@ -40,13 +40,13 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 			while((input= reader.readLine())!=null){
 				
 				// Use current decoding (Plain, RSA, AES ...) on input-stream
-				input=StaticStream.getStaticStreamInstance().useDecoder(input);
 				
+				input=StaticStream.getStaticStreamInstance().useDecoder(input);				
 				answer=parser.parse(parser.parse(input));
-				/*
+			
 				if(answer.length()>0)
 					System.out.println(ClientStatus.getInstance().getUser() + "> "+answer);
-					*/
+			
 			}
 			
 		}catch(SocketException e){
@@ -76,13 +76,14 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 	}
 	
 	public synchronized void close() {
-		//System.out.println("tcpConnection close");
+
 		try {
 			System.in.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
 		
 		if(writer!=null){
 			writer.close();

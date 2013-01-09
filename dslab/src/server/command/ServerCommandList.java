@@ -12,9 +12,13 @@ public class ServerCommandList implements ICommandList {
 		commands= new HashMap<String, ICommand>();
 		Users users= new Users();
 		Auctions auctions= new Auctions();
+		Close close= new Close();
+		Reconnect reconnect = new Reconnect();
 		
 		commands.put("!users", users);
 		commands.put("!auctions", auctions);
+		commands.put("!close", close);
+		commands.put("!reconnect", reconnect);
 		
 	} 
 

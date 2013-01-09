@@ -30,6 +30,7 @@ import server.ServerMain;
 import server.ServerStatus;
 import server.logic.IUserRelated;
 import server.logic.User;
+import server.logic.UserDATABASE;
 import server.logic.UserNotification;
 
 public class TCPServerConnection implements Runnable, IUserRelated{
@@ -89,6 +90,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 				if(!listening)
 					break;
 				if(input.equals("!end")){
+					System.out.println("Received END command for user " + getUser());
 					if(!user.equals(""))
 						parser.parse("!logout");
 					break;
@@ -119,11 +121,14 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 
 		} catch (IOException e) {
 			if(user!=null){
+				System.out.println("User " + user.getName() + " was disconnected.");
 				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
+				parser.parse("!logout");
 			}
 
 		} catch(RejectedExecutionException e){
 			if(user!=null){
+				System.out.println("REJ EX");
 				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
 			}
 		}
@@ -190,6 +195,24 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		}
 	}
 
+	public synchronized void goOffline(){
+		System.out.println("TCP connection shutdown");
+		listening=false;
+
+		try {
+			if(user!=null)
+				UserDATABASE.getInstance().logout(user.getName());
+			
+			user=null;
+			out.close();
+			in.close();
+			client.close();
+
+		}catch(RejectedExecutionException | IOException e){
+			System.out.println("Error while setting userstatus to offline.");
+		}
+	}
+	
 	public void setUser(User user){
 		this.user=user;
 	}

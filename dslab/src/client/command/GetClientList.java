@@ -3,10 +3,6 @@ package client.command;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-
-import server.logic.Auction;
-import server.logic.AuctionDATABASE;
 import server.logic.UserDATABASE;
 import network.tcp.server.TCPServerConnection;
 import command.ICommand;

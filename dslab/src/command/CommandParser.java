@@ -61,7 +61,8 @@ public class CommandParser {
 				}
 				return command.execute(params);
 			} else return command.execute(packInputLine(inputLine));
-		} else return "!print Unknown Command: "+commandKey+ " !";
+		} else if(commandKey.length()==0) return "";
+		else return "!print Unknown Command: "+commandKey+ " !";
 	}
 
 

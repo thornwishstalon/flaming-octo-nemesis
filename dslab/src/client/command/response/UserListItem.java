@@ -22,7 +22,7 @@ public class UserListItem implements ICommand {
 		
 		ClientMain.getClientSetup().addActiveClient(new LocalUserListItem(ipAddress, username, port));
 		
-		return ipAddress + ":" + port + " - " + username;
+		return "!print " + ipAddress + ":" + port + " - " + username;
 
 	}
 

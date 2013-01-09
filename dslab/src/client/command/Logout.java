@@ -32,10 +32,10 @@ public class Logout implements ICommand {
 		case UserDATABASE.NO_USER_WITH_THAT_NAME:
 			return "!print !print "+"ERROR: no user with that name known!";
 		case UserDATABASE.SUCCESSFULLY_LOGGED_OUT:
+			System.out.println("logged out " + user.getName());
 			connection.setUserObject(null);
-			// reset en/decoding
 			connection.print("!ack-logout");
-			connection.initDecoderSetting();
+			connection.initDecoderSetting(); // reset en/decoding
 			return "";
 		}
 		

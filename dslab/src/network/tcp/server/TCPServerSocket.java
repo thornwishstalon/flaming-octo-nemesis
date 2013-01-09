@@ -14,7 +14,7 @@ public class TCPServerSocket extends Thread{
 	private int NTHREDS=100;
 	private	ExecutorService executor;
 	private HashSet<TCPServerConnection> connectionSet;
-
+	private boolean pauseListener=false;
 	private boolean listening=true;
 
 	public TCPServerSocket(int port){
@@ -34,29 +34,25 @@ public class TCPServerSocket extends Thread{
 		System.out.println("Server listening for new connection");
 		try {
 			while(listening){
+
 				conn= new TCPServerConnection(server.accept());
 				System.out.println("new connection");
 				if(conn!=null){
 					connectionSet.add(conn);
 					executor.execute(conn);
 				}
-
 			} 
-			
+
 		}
-		catch(RejectedExecutionException e){
-			
-		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
+		catch (IOException | RejectedExecutionException e) {
 			//e.printStackTrace();
+			System.out.println("Socket-listener closed.");
 		}finally{
 		}
-		//System.out.println("socket-while broke");
 	}
 
 	public synchronized void shutdown() throws IOException{
-		
+
 		listening=false;
 		System.out.println("tcp server shutdown");
 
@@ -76,9 +72,16 @@ public class TCPServerSocket extends Thread{
 				conn.shutdown();
 			}
 		}
-
 		server.close();
-		
+	}
+
+	public synchronized void closeConnections() throws IOException{
+		pauseListener=true;
+		for(TCPServerConnection conn: connectionSet){
+			System.out.println("socket: terminating connections");
+			conn.goOffline();
+		}
+		server.close();
 	}
 
 }

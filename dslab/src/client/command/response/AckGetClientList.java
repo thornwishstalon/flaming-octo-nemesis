@@ -11,7 +11,7 @@ public class AckGetClientList implements ICommand {
 
 	@Override
 	public String execute(String[] params) {
-		return "Active Clients";
+		return "!print Active Clients";
 	}
 
 	@Override

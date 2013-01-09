@@ -10,12 +10,13 @@ import network.tcp.server.TCPServerSocket;
 public class ServerMain {
 
 	private static ServerSetup setup;
+	private static TCPServerSocket server;
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		TCPServerSocket server;
+		
 		try{
 		System.out.println("Welcome!\nstarting Server");
 		setup= new ServerSetup(args);
@@ -25,10 +26,7 @@ public class ServerMain {
 		ServerStatus.getInstance().init(setup);
 		
 		//start TCP connection
-		server= new TCPServerSocket(setup.getPort());
-		server.init();
-		server.start();
-		System.out.println("TCP ready!");
+		startServerSocket();
 		
 		// start UDP
 		//System.out.println("UDP ready!");
@@ -62,6 +60,21 @@ public class ServerMain {
 
 	public static ServerSetup getSetup() {
 		return setup;
+	}
+
+	public static TCPServerSocket getServer() {
+		return server;
+	}
+	
+	public static void setServer(TCPServerSocket s) {
+		server=s;
+	}
+	
+	public static void startServerSocket() throws IOException {
+		server= new TCPServerSocket(setup.getPort());
+		server.init();
+		server.start();
+		System.out.println("TCP ready!");
 	}
 	
 }
