@@ -44,7 +44,7 @@ public class TCPServerSocket extends Thread{
 			} 
 
 		}
-		catch (IOException  e) {
+		catch (IOException e) {
 			//e.printStackTrace();
 			System.out.println("Socket-listener closed.");
 		}catch (RejectedExecutionException e) {

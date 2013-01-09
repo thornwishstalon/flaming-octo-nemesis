@@ -7,25 +7,13 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.TimeUnit;
-
 import analyticsServer.event.EventFactory;
-
-import network.security.Base64StringDecorator;
 import network.security.IStringStream;
 import network.security.RSAStringDecorator;
 import network.security.SimpleStringStream;
-import network.security.StaticStream;
-import network.udp.server.UDPNotificationThread;
-
 import client.command.ClientCommandList;
-
-
 import command.CommandParser;
-
 import server.ServerMain;
 import server.ServerStatus;
 import server.logic.IUserRelated;
@@ -33,7 +21,7 @@ import server.logic.User;
 import server.logic.UserDATABASE;
 import server.logic.UserNotification;
 
-public class TCPServerConnection implements Runnable, IUserRelated{
+public class TCPServerConnection implements Runnable, IUserRelated {
 	private Socket client;
 	//private static final int NTHREADS=10;
 
@@ -128,7 +116,6 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 
 		} catch(RejectedExecutionException e){
 			if(user!=null){
-				System.out.println("REJ EX");
 				ServerStatus.getInstance().notifyAnalyticsServer(EventFactory.createUserEvent(user.getName(), 2));
 			}
 		}
@@ -242,7 +229,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 	}
 	 */
 
-	@Override
+
 	public void setUser(String user) {
 		this.user=new User(user);
 		this.user.setAddress(address);
@@ -250,7 +237,7 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 		this.user.setLoggedIn(true);
 	}
 
-	@Override
+
 	public String getUser() {
 		if(user!=null)
 			return user.getName();
