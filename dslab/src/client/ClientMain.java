@@ -127,7 +127,7 @@ public class ClientMain {
 			if(socket!=null)
 				socket.close();
 
-			
+			ClientStatus.getInstance().end();
 			
 			//if(socket!=null)
 			//	socket.close();

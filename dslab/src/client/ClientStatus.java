@@ -143,4 +143,12 @@ public class ClientStatus {
 	}
 
 
+
+
+	public void end() {
+		timer.cancel();
+		
+	}
+
+
 }

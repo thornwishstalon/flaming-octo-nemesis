@@ -208,7 +208,9 @@ public class TCPServerConnection implements Runnable, IUserRelated{
 			in.close();
 			client.close();
 
-		}catch(RejectedExecutionException | IOException e){
+		}catch(RejectedExecutionException e){
+			System.out.println("Error while setting userstatus to offline.");
+		}catch(IOException e){
 			System.out.println("Error while setting userstatus to offline.");
 		}
 	}
