@@ -27,6 +27,8 @@ public class AckLogout implements ICommand{
 		StaticStream.getStaticStreamInstance().setDecoderStream(new SimpleStringStream());
 		StaticStream.getStaticStreamInstance().setEncoderStream(new SimpleStringStream());
 		
+		ClientStatus.getInstance().setUserOK(false);
+		
 		return "!print Successfully logged out as "+name+"!";
 
 	}

@@ -64,18 +64,22 @@ public class TentativeBid {
 			switch(x){
 			case AuctionDATABASE.NEEDS_MORE_MONEY:
 				message= "!rejected Amount of money is not sufficient to overbid!";
+				break;
 				
 			case AuctionDATABASE.NO_AUCTION_WITH_ID_FOUND:
 				message= "!rejected There is no auction with that id!";
+				break;
 				
 			case AuctionDATABASE.AUCTION_EXPIRED:
 				message= "!rejected This auction has expired";
+				break;
 				
 			case AuctionDATABASE.SUCCESSFULLY_PLACED_BID:
 				//solve blocks
 				UserDATABASE.getInstance().notifyLoggedInUsers("!confirmed");
 				//build success message
-				message= "!print You successfully bid with " +price+" on '"+AuctionDATABASE.getInstance().getDescription(auctionId)+"'.";
+				//message= "!print You successfully bid with " +price+" on '"+AuctionDATABASE.getInstance().getDescription(auctionId)+"'.";
+				break;
 			/*	
 			case AuctionDATABASE.OWNER_SAME_AS_BIDDER:
 				message= "!rejected Don't bid on your own items!";
@@ -123,7 +127,10 @@ public class TentativeBid {
 	}
 	
 	public String toString(){
-		return "\t auction: "+auctionId+" by "+initiator+", confirmed by: "+confirmCounter+"\n\t\t time till timeout: "+timeTillTimeout/1000+" seconds";
+		
+		if(!isTimedOut())
+			return "\t auction: "+auctionId+" by "+initiator+", confirmed by: "+confirmCounter+"\n\t\t time till timeout: "+timeTillTimeout/1000+" seconds";
+		else return "\t auction: "+auctionId+" by "+initiator+", confirmed by: "+confirmCounter;
 	}
 
 

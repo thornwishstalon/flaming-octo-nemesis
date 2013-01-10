@@ -13,7 +13,7 @@ public class Confirmed implements ICommand {
 	@Override
 	public String execute(String[] params) {
 		ClientStatus.getInstance().setBlocked(false);
-		//System.out.println("<BLOCK>");
+		System.out.println("<BLOCK SOLVED>");
 		
 		return "!print Poll was confirmed. Your bid will be placed.";
 	}

@@ -31,7 +31,7 @@ public class LocalLogin implements ICommand {
 	@Override
 	public String execute(String[] params) {
 		
-		if((!ClientStatus.getInstance().getUser().equals("")) && (!ClientMain.isDisconnected())){
+		if((!ClientStatus.getInstance().getUser().equals(""))  && (!ClientMain.isDisconnected())){
 			System.out.println("Error: "+ClientStatus.getInstance().getUser()+" still logged in!");
 			return "";
 		}
