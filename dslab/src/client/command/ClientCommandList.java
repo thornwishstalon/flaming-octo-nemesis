@@ -31,7 +31,8 @@ public class ClientCommandList implements ICommandList {
 
 		
 		//TESTING dslab3_stage2
-		HMAC_TEST hesh= new HMAC_TEST("keys/alice.key");
+		//HMAC_TEST hesh= new HMAC_TEST();
+		//commands.put("!hesh", hesh);
 		
 		commands.put("!login", login);
 		commands.put("!logout", logout);
@@ -39,13 +40,14 @@ public class ClientCommandList implements ICommandList {
 		commands.put("!create", create);
 		commands.put("!bid", bid);
 		commands.put("!register", register);
-		commands.put("!hesh", hesh);
+		
 
 		commands.put("!groupBid", groupBid);
 		commands.put("!confirm", confirm);
+		commands.put("!polls", new Polls(connection));
 		
 		//TESTING
-		commands.put("!sendAll", new SendAll());
+		//commands.put("!sendAll", new SendAll());
 
 		commands.put("!getClientList", getClientList);
 

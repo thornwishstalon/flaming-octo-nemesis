@@ -12,8 +12,7 @@ import command.ICommand;
 public class HMAC_TEST implements ICommand {
 	private Hesher hesher;
 	public HMAC_TEST(String path){
-		hesher= new Hesher(path);
-		
+		hesher= new Hesher();
 	}
 	
 	@Override

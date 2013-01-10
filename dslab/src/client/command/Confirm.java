@@ -36,8 +36,10 @@ public class Confirm implements ICommand {
 
 		initiator=params[2];
 
-		int x= AuctionDATABASE.getInstance().confirmTentativeBid(auctionID, price, initiator);
+		int x= AuctionDATABASE.getInstance().confirmTentativeBid(auctionID, price, initiator, connection.getUser());
 		switch(x){
+		case AuctionDATABASE.INITIATOR_IS_SAME_AS_USER:
+			return "!rejected "+"You cannot confirm your own Poll!";
 		case AuctionDATABASE.NO_AUCTION_WITH_ID_FOUND:
 			return "!rejected "+"U sure that that's the right ID?";
 		case AuctionDATABASE.PRICE_MISSMATCH:

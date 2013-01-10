@@ -36,7 +36,7 @@ public class ClientLocalCommandList implements ICommandList {
 
 		//TESTING dslab3_stage2
 		//commands.put("!hesh", through);
-		
+		commands.put("!polls", through);
 	}
 	
 	

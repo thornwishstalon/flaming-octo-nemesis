@@ -24,6 +24,7 @@ public class AuctionDATABASE {
 	public final static int PRICE_MISSMATCH=8;
 	public final static int INITIATOR_MISSMATCH=9;
 	public final static int SUCCESSFULLY_CONFIRMED_POLL=10;
+	public final static int INITIATOR_IS_SAME_AS_USER=11;
 
 
 	private int idCounter=0;
@@ -115,6 +116,29 @@ public class AuctionDATABASE {
 			result="There are currently no auctions.";
 		return result;
 	}
+	
+	public synchronized String getPollList(){
+		String result = "Current GroupBid-Polls:\n";
+		TentativeBid auction=null;
+		
+		Integer[] tmp= new Integer[tentativeBids.size()];
+		int c=0;
+		tentativeBids.keySet().toArray(tmp);
+		Arrays.sort(tmp);
+		
+		
+		for(Integer key: tmp){
+			auction= tentativeBids.get(key);
+			if(!auction.isTimedOut()){
+				result= result+auction.toString()+"\n";
+				c++;
+			}			
+		}
+
+		if(c==0)
+			result="There are currently no active GroupBid- Polls!";
+		return result;
+	}
 
 	public synchronized ArrayList<Auction> getAuctionList(){
 		ArrayList<Auction> tmp = new ArrayList<Auction>();
@@ -124,7 +148,6 @@ public class AuctionDATABASE {
 			if(!a.isExpired()){
 				tmp.add(a);
 			}
-
 		}
 		return tmp;
 	}
@@ -234,8 +257,11 @@ public class AuctionDATABASE {
 
 	}
 
-	public synchronized int confirmTentativeBid(int auctionId, double price, String initiator){
+	public synchronized int confirmTentativeBid(int auctionId, double price, String initiator, String user){
 		TentativeBid bid=tentativeBids.get(auctionId);
+		if(user.equals(initiator))
+			return INITIATOR_IS_SAME_AS_USER;
+		
 		if(bid==null)
 			return NO_AUCTION_WITH_ID_FOUND;
 
