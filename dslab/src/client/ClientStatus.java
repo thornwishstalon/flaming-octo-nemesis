@@ -21,8 +21,9 @@ public class ClientStatus {
 	//private Socket socket=null;
 	private String lastCommand;
 	private int resendTry;
-	
+	private UnblockTask task=null;
 	private TCPOutputConnection connection;
+	private boolean userOK=false;
 
 	
 	private Timer timer;
@@ -46,7 +47,9 @@ public class ClientStatus {
 	}
 
 	public  synchronized String getUser(){
-		return this.user;
+		if(userOK)
+			return this.user;
+		else return "";
 	}
 
 	public synchronized boolean isKill(){
@@ -74,7 +77,16 @@ public class ClientStatus {
 		kill=b;
 
 	}
+	
 
+
+	public boolean isUserOK() {
+		return userOK;
+	}
+
+	public void setUserOK(boolean userOK) {
+		this.userOK = userOK;
+	}
 
 	public boolean isBlocked() {
 		return blocked;
@@ -84,12 +96,12 @@ public class ClientStatus {
 	public void setBlocked(boolean blocked) {
 		//System.out.println("new value: "+blocked);
 		if(blocked==true && this.blocked==false){
-			timer.schedule(new UnblockTask(), timeout); 
+			task= new UnblockTask();
+			timer.schedule(task, timeout); 
 		}else{
 			//System.out.println("unblock, cancel unblock-task");
 			try{
-				timer.cancel();
-				timer.purge();
+				task.cancel();
 			}catch (IllegalStateException e){
 				
 			}

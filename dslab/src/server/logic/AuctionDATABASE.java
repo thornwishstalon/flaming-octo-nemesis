@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import analyticsServer.event.EventFactory;
 
 import server.ServerStatus;
+import server.command.Auctions;
 
 public class AuctionDATABASE {
 	private static AuctionDATABASE instance=null;
@@ -97,6 +98,9 @@ public class AuctionDATABASE {
 
 	public synchronized String getList(){
 		String result = "Current Auctions:\n";
+		int c=0;
+		
+		
 		Auction auction=null;
 		
 		Integer[] tmp= new Integer[auctionList.size()];
@@ -108,11 +112,12 @@ public class AuctionDATABASE {
 		for(Integer key: tmp){
 			auction= auctionList.get(key);
 			if(!auction.isExpired()){
-				result= result+"\t"+auction.toString()+"\n";				
+				result= result+"\t"+auction.toString()+"\n";
+				c++;
 			}			
 		}
-
-		if(result.length()==0)
+		
+		if(c==0)
 			result="There are currently no auctions.";
 		return result;
 	}
@@ -121,20 +126,25 @@ public class AuctionDATABASE {
 		String result = "Current GroupBid-Polls:\n";
 		TentativeBid auction=null;
 		
+		
 		Integer[] tmp= new Integer[tentativeBids.size()];
 		int c=0;
+		
+		if(tentativeBids.size()==0)
+			return"There are currently no active GroupBid- Polls!";
+		
 		tentativeBids.keySet().toArray(tmp);
 		Arrays.sort(tmp);
 		
 		
 		for(Integer key: tmp){
 			auction= tentativeBids.get(key);
-			if(!auction.isTimedOut()){
+			if(!auction.isTimedOut() && !auction.isConfirmed()){
 				result= result+auction.toString()+"\n";
 				c++;
 			}			
 		}
-
+		out:
 		if(c==0)
 			result="There are currently no active GroupBid- Polls!";
 		return result;
@@ -199,9 +209,9 @@ public class AuctionDATABASE {
 
 		for(Integer key: tentativeBids.keySet()){
 			bid= tentativeBids.get(key);
-			if(bid.isTimedOut() && !bid.isConfirmed()){
+			if(bid.isTimedOut() || bid.isConfirmed()){
 				tentativeBids.remove(bid.getAuctionId());
-			}else if(bid.isConfirmed()){
+			}else {
 				n++;
 			}
 		}
@@ -229,6 +239,8 @@ public class AuctionDATABASE {
 	}
 
 	private synchronized boolean isGroupBidPossisble(String initiator){
+		//clean poll list
+		numberOfTentativeBids();
 		//return (numberOfTentativeBids() <= UserDATABASE.getInstance().getActiveUsers());
 		boolean check= (numberOfGroupAuctions() <= UserDATABASE.getInstance().getActiveUsers());
 		
@@ -247,7 +259,7 @@ public class AuctionDATABASE {
 			return NO_AUCTION_WITH_ID_FOUND;
 
 		TentativeBid bid= tentativeBids.get(auctionID);
-		if(tentativeBids.get(auctionID)!=null && !bid.isTimedOut())
+		if(tentativeBids.get(auctionID)!=null && (!bid.isTimedOut()|| !bid.isConfirmed()))
 			return EXISTING_POLL;
 		else{
 			tentativeBids.put(auctionID, new TentativeBid(auctionID, initiator, price));

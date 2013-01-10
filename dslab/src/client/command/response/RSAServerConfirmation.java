@@ -48,6 +48,8 @@ public class RSAServerConfirmation implements ICommand {
 			ClientMain.printToOutputstream(Base64StringDecorator.decodeBase64Helper(params[1]));
 			ClientMain.printToOutputstream("!getClientList");
 			
+			ClientStatus.getInstance().setUserOK(true);
+			
 			return "!print Successfully logged in as "+ ClientStatus.getInstance().getUser();
 				
 		} else {
