@@ -19,6 +19,7 @@ import command.CommandParser;
 import client.ClientMain;
 import client.ClientSetup;
 import client.ClientStatus;
+import client.ClientReaderDelegator;
 import client.command.ClientLocalCommandList;
 
 import server.logic.IUserRelated;
@@ -30,7 +31,6 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 	private BufferedReader reader=null;
 	private User user=null;
 	private CommandParser parser=null;
-	private boolean tryReconnecting;
 
 
 	public TCPOutputConnection(Socket socket, ClientSetup setup){
@@ -39,15 +39,24 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 		parser.setCommandList(new ClientLocalCommandList(setup.getClientPort()));
 	}
 
+	public void resetSocket(Socket socket) {
+		this.socket=socket;
+		try {
+			writer = new PrintWriter(socket.getOutputStream(), true);
+		} catch (IOException e) {
+			System.out.println("Output Socket crashed!");
+		}
+	}
+	
 	public void run(){
 
 		try {
 			writer = new PrintWriter(socket.getOutputStream(), true);
-			//reader = new BufferedReader(new InputStreamReader(System.in));	
-			reader=ClientMain.getReader();
+			reader = new BufferedReader(new InputStreamReader(System.in));	
 			String input;			
 			System.out.println("READY for Input!");
 
+			
 			while((input = reader.readLine()) != null) {
 
 				if(input.equals("!end")) {					
@@ -117,9 +126,9 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 
 		if(reader!=null){
 			try {
-				System.out.println("closing reader");
+				System.out.println("closing output-reader");
 				reader.close();
-				System.out.println("reader closed");
+				System.out.println("output-reader closed");
 			} catch (IOException e) {
 				System.err.println("io");
 				e.printStackTrace();
@@ -127,11 +136,7 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 
 		}
 
-
 		reader=null;
-		if(writer!=null){
-			writer.close();
-		}
 		
 		
 		System.out.println("tcp output Connection closed");

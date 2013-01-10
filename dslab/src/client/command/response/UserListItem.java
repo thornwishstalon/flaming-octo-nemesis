@@ -1,7 +1,7 @@
 package client.command.response;
 
 import client.ClientMain;
-import client.LocalUserListItem;
+import client.content.LocalUserListItem;
 import command.ICommand;
 
 public class UserListItem implements ICommand {

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import org.bouncycastle.openssl.PEMReader;
 
+import client.content.LocalUserListItem;
+
 public class ClientSetup {
 	private int clientPort;
 	private int serverPort;

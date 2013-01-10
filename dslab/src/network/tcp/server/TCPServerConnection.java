@@ -138,7 +138,8 @@ public class TCPServerConnection implements Runnable, IUserRelated {
 		try {
 			//System.out.println("remote-kill client");
 			//notify("!kill"); //remote kill via TCP
-			out.println("!kill");
+			//out.println("!kill");
+			print("!kill");
 			out.close();
 
 			//executor.shutdown();

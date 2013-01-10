@@ -72,7 +72,6 @@ public class ClientStatus {
 
 	public void setKill(boolean b) {
 		kill=b;
-
 	}
 
 

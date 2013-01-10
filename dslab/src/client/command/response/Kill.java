@@ -20,7 +20,7 @@ public class Kill implements ICommand {
 	public String execute(String[] params) {
 		
 		System.out.println("Server has gone offline!");
-		//ClientStatus.getInstance().killClient();
+		ClientStatus.getInstance().killClient();
 		ClientMain.kill();
 		
 		return "\n";

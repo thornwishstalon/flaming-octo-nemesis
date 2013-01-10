@@ -1,4 +1,4 @@
-package client;
+package client.content;
 
 public class LocalUserListItem {
 	private String ipAddress, username;
