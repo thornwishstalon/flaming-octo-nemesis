@@ -34,18 +34,22 @@ public class Create implements ICommand{
 		int x= AuctionDATABASE.getInstance().createAuction(connection.getUserObject(), description, duration);
 		String answer="";
 		
+		/*	// why did i put this here???? dafuq
 		switch(x){
 		
 		case AuctionDATABASE.AUCTION_EXPIRED:
 			answer= "!print "+"the selected auction has expired.";
 		case AuctionDATABASE.NEEDS_MORE_MONEY:
 			answer= "!print "+"more cash is required to overbid.";
+		
 		case AuctionDATABASE.NO_AUCTION_WITH_ID_FOUND:
 			answer= "!print "+"no auction with this id.";
+		
 		case AuctionDATABASE.SUCCESSFULLY_PLACED_BID:
 			//answer="!print "+ AuctionDATABASE.getInstance().getCreationString();
 		}
-		return answer;
+			*/
+		return "";
 	}
 
 	@Override

@@ -95,7 +95,7 @@ public class AuctionDATABASE {
 	}
 
 	public synchronized String getList(){
-		String result = "";
+		String result = "Current Auctions:\n";
 		Auction auction=null;
 		
 		Integer[] tmp= new Integer[auctionList.size()];
