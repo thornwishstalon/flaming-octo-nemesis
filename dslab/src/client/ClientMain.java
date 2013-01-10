@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import network.security.SimpleStringStream;
+import network.security.StaticStream;
 import network.tcp.client.TCPInputConnection;
 import network.tcp.client.TCPOutputConnection;
 import network.udp.client.UDPSocket;
@@ -31,6 +33,7 @@ public class ClientMain {
 	private static TCPInputConnection in=null;
 	private static ClientSetup setup = null;
 	private static BufferedReader reader;
+	private static boolean disconnected;
 
 	public static void main(String[] args) throws InterruptedException {
 		System.out.println("Welcome");
@@ -40,7 +43,7 @@ public class ClientMain {
 		
 		reader = new BufferedReader(new InputStreamReader(System.in));	
 
-		//while(!ClientStatus.getInstance().isKill()){
+		while(!ClientStatus.getInstance().isKill()){
 			try {
 				socket = new Socket(setup.getHost(), setup.getServerPort());
 
@@ -62,7 +65,7 @@ public class ClientMain {
 				out= new TCPOutputConnection(socket,setup);
 				ClientStatus.getInstance().setConnection(out);
 				out.start();
-
+				
 				in= new TCPInputConnection(socket,setup);
 				System.out.println("TCP ready");
 				in.run();
@@ -72,6 +75,10 @@ public class ClientMain {
 			} catch (UnknownHostException e) {
 				System.out.println("ERROR: unknown hostname!");
 			} catch (ConnectException e) {
+				// reset coding
+				StaticStream.getStaticStreamInstance().setDecoderStream(new SimpleStringStream());
+				StaticStream.getStaticStreamInstance().setEncoderStream(new SimpleStringStream());
+				disconnected=true;
 				System.out.println("Error: Server unreachable!");
 			} catch (IOException e) {
 				System.out.println("Error:....!");
@@ -80,10 +87,33 @@ public class ClientMain {
 				kill();
 			}
 
-			//System.out.println(">>>> Reconnecting ...");
-			//Thread.sleep(1000);
+			System.out.println(">>>> Reconnecting ...");
+			Thread.sleep(1000);
 
-		//}
+		}
+		
+		//// ************ RECONN TRY
+		try {
+			System.in.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		if(reader!=null){
+			try {
+				System.out.println("closing reader");
+				reader.close();
+				System.out.println("reader closed");
+			} catch (IOException e) {
+				System.err.println("io");
+				e.printStackTrace();
+			}
+
+		}
+		//  ************ RECONN TRY
+		
+		
 	}
 
 	public static void printToOutputstream(String query) {
@@ -147,6 +177,14 @@ public class ClientMain {
 	
 	public static BufferedReader getReader() {
 		return reader;
+	}
+
+	public static boolean isDisconnected() {
+		return disconnected;
+	}
+
+	public static void setDisconnected(boolean disconnected) {
+		ClientMain.disconnected = disconnected;
 	}
 
 }

@@ -21,36 +21,36 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 	private Socket socket=null;
 	private PrintWriter writer=null;
 	private BufferedReader reader=null;
-	
+
 	private CommandParser parser=null;
 	private ClientSetup setup;
-	
+
 	public TCPInputConnection(Socket socket, ClientSetup setup) {
 		this.socket=socket;
 		this.setup= setup;
 		parser= new CommandParser(true, this);
 		parser.setCommandList(new ResponseList(setup) );	
 	}
-	
+
 	public void run(){
 		try {
 			reader= new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			String input,answer;
-			
+
 			while((input= reader.readLine())!=null){
-				
+
 				// Use current decoding (Plain, RSA, AES ...) on input-stream
-				
+
 				input=StaticStream.getStaticStreamInstance().useDecoder(input);				
 				answer=parser.parse(parser.parse(input));
-			
+
 				if(answer.length()>0)
 					System.out.println(ClientStatus.getInstance().getUser() + "> "+answer);
-			
+
 			}
-			
+
 		}catch(SocketException e){
-			
+
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -60,10 +60,10 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 			if(socket!=null)
 				close();
 		}
-		
-		
+
+
 	}
-	
+
 	@Override
 	public String getUser() {
 		return ClientStatus.getInstance().getUser();
@@ -74,31 +74,32 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public synchronized void close() {
 
+		/*
 		try {
 			System.in.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		 */
 
-		
 		if(writer!=null){
 			writer.close();
 		}
-		
+
 		if(reader!=null){
 			try {
-				System.out.println("closing reader");
+				System.out.println("TCP INPUT: closing reader");
 				reader.close();
-				System.out.println("reader closed");
+				System.out.println("TCP INPUT: reader closed");
 			} catch (IOException e) {
 				System.err.println("io");
 				e.printStackTrace();
 			}
-			
+
 		}
 		socket=null;
 		System.out.println("tcp input Connection closed");
