@@ -83,7 +83,7 @@ public class Auction implements Comparable<Auction>{
 
 		if(highestBidder!=null)
 			return "!auction-ended "+ highestBidder.getName()+" "+owner.getName()+" "+ price+" "+description+"";
-		else  return "!auction-ended "+owner.getName()+" "+ "none "+" "+ "0.0 "+" "+description;
+		else  return "!auction-ended "+ "none "+owner.getName()+" "+" "+ "0.0 "+" "+description;
 
 		//return "!auction-ended "+ highestBidder.getName()+" "+ price+" "+description;
 	}
