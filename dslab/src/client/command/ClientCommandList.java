@@ -25,7 +25,7 @@ public class ClientCommandList implements ICommandList {
 		Register register= new Register(connection);
 
 		GroupBid groupBid= new GroupBid(connection);
-		Confirm confirm= new Confirm();
+		Confirm confirm= new Confirm(connection);
 
 		GetClientList getClientList = new GetClientList(connection);
 

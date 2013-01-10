@@ -10,9 +10,9 @@ public class Group extends User {
 	}
 	
 	@Override
-	public void addNotification(UserNotification note) {
-		// TODO Auto-generated method stub
-		//UserDATABASE.getInstance().notifyLoggedInUsers(note.getMessage());	
+	public synchronized void addNotification(UserNotification note) {
+		System.out.println("group.addNotification");
+		UserDATABASE.getInstance().notifyLoggedInUsers(note.getMessage());	
 	}
 	
 	

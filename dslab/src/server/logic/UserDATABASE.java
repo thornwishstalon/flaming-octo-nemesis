@@ -27,7 +27,7 @@ public class UserDATABASE {
 
 	private UserDATABASE(){
 		users= new HashMap<String, User>();
-		
+
 		users.put("group", new Group("group")); // add Group- User
 	}
 
@@ -130,19 +130,19 @@ public class UserDATABASE {
 
 		return result;
 	}
-	
+
 	public synchronized String getClientList(){
 		String result="";
 		String user="";
-		
+
 		for(String key: users.keySet()){
 			user= users.get(key).getClientDescription();
 			if(!user.equals(""))
 				result+=user+"\n";
 		}
-		
+
 		result.substring(0,result.lastIndexOf('\n'));
-		
+
 		return result;
 	}
 
@@ -161,7 +161,7 @@ public class UserDATABASE {
 	private  synchronized void notifyAnalytics(Event e){
 		ServerStatus.getInstance().notifyAnalyticsServer(e);
 	}
-	
+
 	public synchronized void killUsers(){
 		User tmp=null;
 		for(String key: users.keySet()){
@@ -169,17 +169,35 @@ public class UserDATABASE {
 			tmp.stopTimer();
 		}
 	}
-	
+
 	public synchronized void notifyLoggedInUsers(String note){
 		activeUsers=0;
 		User tmp=null;
 		for(String key: users.keySet()){
 			tmp= users.get(key);
+			if(!(tmp instanceof Group)){
 				if(tmp.isLoggedIn()){
 					activeUsers++;
 					//System.out.println(tmp.getName()+" notified: "+note);
 					tmp.addNotification(NotificationFactory.createNotification(note));
 				}
+			}
+		}		
+	}
+
+	public synchronized void notifyLoggedInUsers(String note, String notThisUser){
+		activeUsers=0;
+		User tmp=null;
+		for(String key: users.keySet()){
+			tmp= users.get(key);
+			if(!(tmp instanceof Group)){
+				if(tmp.isLoggedIn()){
+					activeUsers++;
+					//System.out.println(tmp.getName()+" notified: "+note);
+					if(!tmp.getName().equals(notThisUser))
+						tmp.addNotification(NotificationFactory.createNotification(note));
+				}
+			}
 		}		
 	}
 	

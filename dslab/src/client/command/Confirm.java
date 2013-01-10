@@ -1,10 +1,16 @@
 package client.command;
 
+import network.tcp.server.TCPServerConnection;
 import server.logic.AuctionDATABASE;
+import server.logic.UserDATABASE;
 import command.ICommand;
 
 public class Confirm implements ICommand {
-
+	private TCPServerConnection connection;
+	
+	public Confirm(TCPServerConnection conn){
+		this.connection= conn;
+	}
 	@Override
 	public int numberOfParams() {
 		return 3; //!confir, <auctionID> <price> <initiator>
@@ -38,7 +44,9 @@ public class Confirm implements ICommand {
 			return "!rejected "+"You and the Initiator of this poll disagree on the price!";
 		case AuctionDATABASE.INITIATOR_MISSMATCH:
 			return "!rejected "+"Incorrect Initiator!";
-		case AuctionDATABASE.SUCCESSFULLY_CONFIRMED_POLL:	
+		case AuctionDATABASE.SUCCESSFULLY_CONFIRMED_POLL:
+			//TODO not sure if good feature
+			//UserDATABASE.getInstance().notifyLoggedInUsers("!print "+connection.getUser()+" confirmed the poll concerning auction "+auctionID, connection.getUser()); 
 			return "!ackConfirm";
 		}
 

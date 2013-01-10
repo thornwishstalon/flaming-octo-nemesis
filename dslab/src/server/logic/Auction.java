@@ -82,14 +82,14 @@ public class Auction implements Comparable<Auction>{
 	private String getOwnerNote(){
 
 		if(highestBidder!=null)
-			return "!auction-ended "+ highestBidder.getName()+" "+ price+" "+description;
+			return "!auction-ended "+ highestBidder.getName()+" "+owner.getName()+" "+ price+" "+description+"";
 		else  return "!auction-ended "+ "none "+" "+ "0.0 "+" "+description;
 
 		//return "!auction-ended "+ highestBidder.getName()+" "+ price+" "+description;
 	}
 
 	private String getBidderNote(){
-		return "!auction-ended "+ highestBidder.getName()+" "+ price+" "+description;//owner.getName()+"> "+"The auction '"+description.trim()+"' has ended. You won with "+price;
+		return "!auction-ended "+ highestBidder.getName()+" "+owner.getName()+" "+ price+" "+description;//owner.getName()+"> "+"The auction '"+description.trim()+"' has ended. You won with "+price;
 	}
 
 	public String toString(){
