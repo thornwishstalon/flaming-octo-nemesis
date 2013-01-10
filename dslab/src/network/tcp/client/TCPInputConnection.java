@@ -77,15 +77,13 @@ public class TCPInputConnection extends Thread implements IUserRelated {
 
 	public synchronized void close() {
 
-		/*
 		try {
 			System.in.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		 */
-
+	
 		if(writer!=null){
 			writer.close();
 		}

@@ -102,7 +102,7 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 
 	public synchronized void close() {
 		//System.out.println("tcpConnection close");
-/*
+
 		try {
 			System.in.close();
 		} catch (IOException e1) {
@@ -126,7 +126,8 @@ public class TCPOutputConnection extends Thread implements IUserRelated{
 			}
 
 		}
-*/
+
+
 		reader=null;
 		if(writer!=null){
 			writer.close();

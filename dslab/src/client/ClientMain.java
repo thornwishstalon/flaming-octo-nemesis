@@ -43,7 +43,6 @@ public class ClientMain {
 		
 		reader = new BufferedReader(new InputStreamReader(System.in));	
 
-		while(!ClientStatus.getInstance().isKill()){
 			try {
 				socket = new Socket(setup.getHost(), setup.getServerPort());
 
@@ -87,31 +86,6 @@ public class ClientMain {
 				kill();
 			}
 
-			System.out.println(">>>> Reconnecting ...");
-			Thread.sleep(1000);
-
-		}
-		
-		//// ************ RECONN TRY
-		try {
-			System.in.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		if(reader!=null){
-			try {
-				System.out.println("closing reader");
-				reader.close();
-				System.out.println("reader closed");
-			} catch (IOException e) {
-				System.err.println("io");
-				e.printStackTrace();
-			}
-
-		}
-		//  ************ RECONN TRY
 		
 		
 	}
